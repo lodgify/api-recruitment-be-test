@@ -1,5 +1,8 @@
 using ApiApplication.Auth;
 using ApiApplication.Database;
+using ApiApplication.Services;
+using ApiApplication.Services.RemoteServices;
+using ApiApplication.Services.ScheduledJobs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -45,6 +48,13 @@ namespace ApiApplication
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
             services.AddControllers();
+            // Add Application Setting
+            services.Configure<AppSettingsModel>(Configuration.GetSection("ApplicationSettings"));
+            services.AddOptions();
+            // Add Services
+            services.AddSingleton<ImdbRemoteService>();
+            services.AddSingleton<IHostedService, ImdbStatusScheduledJob>();
+            services.AddSingleton<ImdbStatusService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +77,6 @@ namespace ApiApplication
             });
 
             SampleData.Initialize(app);
-        }      
+        }
     }
 }
