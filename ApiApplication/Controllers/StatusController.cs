@@ -14,7 +14,7 @@ namespace ApiApplication.Controllers
         }
 
         [HttpGet]
-        [Route("/api/v1/GetImdbStatus")]
+        [Route("/api/v1/get_imdb_status")]
         public async Task<IActionResult> GetImdbStatus()
         {
             if (ModelState.IsValid)

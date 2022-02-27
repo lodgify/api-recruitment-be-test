@@ -16,7 +16,7 @@ namespace ApiApplication.Controllers
             _imdbRemoteService = imdbRemoteService;
         }
         [HttpGet]
-        [Route("/api/v1/GetMovieInformation")]
+        [Route("/api/v1/get_movie_information")]
         public async Task<IActionResult> GetMovieInformation(
             [FromQuery] string movie_id)
         {
