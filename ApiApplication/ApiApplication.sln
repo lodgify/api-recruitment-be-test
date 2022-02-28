@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinema.Core", "..\Cinema.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinema.DataAccess", "..\Cinema.DataAccess\Cinema.DataAccess.csproj", "{926D87F4-693C-443D-A224-6DCA96A9616E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinema.Business", "..\Cinema.Business\Cinema.Business.csproj", "{028E1B89-75A1-4EB9-B828-EEB9AA3EBD6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{926D87F4-693C-443D-A224-6DCA96A9616E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{926D87F4-693C-443D-A224-6DCA96A9616E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{926D87F4-693C-443D-A224-6DCA96A9616E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{028E1B89-75A1-4EB9-B828-EEB9AA3EBD6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{028E1B89-75A1-4EB9-B828-EEB9AA3EBD6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{028E1B89-75A1-4EB9-B828-EEB9AA3EBD6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{028E1B89-75A1-4EB9-B828-EEB9AA3EBD6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
