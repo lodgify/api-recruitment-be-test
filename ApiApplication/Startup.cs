@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.OpenApi.Models;
 using ApiApplication.Filters;
+using ApiApplication.Extentions;
 
 namespace ApiApplication
 {
@@ -88,6 +89,9 @@ namespace ApiApplication
                 app.UseDeveloperExceptionPage();                
             }
 
+            // add Exception Handler Middleware
+            app.ConfigureExceptionHandler();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -107,6 +111,7 @@ namespace ApiApplication
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
                 //c.RoutePrefix = string.Empty;
             });
+            
         }
     }
 }

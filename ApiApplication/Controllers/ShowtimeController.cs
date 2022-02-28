@@ -124,7 +124,8 @@ namespace ApiApplication.Controllers
         public async Task<IActionResult> PatchShowtime(
             [FromQuery] int showtime_id)
         {
-            return Problem("Custom Error Message!");
+            throw new Exception();
+            //return Problem("Custom Error Message!");
         }
 
         [HttpGet]
