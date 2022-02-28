@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.OpenApi.Models;
 
 namespace ApiApplication
 {
@@ -58,8 +59,19 @@ namespace ApiApplication
             services.AddSingleton<IHostedService, ImdbStatusScheduledJob>();
             services.AddSingleton<ImdbStatusService>();
             services.AddTransient<IShowtimeService, ShowtimeService>();
+            services.AddTransient<IMovieRepository, MovieRepository>();
+            services.AddTransient<IAuditoriumRepository, AuditoriumRepository>();
             // Add Automapper
             services.AddAutoMapper(typeof(Startup));
+            // Add Swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Cinema API",
+                    Version = "v1"
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +94,13 @@ namespace ApiApplication
             });
 
             SampleData.Initialize(app);
+            // swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+                //c.RoutePrefix = string.Empty;
+            });
         }
     }
 }

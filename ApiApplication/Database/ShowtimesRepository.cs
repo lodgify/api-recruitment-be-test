@@ -1,7 +1,9 @@
 ﻿using ApiApplication.Database.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ApiApplication.Database
 {
@@ -13,35 +15,55 @@ namespace ApiApplication.Database
             _context = context;
         }
 
-        public ShowtimeEntity Add(ShowtimeEntity showtimeEntity)
+        public async Task<ShowtimeEntity> Add(ShowtimeEntity showtimeEntity)
         {
-            throw new System.NotImplementedException();
+            await _context.Showtimes.AddAsync(showtimeEntity);
+            await _context.SaveChangesAsync();
+            return showtimeEntity;
         }
 
-        public ShowtimeEntity Delete(int id)
+        public async Task<ShowtimeEntity> Delete(int id)
         {
-            throw new System.NotImplementedException();
+            var showtime = await _context.Showtimes.FindAsync(id);
+            _context.Showtimes.Remove(showtime);
+            await _context.SaveChangesAsync();
+            return showtime;
         }
 
-        public ShowtimeEntity GetByMovie(Func<IQueryable<MovieEntity>, bool> filter)
+        public async Task<ShowtimeEntity> GetByMovie(Func<IQueryable<MovieEntity>, bool> filter)
         {
-            throw new System.NotImplementedException();
+            return await _context.Showtimes.FindAsync(filter);
         }
 
-        public IEnumerable<ShowtimeEntity> GetCollection()
+        public async Task<IEnumerable<ShowtimeEntity>> GetByAuditoriumId(int auditorumId)
         {
-            return _context.Showtimes.ToList();
-            //return GetCollection(null)
+            return await _context.Showtimes.Where(s=> s.AuditoriumId == auditorumId).ToListAsync();
         }
 
-        public IEnumerable<ShowtimeEntity> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter)
+        public async Task<IEnumerable<ShowtimeEntity>> GetCollection()
         {
-            throw new System.NotImplementedException();
+            return await _context.Showtimes.ToListAsync();
         }
 
-        public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)
+        public async Task<IEnumerable<ShowtimeEntity>> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter)
         {
-            throw new System.NotImplementedException();
+            //return await _context.Showtimes.FindAsync(filter);
+            //var r = _context.Showtimes.AsQueryable().Select(filter);
+            //_context.Showtimes.AsQueryable().Include(filter);
+            return (IEnumerable<ShowtimeEntity>)await _context.Showtimes.FindAsync(filter);
+        }
+
+        public async Task<ShowtimeEntity> Update(ShowtimeEntity showtimeEntity)
+        {
+            var entity = await _context.Showtimes.FindAsync(showtimeEntity.Id);
+            if (entity == null)
+            {
+                return null;
+            }
+            _context.Entry(entity).CurrentValues.SetValues(showtimeEntity);
+            await _context.SaveChangesAsync();
+            return showtimeEntity;
+
         }
     }
 }

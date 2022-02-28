@@ -12,7 +12,6 @@ namespace ApiApplication.Services.RemoteServices
     public class ImdbRemoteService
     {
         private readonly IOptions<AppSettingsModel> _settings;
-        public static string test;
         public ImdbRemoteService(IOptions<AppSettingsModel> settings)
         {
             _settings = settings;
