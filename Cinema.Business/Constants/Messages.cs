@@ -17,6 +17,7 @@ namespace Cinema.Business.Constants
         public static string AuditoriumNotFound = "Auditorium not found!";
         public static string StatusUpdated = "Imdb Status Updated";
         public static string DateError = "Check Dates";
+        public static string ImdbApiError = "Cannot get movie data from Imdb Api. Please check your Api Key. ";
 
 
     }

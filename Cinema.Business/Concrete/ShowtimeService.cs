@@ -80,9 +80,17 @@ namespace Cinema.Business.Concrete
                 {
                     var stringResponse = await result.Content.ReadAsStringAsync();
                     var movieDtoFromImdb = JsonConvert.DeserializeObject<ImdbMovieDto>(stringResponse);
+                    if (!string.IsNullOrWhiteSpace(movieDtoFromImdb.ErrorMessage))
+                    {
+                        return new ErrorResult(movieDtoFromImdb.ErrorMessage);
+                    }
                     var movieEntity = _mapper.Map<MovieEntity>(movieDtoFromImdb);
                     var movieEntityAdded = await _movieEntityDal.AddAsync(movieEntity);
                     showtime.Movie = movieEntityAdded;
+                }
+                else
+                {
+                    return new ErrorResult(Messages.ImdbApiError);
                 }
 
             }
@@ -149,18 +157,6 @@ namespace Cinema.Business.Concrete
                     return new ErrorResult(Messages.ShowtimeOverlap);
                 }
 
-                // Checking the current auditorium that showtime exists.
-                var auditoriumWhereShowtimeExists = await FindAuditoriumWhereShowtimeExists(showtimeEntity);
-
-                // If current auditorium is different from requsted auditorium then move move entity to requested auditorum.
-                if (auditoriumWhereShowtimeExists.Id != showtimeDto.AuditoriumId)
-                {
-                    auditoriumWhereShowtimeExists.Showtimes.Remove(showtimeEntity);
-                    auditoriumToUpdate.Showtimes.Add(showtimeEntity);
-                    await _auditoriumEntityDal.UpdateAsync(auditoriumWhereShowtimeExists);
-                    await _auditoriumEntityDal.UpdateAsync(auditoriumToUpdate);
-                }
-
                 // If dto has movie data then use imdb id to get the requested data from imdb api and update movie information of the showtime.
                 if (showtimeDto.Movie != null)
                 {
@@ -169,11 +165,31 @@ namespace Cinema.Business.Concrete
                     {
                         var stringResponse = await result.Content.ReadAsStringAsync();
                         var movieDtoFromImdb = JsonConvert.DeserializeObject<ImdbMovieDto>(stringResponse);
+                        if (!string.IsNullOrWhiteSpace(movieDtoFromImdb.ErrorMessage))
+                        {
+                            return new ErrorResult(movieDtoFromImdb.ErrorMessage);
+                        }
                         var movieEntity = _mapper.Map<MovieEntity>(movieDtoFromImdb);
                         showtimeEntity.Movie = movieEntity;
                     }
+                    else
+                    {
+                        return new ErrorResult(Messages.ImdbApiError);
+                    }
                 }
+            
+                // Checking the current auditorium that showtime exists.
+                var auditoriumWhereShowtimeExists = await FindAuditoriumWhereShowtimeExists(showtimeEntity);
 
+                // If current auditorium is different from requsted auditorium then move the showtime entity to requested auditorum.
+                if (auditoriumWhereShowtimeExists.Id != showtimeDto.AuditoriumId)
+                {
+                    auditoriumWhereShowtimeExists.Showtimes.Remove(showtimeEntity);
+                    auditoriumToUpdate.Showtimes.Add(showtimeEntity);
+                    await _auditoriumEntityDal.UpdateAsync(auditoriumWhereShowtimeExists);
+                    await _auditoriumEntityDal.UpdateAsync(auditoriumToUpdate);
+                }
+       
                 showtimeEntity.Schedule = showtimeDto.Schedule;
                 showtimeEntity.StartDate = showtimeDto.StartDate;
                 showtimeEntity.EndDate = showtimeDto.EndDate;
@@ -189,7 +205,7 @@ namespace Cinema.Business.Concrete
         }
 
         /// <summary>
-        /// Getting showtimes with related auditoriums.
+        /// Getting showtimes with related auditorium ids.
         /// </summary>
         /// <param name="movieTitle">List filtered by title(optional).</param>
         /// <param name="date">List filtered by date(optional).</param>

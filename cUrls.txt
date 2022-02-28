@@ -1,2 +1,91 @@
 Please add the cURLs of your tests here:
 
+########## Get All: ##########
+
+curl -X 'GET' \
+  'https://localhost:44379/api/Showtime/v1' \
+  -H 'accept: */*' \
+  -H 'ApiKey: MTIzNHxSZWFk'
+
+
+########## Get By Movie Title: ##########
+
+  curl -X 'GET' \
+  'https://localhost:44379/api/Showtime/v1?movieTitle=Inception' \
+  -H 'accept: */*' \
+  -H 'ApiKey: MTIzNHxSZWFk'
+
+
+########## Get By Date: ##########
+
+ curl -X 'GET' \
+  'https://localhost:44379/api/Showtime/v1?date=2022-02-01' \
+  -H 'accept: */*' \
+  -H 'ApiKey: MTIzNHxSZWFk'
+
+
+########## Get By Date and Title: ##########
+
+curl -X 'GET' \
+  'https://localhost:44379/api/Showtime/v1?movieTitle=Inception&date=2022-02-01' \
+  -H 'accept: */*' \
+  -H 'ApiKey: MTIzNHxSZWFk'
+
+
+########## Create Showtime: ##########
+
+ curl -X 'POST' \
+  'https://localhost:44379/api/Showtime/v1' \
+  -H 'accept: */*' \
+  -H 'ApiKey: Nzg5NHxXcml0ZQ==' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "start_date": "2022-06-28T19:14:50.309Z",
+  "end_date": "2022-07-28T19:14:50.309Z",
+  "schedule": [
+     "16:00",
+        "17:00",
+        "18:00",
+        "18:30",
+        "19:00",
+        "22:00"
+  ],
+  "movie": {    
+    "imdb_id": "tt0438231"   
+  },
+  "auditorium_id": 1
+}'
+
+
+########## Update Showtime: ##########
+
+curl -X 'PUT' \
+  'https://localhost:44379/api/Showtime/v1?id=2' \
+  -H 'accept: */*' \
+  -H 'ApiKey: Nzg5NHxXcml0ZQ==' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "start_date": "2022-02-28T19:17:44.645Z",
+  "end_date": "2022-02-28T19:17:44.645Z",
+  "schedule": [
+    "16:00"
+  ],
+  "movie": {
+    "imdb_id": "tt1375666"
+  },
+  "auditorium_id": 2
+}'
+
+
+########## Delete Showtime: ########## 
+
+curl -X 'DELETE' \
+  'https://localhost:44379/api/Showtime/v1?id=2' \
+  -H 'accept: */*' \
+  -H 'ApiKey: Nzg5NHxXcml0ZQ=='
+
+
+
+
+
+  **Also added swagger with token support.**

@@ -15,5 +15,7 @@ namespace Cinema.Entities.DTOs
         public string Stars { get; set; }
         [JsonPropertyName("releaseDate")]
         public string ReleaseDate { get; set; }
+        [JsonPropertyName("errorMessage")]
+        public string ErrorMessage { get; set; }
     }
 }
