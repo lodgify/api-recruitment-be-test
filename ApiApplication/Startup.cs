@@ -3,6 +3,7 @@ using ApiApplication.Database;
 using ApiApplication.Services;
 using ApiApplication.Services.RemoteServices;
 using ApiApplication.Services.ScheduledJobs;
+using ApiApplication.Services.ShowtimeServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -18,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace ApiApplication
 {
@@ -55,6 +57,9 @@ namespace ApiApplication
             services.AddSingleton<ImdbRemoteService>();
             services.AddSingleton<IHostedService, ImdbStatusScheduledJob>();
             services.AddSingleton<ImdbStatusService>();
+            services.AddTransient<IShowtimeService, ShowtimeService>();
+            // Add Automapper
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

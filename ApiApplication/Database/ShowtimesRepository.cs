@@ -30,7 +30,8 @@ namespace ApiApplication.Database
 
         public IEnumerable<ShowtimeEntity> GetCollection()
         {
-            return GetCollection(null);
+            return _context.Showtimes.ToList();
+            //return GetCollection(null)
         }
 
         public IEnumerable<ShowtimeEntity> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter)
