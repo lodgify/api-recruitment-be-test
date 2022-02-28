@@ -14,14 +14,14 @@ namespace ApiApplication.Controllers
         }
 
         [HttpGet]
-        [Route("/api/v1/get_imdb_status")]
+        [Route("imdb_status")]
         public async Task<IActionResult> GetImdbStatus()
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return Ok(_imdbStatusService);
+                return BadRequest();
             }
-            return BadRequest();
+            return Ok(_imdbStatusService);
         }
     }
 }

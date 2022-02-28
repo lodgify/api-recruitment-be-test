@@ -21,6 +21,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.OpenApi.Models;
+using ApiApplication.Filters;
 
 namespace ApiApplication
 {
@@ -50,7 +51,11 @@ namespace ApiApplication
                 options.RequireAuthenticatedSignIn = true;                
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
-            services.AddControllers();
+            // add PerformanceTestFilter
+            services.AddControllers(config =>
+            {
+                config.Filters.Add(new PerformanceTestFilter());
+            });
             // Add Application Setting
             services.Configure<AppSettingsModel>(Configuration.GetSection("ApplicationSettings"));
             services.AddOptions();
@@ -61,6 +66,7 @@ namespace ApiApplication
             services.AddTransient<IShowtimeService, ShowtimeService>();
             services.AddTransient<IMovieRepository, MovieRepository>();
             services.AddTransient<IAuditoriumRepository, AuditoriumRepository>();
+            services.AddScoped<PerformanceTestFilter>();
             // Add Automapper
             services.AddAutoMapper(typeof(Startup));
             // Add Swagger

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace ApiApplication.Database
@@ -45,12 +46,13 @@ namespace ApiApplication.Database
             return await _context.Showtimes.ToListAsync();
         }
 
-        public async Task<IEnumerable<ShowtimeEntity>> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter)
+        public async Task<IEnumerable<ShowtimeEntity>> GetCollection(Expression<Func<ShowtimeEntity, bool>> filter)
         {
             //return await _context.Showtimes.FindAsync(filter);
             //var r = _context.Showtimes.AsQueryable().Select(filter);
             //_context.Showtimes.AsQueryable().Include(filter);
-            return (IEnumerable<ShowtimeEntity>)await _context.Showtimes.FindAsync(filter);
+            //return (IEnumerable<ShowtimeEntity>)await _context.Showtimes.FindAsync(filter);
+            return await _context.Showtimes.Where(filter).ToListAsync();
         }
 
         public async Task<ShowtimeEntity> Update(ShowtimeEntity showtimeEntity)

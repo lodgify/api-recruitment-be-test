@@ -22,11 +22,8 @@ namespace ApiApplication.Services.RemoteServices
             var client = new RestClient($"https://imdb-api.com/en/API/Title/{imdbToken}/{id}");
             var request = new RestRequest();
             var response = await client.ExecuteAsync(request);
-            //Console.WriteLine(response.Content);
-            //return BaseResponseDto.SuccessResult<string>(response.Content);
             if (response.IsSuccessful)
             {
-                //return JsonConvert.DeserializeObject<Dictionary<string,object>>(response.Content);
                 return JsonConvert.DeserializeObject<MovieDto>(response.Content);
             }
             return null;
