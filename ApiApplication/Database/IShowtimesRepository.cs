@@ -16,5 +16,6 @@ namespace ApiApplication.Database
         Task<ShowtimeEntity> Update(ShowtimeEntity showtimeEntity);
         Task<ShowtimeEntity> Delete(int id);
         Task<IEnumerable<ShowtimeEntity>> GetByAuditoriumId(int auditorumId);
+        void ThrowErrorMethod();
     }
 }

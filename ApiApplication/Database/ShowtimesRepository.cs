@@ -48,10 +48,6 @@ namespace ApiApplication.Database
 
         public async Task<IEnumerable<ShowtimeEntity>> GetCollection(Expression<Func<ShowtimeEntity, bool>> filter)
         {
-            //return await _context.Showtimes.FindAsync(filter);
-            //var r = _context.Showtimes.AsQueryable().Select(filter);
-            //_context.Showtimes.AsQueryable().Include(filter);
-            //return (IEnumerable<ShowtimeEntity>)await _context.Showtimes.FindAsync(filter);
             return await _context.Showtimes.Where(filter).ToListAsync();
         }
 
@@ -65,7 +61,11 @@ namespace ApiApplication.Database
             _context.Entry(entity).CurrentValues.SetValues(showtimeEntity);
             await _context.SaveChangesAsync();
             return showtimeEntity;
+        }
 
+        public void ThrowErrorMethod()
+        {
+            throw new Exception("Method is working!");
         }
     }
 }

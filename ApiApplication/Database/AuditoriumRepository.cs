@@ -51,17 +51,5 @@ namespace ApiApplication.Database
             return auditoriumEntity;
 
         }
-
-        //public async Task<AuditoriumEntity> AddShowtime(int auditoriumId, ShowtimeEntity showtimeEntity)
-        //{
-        //    var auditoriumEntity = await Get(auditoriumId);
-        //    if (auditoriumEntity.Showtimes == null)
-        //    {
-        //        auditoriumEntity.Showtimes = new List<ShowtimeEntity>();
-        //    }
-        //    auditoriumEntity.Showtimes.Add(showtimeEntity);
-        //    await Update(auditoriumEntity);
-        //    return auditoriumEntity;
-        //}
     }
 }

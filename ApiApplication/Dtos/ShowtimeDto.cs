@@ -7,10 +7,14 @@ namespace ApiApplication.Dtos
     {
         public int Id { get; set; }
         public MovieDto Movie { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime Start_date { get; set; }
+        public DateTime End_date { get; set; }
         public IEnumerable<string> Schedule { get; set; }
-        public int AuditoriumId { get; set; }
+        public int Auditorium_id { get; set; }
+
+        public ShowtimeDto()
+        {
+        }
 
     }
 }

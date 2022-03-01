@@ -1,5 +1,4 @@
 ﻿using ApiApplication.Database;
-using ApiApplication.Dtos;
 using ApiApplication.Services.RemoteServices;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;

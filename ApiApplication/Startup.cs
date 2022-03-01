@@ -3,23 +3,13 @@ using ApiApplication.Database;
 using ApiApplication.Services;
 using ApiApplication.Services.RemoteServices;
 using ApiApplication.Services.ScheduledJobs;
-using ApiApplication.Services.ShowtimeServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.OpenApi.Models;
 using ApiApplication.Filters;
 using ApiApplication.Extentions;
@@ -44,7 +34,7 @@ namespace ApiApplication
                     .EnableSensitiveDataLogging()
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));                
             });
-            services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
+            services.AddTransient<ShowtimesRepository, ShowtimesRepository>();
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
             services.AddAuthentication(options =>
             {
@@ -64,7 +54,6 @@ namespace ApiApplication
             services.AddSingleton<ImdbRemoteService>();
             services.AddSingleton<IHostedService, ImdbStatusScheduledJob>();
             services.AddSingleton<ImdbStatusService>();
-            services.AddTransient<IShowtimeService, ShowtimeService>();
             services.AddTransient<IMovieRepository, MovieRepository>();
             services.AddTransient<IAuditoriumRepository, AuditoriumRepository>();
             services.AddScoped<PerformanceTestFilter>();
