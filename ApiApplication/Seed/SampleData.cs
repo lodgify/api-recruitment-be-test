@@ -1,10 +1,11 @@
-﻿using ApiApplication.Database.Entities;
+﻿using Cinema.DataAccess.Concrete.EntityFramework.Context;
+using Cinema.Entities.Concrete;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 
-namespace ApiApplication.Database
+namespace ApiApplication.Seed
 {
     public class SampleData
     {

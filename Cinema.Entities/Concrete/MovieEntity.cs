@@ -1,9 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Cinema.Core.Entities;
+using System;
 
-namespace ApiApplication.Database.Entities
+namespace Cinema.Entities.Concrete
 {
-    public class MovieEntity
+    public class MovieEntity : IEntity
     {
         public int Id { get; set; }
         public string Title { get; set; }
