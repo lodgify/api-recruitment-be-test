@@ -1,0 +1,283 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Task-Interview-Ali-Saeedi",
+		"_postman_id": "8210a122-1309-394b-6d0a-354acb6d15b2",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ShowtimeController",
+			"description": "",
+			"item": [
+				{
+					"name": "Get showtime",
+					"request": {
+						"url": {
+							"raw": "https://{{base_url}}:{{default_port}}/showtime?movie_title=Inception&date=2022-02-01T00:00:00",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"port": "{{default_port}}",
+							"path": [
+								"showtime"
+							],
+							"query": [
+								{
+									"key": "movie_title",
+									"value": "Inception",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "2022-02-01T00:00:00",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "ApiKey",
+								"value": "{{api_token_read_only}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Patch showtime - test",
+					"request": {
+						"url": "https://{{base_url}}:{{default_port}}/showtime",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "ApiKey",
+								"value": "{{api_token_write}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Showtime",
+					"request": {
+						"url": "https://{{base_url}}:{{default_port}}/showtime",
+						"method": "POST",
+						"header": [
+							{
+								"key": "ApiKey",
+								"value": "{{api_token_write}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"movie\": {\r\n    \"imdb_id\": \"tt1375666\"\r\n  },\r\n  \"start_date\": \"2011-01-14T00:00:00\",\r\n  \"end_date\": \"2013-01-14T00:00:00\",\r\n  \"schedule\": [\r\n    \"12:00\"\r\n  ],\r\n  \"auditorium_id\": 3\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Showtime",
+					"request": {
+						"url": "https://{{base_url}}:{{default_port}}/showtime",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "ApiKey",
+								"value": "{{api_token_write}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"movie\": {\r\n    \"imdbId\": \"tt1375666\"\r\n  },\r\n  \"startDate\": \"2011-01-14T00:00:00\",\r\n  \"endDate\": \"2013-01-14T00:00:00\",\r\n  \"schedule\": [\r\n    \"12:00\"\r\n  ],\r\n  \"auditoriumId\": 3\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete showtime",
+					"request": {
+						"url": {
+							"raw": "https://{{base_url}}:{{default_port}}/showtime?showtime_id=1",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"port": "{{default_port}}",
+							"path": [
+								"showtime"
+							],
+							"query": [
+								{
+									"key": "showtime_id",
+									"value": "1",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "ApiKey",
+								"value": "{{api_token_write}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "StatusController",
+			"description": "",
+			"item": [
+				{
+					"name": "imdb_status",
+					"request": {
+						"url": "https://{{base_url}}:{{default_port}}/imdb_status",
+						"method": "GET",
+						"header": [
+							{
+								"key": "ApiKey",
+								"value": "{{api_token_read_only}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test",
+			"description": "",
+			"item": [
+				{
+					"name": "Get all movies",
+					"request": {
+						"url": "https://{{base_url}}:{{default_port}}/get_all_movies",
+						"method": "GET",
+						"header": [
+							{
+								"key": "ApiKey",
+								"value": "{{api_token_read_only}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all showtimes",
+					"request": {
+						"url": "https://{{base_url}}:{{default_port}}/showtime",
+						"method": "GET",
+						"header": [
+							{
+								"key": "ApiKey",
+								"value": "{{api_token_read_only}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get_movie_information",
+					"request": {
+						"url": {
+							"raw": "https://{{base_url}}:{{default_port}}/get_movie_information?movie_id={{test_movie_id}}",
+							"protocol": "https",
+							"host": [
+								"{{base_url}}"
+							],
+							"port": "{{default_port}}",
+							"path": [
+								"get_movie_information"
+							],
+							"query": [
+								{
+									"key": "movie_id",
+									"value": "{{test_movie_id}}",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "ApiKey",
+								"value": "{{api_token_read_only}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all auditoriums",
+					"request": {
+						"url": "https://{{base_url}}:{{default_port}}/get_all_auditoriums",
+						"method": "GET",
+						"header": [
+							{
+								"key": "ApiKey",
+								"value": "{{api_token_read_only}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
