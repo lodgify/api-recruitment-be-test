@@ -50,7 +50,7 @@ auditorium_id : int
  **Movie**
  ```
  title : string
- imdb_id : int
+ imdb_id : string
  starts: string
  release_date : DateTime
  ```

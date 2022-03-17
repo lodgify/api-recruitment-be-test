@@ -33,7 +33,8 @@ namespace ApiApplication.Database
                             ReleaseDate = new DateTime(2010, 01, 14),
                             Stars = "Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page, Ken Watanabe"                            
                         },
-                        Schedule = new List<string> { "16:00", "17:00", "18:00", "18:30", "19:00", "22:00" }
+                        Schedule = new List<string> { "16:00", "17:00", "18:00", "18:30", "19:00", "22:00" },
+                        AuditoriumId = 1
                     } 
                 },
                 Seats = 56

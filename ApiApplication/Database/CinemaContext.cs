@@ -24,7 +24,7 @@ namespace ApiApplication.Database
             {
                 build.HasKey(entry => entry.Id);
                 build.Property(entry => entry.Id).ValueGeneratedOnAdd();
-                build.HasMany(entry => entry.Showtimes).WithOne();
+                build.HasMany(entry => entry.Showtimes).WithOne().HasForeignKey(entity => entity.AuditoriumId);
             });
 
             modelBuilder.Entity<ShowtimeEntity>(build =>
@@ -39,7 +39,6 @@ namespace ApiApplication.Database
             {
                 build.HasKey(entry => entry.Id);
                 build.Property(entry => entry.Id).ValueGeneratedOnAdd();
-                //build.HasOne(entry => entry.Showtime).WithOne().HasForeignKey("ShowtimeId");
             });            
         }
     }
