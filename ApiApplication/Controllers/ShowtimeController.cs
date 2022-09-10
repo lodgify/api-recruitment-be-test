@@ -13,9 +13,10 @@ namespace ApiApplication.Controllers
     {
         // GET: api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            //throw new System.NotImplementedException();
+            return null;
         }
 
         // GET api/values/5
