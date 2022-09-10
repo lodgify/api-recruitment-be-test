@@ -48,8 +48,8 @@ namespace ApiApplication.Database
 
         public async Task<IEnumerable<ShowtimeEntity>> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter)
         {
-            if (filter == null) return _context.Showtimes;
-            return await _context.Showtimes.Where(s => filter(s.ToQueryable())).ToListAsync();
+            if (filter == null) return _context.Showtimes == null ? Enumerable.Empty<ShowtimeEntity>() : _context.Showtimes.Include(e=>e.Movie);
+            return await _context.Showtimes.Include(e=>e.Movie).Where(s => filter(s.ToQueryable())).ToListAsync();
         }
 
         public async Task<ShowtimeEntity> Update(ShowtimeEntity showtimeEntity)

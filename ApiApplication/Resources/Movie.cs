@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace ApiApplication.Models
+namespace ApiApplication.Resources
 {
     public class Movie
     {
@@ -12,7 +12,7 @@ namespace ApiApplication.Models
         public string ImdbId { get; set; }
 
         [JsonPropertyName("starts")]
-        public string Starts { get; set; }
+        public string Stars { get; set; }
 
         [JsonPropertyName("release_date")]
         public string ReleaseDate { get; set; } //DateTime

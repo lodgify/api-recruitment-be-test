@@ -2,21 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiApplication.Database;
+using ApiApplication.Resources;
+using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ApiApplication.Controllers
 {
-    [Route("api/[controller]")]
-    public class ShowtimeController : Controller
+    [Route("/showtime")]
+    public class ShowtimeController : ApiBaseController
     {
+        private IShowtimesRepository showTimeRepository;
+
+        public ShowtimeController(IMapper mapper, IShowtimesRepository showTimeRepository) : base(mapper)
+        {
+            this.showTimeRepository = showTimeRepository;
+        }
+
         // GET: api/values
         [HttpGet]
-        public Task<IActionResult> Get()
+        public async Task<IActionResult> Get()
         {
-            //throw new System.NotImplementedException();
-            return null;
+            //var shows = await showTimeRepository.GetCollection();
+            //var result = this.mapper.Map<IEnumerable<ShowTime>>(shows);
+            //return Enumerable.Empty<ShowTime>();
+            var shows = await showTimeRepository.GetCollection();
+            var result = this.mapper.Map<IEnumerable<ShowTime>>(shows);
+            return this.StatusCode(StatusCodes.Status200OK, result);
         }
 
         // GET api/values/5

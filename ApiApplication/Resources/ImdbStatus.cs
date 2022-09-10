@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace ApiApplication.Models
+namespace ApiApplication.Resources
 {
     public class ImdbStatus
     {
