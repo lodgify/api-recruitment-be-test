@@ -9,17 +9,16 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "showtime",
+      "applicationUrl": "https://localhost:7629;http://localhost:7628",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:7629;http://localhost:7628"
+      }
     },
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/showtime",
-      "publishAllPorts": true,
-      "useSSL": true
+      "environmentVariables": {}
     }
   }
 }

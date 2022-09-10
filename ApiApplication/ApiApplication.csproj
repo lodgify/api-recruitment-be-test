@@ -15,7 +15,11 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
 
+  <ItemGroup>
+    <None Remove="Models\" />
+  </ItemGroup>
 </Project>
