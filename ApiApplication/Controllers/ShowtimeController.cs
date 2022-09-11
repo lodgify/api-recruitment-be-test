@@ -55,10 +55,19 @@ namespace ApiApplication.Controllers
             return this.StatusCode(StatusCodes.Status200OK, result);
         }
 
-        // DELETE api/values/5
+        // DELETE /showtime/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            await showtimeService.DeleteShowtime(id);
+            return this.StatusCode(StatusCodes.Status200OK);
+        }
+
+        // DELETE /patch
+        [HttpPatch()]
+        public async Task<IActionResult> Patch()
+        {
+            throw new Exception("Controller error for testing purposes");
         }
     }
 }

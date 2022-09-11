@@ -67,6 +67,11 @@ namespace ApiApplication.Services
             return showTime;
 
         }
+
+        public async Task DeleteShowtime(int id)
+        {
+            await showTimeRepository.Delete(id);
+        }
     }
 }
 
