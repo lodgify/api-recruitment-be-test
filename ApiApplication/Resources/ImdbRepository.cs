@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace ApiApplication.Resources
 {
-    public class ImdbRepository: IImdbRepository
+    public class ImdbRepository : IImdbRepository
     {
         public ImdbRepository()
         {

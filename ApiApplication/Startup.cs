@@ -93,6 +93,7 @@ namespace ApiApplication
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseMiddleware<ExecutionTrackerMiddleware>();
             app.UseAuthentication();
             app.UseAuthorization();

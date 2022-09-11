@@ -32,3 +32,6 @@ curl --location --request PUT 'https://localhost:7629/showtime/2' \
 }'
 
 curl --location --request GET 'https://localhost:7629/status'
+
+curl --location --request PATCH 'https://localhost:7629/showtime' \
+--header 'Content-Type: application/json'
