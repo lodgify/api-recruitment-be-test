@@ -1,2 +1,34 @@
 Please add the cURLs of your tests here:
 
+curl --location --request GET 'https://imdb-api.com/en/API/Search/k_mbdglb20/tt1375666'
+curl --location --request GET 'https://imdb-api.com/en/API/Title/k_mbdglb20/tt1745960'
+curl --location --request GET 'https://imdb-api.com/API/Usage/k_mbdglb20'
+
+curl --location --request POST 'https://localhost:7629/showtime' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+        "start_date": "01/01/2023 00:00:00",
+        "end_date": "04/01/2023 00:00:00",
+        "schedule": "16:00,17:00,18:00,18:30,19:00,22:00",
+        "movie": {
+            "imdb_id": "tt0411008"
+        },
+        "auditorium_id": 3
+}'
+
+curl --location --request GET 'https://localhost:7629/showtime' \
+--header 'Content-Type: application/json'
+
+curl --location --request PUT 'https://localhost:7629/showtime/2' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+        "start_date": "01/01/2024 00:00:00",
+        "end_date": "04/01/2024 00:00:00",
+        "schedule": "16:00",
+        "movie": {
+            "imdb_id": "tt1745960"
+        },
+        "auditorium_id": 2
+}'
+
+curl --location --request GET 'https://localhost:7629/status'
