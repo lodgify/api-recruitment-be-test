@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ApiApplication.Resources;
+using ApiApplication.Services;
 
 namespace ApiApplication
 {
@@ -47,7 +48,9 @@ namespace ApiApplication
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
             services.AddScoped<IShowtimesRepository, ShowtimesRepository>();
+            services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IImdbRepository, ImdbRepository>();
+            services.AddScoped<ShowtimeService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             
             services.AddControllers();

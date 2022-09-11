@@ -19,6 +19,7 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Exceptions\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 
@@ -27,5 +28,6 @@
     <None Remove="AutoMapper.Extensions.Microsoft.DependencyInjection" />
     <None Remove="Newtonsoft.Json" />
     <None Remove="Exceptions\" />
+    <None Remove="Services\" />
   </ItemGroup>
 </Project>

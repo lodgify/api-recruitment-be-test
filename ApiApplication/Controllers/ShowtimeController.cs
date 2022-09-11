@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ApiApplication.Database;
 using ApiApplication.Database.Entities;
 using ApiApplication.Resources;
+using ApiApplication.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,49 +17,42 @@ namespace ApiApplication.Controllers
     [Route("/showtime")]
     public class ShowtimeController : ApiBaseController
     {
-        private IShowtimesRepository showTimeRepository;
-        private IImdbRepository imdbRepository;
+        private ShowtimeService showtimeService;
 
-        public ShowtimeController(IMapper mapper, IShowtimesRepository showTimeRepository, IImdbRepository imdbRepository) : base(mapper)
+        public ShowtimeController(IMapper mapper, IShowtimesRepository showTimeRepository, IImdbRepository imdbRepository, ShowtimeService showtimeService) : base(mapper)
         {
-            this.showTimeRepository = showTimeRepository;
-            this.imdbRepository = imdbRepository;
+            this.showtimeService = showtimeService;
         }
 
-        // GET: api/values
+        // GET: /showtime
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            //var shows = await showTimeRepository.GetCollection();
-            //var result = this.mapper.Map<IEnumerable<ShowTime>>(shows);
-            //return Enumerable.Empty<ShowTime>();
-            var shows = await showTimeRepository.GetCollection();
-            var result = this.mapper.Map<IEnumerable<ShowTime>>(shows);
+            var result = await this.showtimeService.GetShowtimes();
             return this.StatusCode(StatusCodes.Status200OK, result);
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        //// GET /showtime/5
+        //[HttpGet("{id}")]
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
-        // POST api/values
+        // POST /showtime
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ShowTime showTime)
         {
-            var title = await imdbRepository.GetTitle(showTime.Movie.ImdbId);
-            var result = this.mapper.Map<ShowtimeEntity>(showTime);
-            result.Movie = this.mapper.Map<MovieEntity>(title);
-            await showTimeRepository.Add(result);
-            return this.StatusCode(StatusCodes.Status201Created);
+            var result = await showtimeService.CreateShowtime(showTime);
+            return this.StatusCode(StatusCodes.Status201Created, result);
         }
 
-        // PUT api/values/5
+        // PUT /showtime/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] ShowTime showTime)
         {
+            var result = await showtimeService.UpdateShowtime(id, showTime);
+            return this.StatusCode(StatusCodes.Status200OK, result);
         }
 
         // DELETE api/values/5

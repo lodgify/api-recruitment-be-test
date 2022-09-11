@@ -30,12 +30,18 @@ namespace ApiApplication.Database
 
         public async Task<ShowtimeEntity> Delete(int id)
         {
-            var q = await (from s in _context.Showtimes
-                           where s.Id == id
-                           select s).FirstOrDefaultAsync();
+            var q = await this.GetById(id);
             if (q == null) return null;
             _context.Showtimes.Remove(q);
             await _context.SaveChangesAsync();
+            return q;
+        }
+
+        public async Task<ShowtimeEntity> GetById(int id)
+        {
+            var q = await(from s in _context.Showtimes
+                          where s.Id == id
+                          select s).Include(e => e.Movie).FirstOrDefaultAsync();
             return q;
         }
 
@@ -43,7 +49,7 @@ namespace ApiApplication.Database
         {
             var q = await (from s in _context.Showtimes
                            where filter(s.Movie.ToQueryable())
-                           select s).FirstOrDefaultAsync();
+                           select s).Include(e => e.Movie).FirstOrDefaultAsync();
             return q;
         }
 
@@ -60,18 +66,17 @@ namespace ApiApplication.Database
 
         public async Task<ShowtimeEntity> Update(ShowtimeEntity showtimeEntity)
         {
-            var q = await (from s in _context.Showtimes
-                           where s.Id == showtimeEntity.Id
-                           select s).FirstOrDefaultAsync();
-            if (q == null) return null;
-            q.AuditoriumId = showtimeEntity.AuditoriumId;
-            q.EndDate = showtimeEntity.EndDate;
-            q.Movie = showtimeEntity.Movie;
-            q.Schedule = showtimeEntity.Schedule;
-            q.StartDate = showtimeEntity.StartDate;
-            _context.Update(q);
+            if (showtimeEntity.Movie.Id == 0)
+            {
+                await _context.Movies.AddAsync(showtimeEntity.Movie);
+            }
+            else
+            {
+                _context.Movies.Update(showtimeEntity.Movie);
+            }
+            _context.Showtimes.Update(showtimeEntity);
             await _context.SaveChangesAsync();
-            return q;
+            return showtimeEntity;
         }
     }
 }

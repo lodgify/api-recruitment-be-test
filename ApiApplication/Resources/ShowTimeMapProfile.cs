@@ -22,7 +22,8 @@ namespace ApiApplication.Resources
                 .ForMember(dest => dest.Schedule, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.Schedule.Trim()) ? new List<string>() : src.Schedule.Split(",", System.StringSplitOptions.None).ToList<string>()));
 
             CreateMap<ImdbTitleResponse, MovieEntity>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => rnd.Next(2, int.MaxValue)))
+                //.ForMember(dest => dest.Id, opt => opt.MapFrom(src => rnd.Next(2, int.MaxValue)))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => 0))
                 .ForMember(dest => dest.ImdbId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.ReleaseDate, opt => opt.MapFrom(src => src.ReleaseDate))
                 .ForMember(dest => dest.Stars, opt => opt.MapFrom(src => src.Stars))

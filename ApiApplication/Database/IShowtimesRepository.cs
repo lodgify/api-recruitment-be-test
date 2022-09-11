@@ -18,6 +18,7 @@ namespace ApiApplication.Database
         Task<IEnumerable<ShowtimeEntity>> GetCollection();
         Task<IEnumerable<ShowtimeEntity>> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter);
         Task<ShowtimeEntity> GetByMovie(Func<IQueryable<MovieEntity>, bool> filter);
+        Task<ShowtimeEntity> GetById(int id);
         Task<ShowtimeEntity> Add(ShowtimeEntity showtimeEntity);
         Task<ShowtimeEntity> Update(ShowtimeEntity showtimeEntity);
         Task<ShowtimeEntity> Delete(int id);
