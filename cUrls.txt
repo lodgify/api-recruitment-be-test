@@ -1,11 +1,12 @@
 Please add the cURLs of your tests here:
 
-curl --location --request GET 'https://imdb-api.com/en/API/Search/k_mbdglb20/tt1375666'
-curl --location --request GET 'https://imdb-api.com/en/API/Title/k_mbdglb20/tt1745960'
-curl --location --request GET 'https://imdb-api.com/API/Usage/k_mbdglb20'
+curl --location --request GET 'https://imdb-api.com/en/API/Search/k_4ymo1dmj/tt1375666'
+curl --location --request GET 'https://imdb-api.com/en/API/Title/k_4ymo1dmj/tt1745960'
+curl --location --request GET 'https://imdb-api.com/API/Usage/k_4ymo1dmj'
 
 curl --location --request POST 'https://localhost:7629/showtime' \
 --header 'Content-Type: application/json' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ==' \
 --data-raw '{
         "start_date": "01/01/2023 00:00:00",
         "end_date": "04/01/2023 00:00:00",
@@ -17,10 +18,12 @@ curl --location --request POST 'https://localhost:7629/showtime' \
 }'
 
 curl --location --request GET 'https://localhost:7629/showtime' \
---header 'Content-Type: application/json'
+--header 'Content-Type: application/json' \
+--header 'ApiKey: MTIzNHxSZWFk'
 
 curl --location --request PUT 'https://localhost:7629/showtime/2' \
 --header 'Content-Type: application/json' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ==' \
 --data-raw '{
         "start_date": "01/01/2024 00:00:00",
         "end_date": "04/01/2024 00:00:00",
@@ -34,4 +37,5 @@ curl --location --request PUT 'https://localhost:7629/showtime/2' \
 curl --location --request GET 'https://localhost:7629/status'
 
 curl --location --request PATCH 'https://localhost:7629/showtime' \
---header 'Content-Type: application/json'
+--header 'Content-Type: application/json' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ=='

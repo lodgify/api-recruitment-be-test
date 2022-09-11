@@ -7,6 +7,7 @@ using ApiApplication.Database.Entities;
 using ApiApplication.Resources;
 using ApiApplication.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +26,7 @@ namespace ApiApplication.Controllers
         }
 
         // GET: /showtime
+        [Authorize(Policy = "Read")]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -32,14 +34,8 @@ namespace ApiApplication.Controllers
             return this.StatusCode(StatusCodes.Status200OK, result);
         }
 
-        //// GET /showtime/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
         // POST /showtime
+        [Authorize(Policy = "Write")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ShowTime showTime)
         {
@@ -48,6 +44,7 @@ namespace ApiApplication.Controllers
         }
 
         // PUT /showtime/5
+        [Authorize(Policy = "Write")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] ShowTime showTime)
         {
@@ -56,6 +53,7 @@ namespace ApiApplication.Controllers
         }
 
         // DELETE /showtime/5
+        [Authorize(Policy = "Write")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -64,6 +62,7 @@ namespace ApiApplication.Controllers
         }
 
         // DELETE /patch
+        [Authorize(Policy = "Write")]
         [HttpPatch()]
         public async Task<IActionResult> Patch()
         {

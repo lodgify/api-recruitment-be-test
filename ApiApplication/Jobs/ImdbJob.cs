@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using ApiApplication.Constants;
 using ApiApplication.Resources;
 using Newtonsoft.Json;
 using Quartz;
@@ -19,7 +20,7 @@ namespace ApiApplication.Jobs
         public async Task Execute(IJobExecutionContext context)
         {
             var http = new HttpClient();
-            var response = await http.GetAsync($"https://imdb-api.com/API/Usage/k_mbdglb20");
+            var response = await http.GetAsync($"https://imdb-api.com/API/Usage/{ImdbConstants.ImdbApiKey}");
             if (response.StatusCode != System.Net.HttpStatusCode.OK) {
                 imdb.Status.LastCall = DateTime.Now.ToString();
                 imdb.Status.Up = false;

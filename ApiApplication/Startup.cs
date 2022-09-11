@@ -40,16 +40,23 @@ namespace ApiApplication
             {
                 options.UseInMemoryDatabase("CinemaDb")
                     .EnableSensitiveDataLogging()
-                    .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));                
+                    .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
             services.AddAuthentication(options =>
             {
                 options.AddScheme<CustomAuthenticationHandler>(CustomAuthenticationSchemeOptions.AuthenticationScheme, CustomAuthenticationSchemeOptions.AuthenticationScheme);
-                options.RequireAuthenticatedSignIn = true;                
+                options.RequireAuthenticatedSignIn = true;
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
+
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("Read", policy => policy.RequireRole("Read"));
+                opt.AddPolicy("Write", policy => policy.RequireRole("Write"));
+            });
+
             services.AddScoped<IShowtimesRepository, ShowtimesRepository>();
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IImdbRepository, ImdbRepository>();
@@ -66,11 +73,9 @@ namespace ApiApplication
                 q.AddTrigger(t => t
                 .ForJob(jobKey).StartNow()
                 .WithIdentity("ImdbJob-trigger")
-                //.WithCronSchedule("* * * * * ?"));//run every 60 seconds
                 .WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromSeconds(60)).RepeatForever()));
             });
 
-            //services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
             // ASP.NET Core hosting
             services.AddQuartzServer(options =>
@@ -87,7 +92,7 @@ namespace ApiApplication
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();                
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();
@@ -104,6 +109,6 @@ namespace ApiApplication
             });
 
             SampleData.Initialize(app);
-        }      
+        }
     }
 }
