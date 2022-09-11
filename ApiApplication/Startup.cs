@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ApiApplication.Resources;
 using ApiApplication.Services;
+using Quartz;
+using ApiApplication.Jobs;
 
 namespace ApiApplication
 {
@@ -51,8 +53,31 @@ namespace ApiApplication
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IImdbRepository, ImdbRepository>();
             services.AddScoped<ShowtimeService>();
+            services.AddSingleton<IImdbPageStatus, ImdbPageStatus>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            
+
+            services.AddQuartz(q =>
+            {
+                q.UseMicrosoftDependencyInjectionJobFactory();
+                var jobKey = new JobKey("ImdbJob");
+                // base quartz scheduler, job and trigger configuration
+                q.AddJob<ImdbJob>(opt => opt.WithIdentity(jobKey));
+                q.AddTrigger(t => t
+                .ForJob(jobKey).StartNow()
+                .WithIdentity("ImdbJob-trigger")
+                //.WithCronSchedule("* * * * * ?"));//run every 60 seconds
+                .WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromSeconds(60)).RepeatForever()));
+            });
+
+            //services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+
+            // ASP.NET Core hosting
+            services.AddQuartzServer(options =>
+            {
+                // when shutting down we want jobs to complete gracefully
+                options.WaitForJobsToComplete = true;
+            });
+
             services.AddControllers();
         }
 
