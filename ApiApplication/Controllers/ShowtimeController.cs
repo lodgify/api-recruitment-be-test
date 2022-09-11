@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ApiApplication.Database;
+using ApiApplication.Database.Entities;
 using ApiApplication.Resources;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -16,10 +17,12 @@ namespace ApiApplication.Controllers
     public class ShowtimeController : ApiBaseController
     {
         private IShowtimesRepository showTimeRepository;
+        private IImdbRepository imdbRepository;
 
-        public ShowtimeController(IMapper mapper, IShowtimesRepository showTimeRepository) : base(mapper)
+        public ShowtimeController(IMapper mapper, IShowtimesRepository showTimeRepository, IImdbRepository imdbRepository) : base(mapper)
         {
             this.showTimeRepository = showTimeRepository;
+            this.imdbRepository = imdbRepository;
         }
 
         // GET: api/values
@@ -43,8 +46,13 @@ namespace ApiApplication.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] ShowTime showTime)
         {
+            var title = await imdbRepository.GetTitle(showTime.Movie.ImdbId);
+            var result = this.mapper.Map<ShowtimeEntity>(showTime);
+            result.Movie = this.mapper.Map<MovieEntity>(title);
+            await showTimeRepository.Add(result);
+            return this.StatusCode(StatusCodes.Status201Created);
         }
 
         // PUT api/values/5

@@ -1,4 +1,5 @@
 ﻿using ApiApplication.Database.Entities;
+using ApiApplication.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,11 @@ namespace ApiApplication.Database
 
         public async Task<ShowtimeEntity> Add(ShowtimeEntity showtimeEntity)
         {
+            var movie = await (from m in _context.Movies
+                               where m.ImdbId == showtimeEntity.Movie.ImdbId
+                               select m).FirstOrDefaultAsync();
+            if (movie != null) throw new MovieFoundException();
+            await _context.Movies.AddAsync(showtimeEntity.Movie);
             await _context.Showtimes.AddAsync(showtimeEntity);
             await _context.SaveChangesAsync();
             return showtimeEntity;
