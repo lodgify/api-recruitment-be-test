@@ -20,6 +20,7 @@ using ApiApplication.Resources;
 using ApiApplication.Services;
 using Quartz;
 using ApiApplication.Jobs;
+using ApiApplication.Middlewares;
 
 namespace ApiApplication
 {
@@ -92,6 +93,7 @@ namespace ApiApplication
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseMiddleware<ExecutionTrackerMiddleware>();
             app.UseAuthentication();
             app.UseAuthorization();
 

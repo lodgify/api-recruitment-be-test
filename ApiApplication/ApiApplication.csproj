@@ -23,6 +23,7 @@
     <Folder Include="Exceptions\" />
     <Folder Include="Services\" />
     <Folder Include="Jobs\" />
+    <Folder Include="Middlewares\" />
   </ItemGroup>
 
 
@@ -35,5 +36,6 @@
     <None Remove="Quartz" />
     <None Remove="Quartz.AspNetCore" />
     <None Remove="Jobs\" />
+    <None Remove="Middlewares\" />
   </ItemGroup>
 </Project>
