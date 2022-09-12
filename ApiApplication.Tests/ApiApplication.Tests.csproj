@@ -18,5 +18,12 @@
 
   <ItemGroup>
     <None Remove="Moq" />
+    <None Remove="Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ApiApplication\ApiApplication.csproj" />
   </ItemGroup>
 </Project>
