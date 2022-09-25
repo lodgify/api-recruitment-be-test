@@ -57,7 +57,7 @@ namespace ApiApplication.Controllers
 
         [HttpGet]
         [Route("title/{Title}")]
-        [AuthorizedToken(AuthorizedFor.Write)]
+        [AuthorizedToken(AuthorizedFor.Read)]
         public async Task<IActionResult> GetByTitle([FromRoute] GetByTitleRequest request)
         {
             var showtimes = await _showtimesRepository.GetAsync(l => l.Movie.Title.ToLower().Contains(request.Title.ToLower()));
