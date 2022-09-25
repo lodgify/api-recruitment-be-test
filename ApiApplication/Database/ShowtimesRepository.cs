@@ -70,7 +70,7 @@ namespace ApiApplication.Database
 
         public async Task<IEnumerable<ShowtimeEntity>> GetCollectionAsync()
         {
-            return await GetCollectionAsync(null);
+            return await GetAsync(null);
         }
 
         public async Task<IEnumerable<ShowtimeEntity>> GetCollectionAsync(Func<IQueryable<ShowtimeEntity>, bool> filter)
