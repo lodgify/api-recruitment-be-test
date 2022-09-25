@@ -1,7 +1,12 @@
 ﻿using ApiApplication.Database.Entities;
+using ApiApplication.Extensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace ApiApplication.Database
 {
@@ -13,34 +18,72 @@ namespace ApiApplication.Database
             _context = context;
         }
 
-        public ShowtimeEntity Add(ShowtimeEntity showtimeEntity)
+        public async Task<ShowtimeEntity> GetByIdAsync(int id)
         {
-            throw new System.NotImplementedException();
+            return await _context.Showtimes.Where(l => l.Id == id).Include(l => l.Movie).FirstOrDefaultAsync();
         }
 
-        public ShowtimeEntity Delete(int id)
+        public async Task<ShowtimeEntity> AddAsync(ShowtimeEntity showtimeEntity)
         {
-            throw new System.NotImplementedException();
+            _context.Showtimes.Add(showtimeEntity);
+            await _context.SaveChangesAsync();
+
+            return showtimeEntity;
         }
 
-        public ShowtimeEntity GetByMovie(Func<IQueryable<MovieEntity>, bool> filter)
+        public async Task<ShowtimeEntity> DeleteAsync(int id)
         {
-            throw new System.NotImplementedException();
+            var removable = await _context.Showtimes.Where(l => l.Id == id).FirstOrDefaultAsync();
+
+            _context.Remove(removable);
+            await _context.SaveChangesAsync();
+
+            return removable;
         }
 
-        public IEnumerable<ShowtimeEntity> GetCollection()
+        public async Task<ShowtimeEntity> DeleteAsync(ShowtimeEntity showtimeEntity)
         {
-            return GetCollection(null);
+            _context.Remove(showtimeEntity);
+            await _context.SaveChangesAsync();
+
+            return showtimeEntity;
         }
 
-        public IEnumerable<ShowtimeEntity> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter)
+        public async Task<ShowtimeEntity> GetByMovieAsync(Expression<Func<MovieEntity, bool>> filter)
         {
-            throw new System.NotImplementedException();
+            return await _context
+                .Showtimes
+                .Where(s => 
+                    _context.Showtimes
+                        .Select(l => l.Movie)
+                        .Where(filter)
+                        .Select(m => m.ShowtimeId)
+                        .Contains(s.Id))
+                .Include(l => l.Movie)
+                .FirstOrDefaultAsync();
         }
 
-        public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)
+        public async Task<IEnumerable<ShowtimeEntity>> GetCollectionAsync()
         {
-            throw new System.NotImplementedException();
+            return await GetCollectionAsync(null);
+        }
+
+        public async Task<IEnumerable<ShowtimeEntity>> GetCollectionAsync(Expression<Func<ShowtimeEntity, bool>> filter)
+        {
+            return await _context.Showtimes.Where(filter ?? (l => true)).Include(l => l.Movie).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ShowtimeEntity>> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter)
+        {
+            return await _context.Showtimes.Where(l => filter(l.ToQueryable())).Include(l => l.Movie).ToListAsync();
+        }
+
+        public async Task<ShowtimeEntity> UpdateAsync(ShowtimeEntity showtimeEntity)
+        {
+            _context.Showtimes.Update(showtimeEntity);
+            await _context.SaveChangesAsync();
+
+            return showtimeEntity;
         }
     }
 }
