@@ -23,6 +23,11 @@ namespace ApiApplication.Database
             return await _context.Showtimes.Where(l => l.Id == id).Include(l => l.Movie).FirstOrDefaultAsync();
         }
 
+        public async Task<IEnumerable<ShowtimeEntity>> GetAsync(Expression<Func<ShowtimeEntity, bool>> filter)
+        {
+            return await _context.Showtimes.Where(filter ?? (l => true)).Include(l => l.Movie).ToListAsync();
+        }
+
         public async Task<ShowtimeEntity> AddAsync(ShowtimeEntity showtimeEntity)
         {
             _context.Showtimes.Add(showtimeEntity);
@@ -68,12 +73,7 @@ namespace ApiApplication.Database
             return await GetCollectionAsync(null);
         }
 
-        public async Task<IEnumerable<ShowtimeEntity>> GetCollectionAsync(Expression<Func<ShowtimeEntity, bool>> filter)
-        {
-            return await _context.Showtimes.Where(filter ?? (l => true)).Include(l => l.Movie).ToListAsync();
-        }
-
-        public async Task<IEnumerable<ShowtimeEntity>> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter)
+        public async Task<IEnumerable<ShowtimeEntity>> GetCollectionAsync(Func<IQueryable<ShowtimeEntity>, bool> filter)
         {
             return await _context.Showtimes.Where(l => filter(l.ToQueryable())).Include(l => l.Movie).ToListAsync();
         }

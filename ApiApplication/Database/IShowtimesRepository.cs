@@ -15,7 +15,7 @@ namespace ApiApplication.Database
 
         Task<IEnumerable<ShowtimeEntity>> GetAsync(Expression<Func<ShowtimeEntity, bool>> filter);
 
-        Task<IEnumerable<ShowtimeEntity>> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter);
+        Task<IEnumerable<ShowtimeEntity>> GetCollectionAsync(Func<IQueryable<ShowtimeEntity>, bool> filter);
 
         Task<ShowtimeEntity> GetByMovieAsync(Expression<Func<MovieEntity, bool>> filter);
 
