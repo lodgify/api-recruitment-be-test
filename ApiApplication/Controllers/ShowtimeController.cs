@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ApiApplication.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ApiApplication.Controllers
 {
@@ -56,10 +57,9 @@ namespace ApiApplication.Controllers
 
         [HttpGet]
         [Route("title/{Title}")]
-        [AuthorizedToken(AuthorizedFor.Read)]
+        [AuthorizedToken(AuthorizedFor.Write)]
         public async Task<IActionResult> GetByTitle([FromRoute] GetByTitleRequest request)
         {
-            var x = await _showtimesRepository.GetCollectionAsync(l => l.Any());
             var showtimes = await _showtimesRepository.GetAsync(l => l.Movie.Title.ToLower().Contains(request.Title.ToLower()));
             var response = _mapper.Map<IList<ShowtimeDto>>(showtimes);
 

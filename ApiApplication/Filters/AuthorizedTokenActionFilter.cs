@@ -22,11 +22,11 @@ namespace ApiApplication.Filters
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             var claims = context.HttpContext.User.Claims;
-
+            
             if (claims == null || 
                 !claims.Any() || 
                 !context.HttpContext.User.Identity.IsAuthenticated ||
-                claims.Where(l => l.Value == _allowedClaim.ToString()).Count() == 0)
+                claims.Where(l => l.Type == ClaimTypes.Role && l.Value == _allowedClaim.ToString()).Count() == 0)
             {
                 context.Result = new UnauthorizedResult();
                 return;
