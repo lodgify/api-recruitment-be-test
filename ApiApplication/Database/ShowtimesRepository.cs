@@ -75,7 +75,7 @@ namespace ApiApplication.Database
 
         public async Task<IEnumerable<ShowtimeEntity>> GetCollectionAsync(Func<IQueryable<ShowtimeEntity>, bool> filter)
         {
-            return await _context.Showtimes.Where(l => filter(l.ToQueryable())).Include(l => l.Movie).ToListAsync();
+            throw new NotImplementedException();
         }
 
         public async Task<ShowtimeEntity> UpdateAsync(ShowtimeEntity showtimeEntity)

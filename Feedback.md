@@ -26,7 +26,7 @@ Other feedbaks:
 
 - I changed the ShowtimeRepository methods to async. By defining methods async, we can use await to release the thread until reply comes. It has good performance benefits.
 
-- I changed Func<IQueryable<MovieEntity>, bool> to Expression<Func<MovieEntity, bool>> in ShowtimeRepository. I think passing an expression is more easier to be understood.
+- I changed Func<IQueryable<ShowtimeEntity>, bool> to Expression<Func<ShowtimeEntity, bool>> in ShowtimeRepository. I think passing an expression is more easier to be understood. I couldn't understant why Func<IQueryable<ShowtimeEntity>, bool> passed to filter ShowtimeEntity! It seems it's not correct!
 
 - I didn't include Service layer and directly injected the repositories into the controller considering controller as service layer. In more complex projects its better to define a Service layer between repository and controller to prepare Dtos and do some business rules.
 
