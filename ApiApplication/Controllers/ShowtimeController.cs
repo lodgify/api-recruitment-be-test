@@ -1,6 +1,7 @@
 ﻿using ApiApplication.Models;
 using ApiApplication.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,19 +16,13 @@ namespace ApiApplication.Controllers
         public ShowtimeController(IShowtimeService showtimeService) {
             this.showtimeService= showtimeService;
         }
+
         // GET: api/<ShowtimeController>
         [HttpGet]
-        public IEnumerable<Showtime> Get()
+        public IEnumerable<Showtime> Get(string movie = "", DateTime? date = null)
         {
-            var result = showtimeService.GetAll();
+            var result = showtimeService.GetAll(movie, date);
             return result;
-        }
-
-        // GET api/<ShowtimeController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
         }
 
         // POST api/<ShowtimeController>

@@ -1,8 +1,10 @@
 ﻿using ApiApplication.Database.Entities;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace ApiApplication.Database
 {
@@ -34,11 +36,12 @@ namespace ApiApplication.Database
             return GetCollection(null);
         }
 
-        public IEnumerable<ShowtimeEntity> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter)
+        public IEnumerable<ShowtimeEntity> GetCollection(Func<ShowtimeEntity, bool> filter)
         {
-            var query = _context.Showtimes
-                .Include(s => s.Movie);
-            return query.ToList();
+            return _context.Showtimes
+                .Include(s => s.Movie)
+                .Where(filter)
+                .ToList();
         }
 
         public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)

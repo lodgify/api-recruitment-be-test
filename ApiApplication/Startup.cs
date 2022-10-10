@@ -2,6 +2,7 @@ using ApiApplication.Auth;
 using ApiApplication.Database;
 using ApiApplication.Services;
 using ApiApplication.Services.Implementors;
+using ApiApplication.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,6 +35,11 @@ namespace ApiApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services
+                .AddMvc()
+                .AddJsonOptions(x => {
+                    x.JsonSerializerOptions.PropertyNamingPolicy = new SnakeCaseNamingPolicy();   
+                });
             services.AddDbContext<CinemaContext>(options =>
             {
                 options.UseInMemoryDatabase("CinemaDb")
