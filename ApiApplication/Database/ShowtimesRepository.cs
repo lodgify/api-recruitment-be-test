@@ -1,4 +1,5 @@
 ﻿using ApiApplication.Database.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,9 @@ namespace ApiApplication.Database
 
         public IEnumerable<ShowtimeEntity> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter)
         {
-            throw new System.NotImplementedException();
+            var query = _context.Showtimes
+                .Include(s => s.Movie);
+            return query.ToList();
         }
 
         public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)
