@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ApiApplication
@@ -62,11 +63,13 @@ namespace ApiApplication
             });
             services.AddHostedService<ImdbStatusCheckerService>();
             services.AddAuthorization(options => {
-                options.AddPolicy("ReadOnly", policy => policy.RequireClaim("Read"));
-                options.AddPolicy("Write", policy => policy.RequireClaim("Write"));
+                options.AddPolicy("ReadOnly", policy => policy.RequireClaim(claimType: ClaimTypes.Role, "Read"));
+                options.AddPolicy("Write", policy => policy.RequireClaim(claimType: ClaimTypes.Role, "Write"));
                 }
             );
-            services.AddControllers();
+            services.AddControllers(config => {
+                config.Filters.Add(new ExecutionTrackingFilter());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
