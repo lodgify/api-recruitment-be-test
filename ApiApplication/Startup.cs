@@ -60,8 +60,12 @@ namespace ApiApplication
                 options.RequireAuthenticatedSignIn = true;                
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
-
             services.AddHostedService<ImdbStatusCheckerService>();
+            services.AddAuthorization(options => {
+                options.AddPolicy("ReadOnly", policy => policy.RequireClaim("Read"));
+                options.AddPolicy("Write", policy => policy.RequireClaim("Write"));
+                }
+            );
             services.AddControllers();
         }
 

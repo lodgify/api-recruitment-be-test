@@ -1,5 +1,8 @@
-﻿using ApiApplication.Models;
+﻿using ApiApplication.Auth;
+using ApiApplication.Models;
 using ApiApplication.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,16 +13,18 @@ using System.Threading.Tasks;
 namespace ApiApplication.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme)]
     [ApiController]
     public class ShowtimeController : ControllerBase
     {
         public readonly IShowtimeService showtimeService;
         public ShowtimeController(IShowtimeService showtimeService) {
-            this.showtimeService= showtimeService;
+            this.showtimeService = showtimeService;
         }
 
         // GET: api/<ShowtimeController>
         [HttpGet]
+        [Authorize(Policy = "ReadOnly")]
         public IEnumerable<Showtime> Get(string movie = "", DateTime? date = null)
         {
             var result = showtimeService.GetAll(movie, date);
@@ -28,6 +33,7 @@ namespace ApiApplication.Controllers
 
         // POST api/<ShowtimeController>
         [HttpPost]
+        [Authorize(Policy = "Write")]
         public async Task<IActionResult> Post([FromBody] Showtime showtime)
         {
             var result = await showtimeService.Create(showtime);
@@ -36,6 +42,7 @@ namespace ApiApplication.Controllers
 
         // PUT api/<ShowtimeController>/5
         [HttpPut]
+        [Authorize(Policy = "Write")]
         public async Task<IActionResult> Put([FromBody] Showtime showtime)
         {
             var result = await showtimeService.Update(showtime);
@@ -45,6 +52,7 @@ namespace ApiApplication.Controllers
 
         // DELETE api/<ShowtimeController>/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "Write")]
         public IActionResult Delete(int id)
         {
             var result = showtimeService.Delete(id);
@@ -53,6 +61,7 @@ namespace ApiApplication.Controllers
         }
 
         [HttpPatch]
+        [Authorize(Policy = "Write")]
         public IActionResult Patch() 
         {
             return StatusCode(500);
