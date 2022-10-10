@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -18,7 +19,9 @@ namespace ApiApplication.Database
 
         public ShowtimeEntity Add(ShowtimeEntity showtimeEntity)
         {
-            throw new System.NotImplementedException();
+            var newEntry = _context.Showtimes.Add(showtimeEntity);
+            var id =_context.SaveChanges();
+            return GetCollection(s => s.Id == newEntry.Entity.Id).FirstOrDefault();
         }
 
         public ShowtimeEntity Delete(int id)
@@ -46,7 +49,16 @@ namespace ApiApplication.Database
 
         public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)
         {
-            throw new System.NotImplementedException();
+            var trackedEntity = _context.Showtimes.Find(showtimeEntity.Id);
+            trackedEntity.Schedule = showtimeEntity.Schedule;
+            trackedEntity.StartDate = showtimeEntity.StartDate;
+            trackedEntity.EndDate = showtimeEntity.EndDate;
+            trackedEntity.AuditoriumId = showtimeEntity.AuditoriumId;
+            if (showtimeEntity.Movie != null)
+                trackedEntity.Movie = showtimeEntity.Movie;
+            var id = _context.SaveChanges();
+            return trackedEntity;
         }
+
     }
 }

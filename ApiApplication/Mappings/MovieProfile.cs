@@ -9,6 +9,8 @@ namespace ApiApplication.Mappings
         public MovieProfile() {
             CreateMap<MovieEntity, Movie>()
                 .ReverseMap();
+            CreateMap<Movie, ImdbService.Models.Movie>()
+                .ReverseMap();
         }
     }
 }

@@ -1,5 +1,7 @@
 using ApiApplication.Auth;
 using ApiApplication.Database;
+using ApiApplication.ImdbService.Service;
+using ApiApplication.ImdbService.Service.Implementors;
 using ApiApplication.Services;
 using ApiApplication.Services.Implementors;
 using ApiApplication.Utils;
@@ -47,6 +49,7 @@ namespace ApiApplication
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));                
             });
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
+            services.AddTransient<IImdbService, ImdbService.Service.Implementors.ImdbService>();
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
             services.AddAuthentication(options =>
             {
