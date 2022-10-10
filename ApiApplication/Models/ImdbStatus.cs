@@ -4,7 +4,7 @@ namespace ApiApplication.Models
 {
     public class ImdbStatus
     {
-        public int Up { get; set; }
+        public bool Up { get; set; }
         public DateTime LastCall  { get; set; }
     }
 }

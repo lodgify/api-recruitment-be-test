@@ -26,7 +26,10 @@ namespace ApiApplication.Database
 
         public ShowtimeEntity Delete(int id)
         {
-            throw new System.NotImplementedException();
+            var entityToDelete = _context.Showtimes.Find(id);
+            _context.Showtimes.Remove(entityToDelete);
+            _context.SaveChanges();
+            return entityToDelete;
         }
 
         public ShowtimeEntity GetByMovie(Func<IQueryable<MovieEntity>, bool> filter)

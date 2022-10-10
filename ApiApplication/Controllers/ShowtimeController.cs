@@ -39,13 +39,23 @@ namespace ApiApplication.Controllers
         public async Task<IActionResult> Put([FromBody] Showtime showtime)
         {
             var result = await showtimeService.Update(showtime);
+            if (result == null) return NotFound();
             return StatusCode(202, result);
         }
 
         // DELETE api/<ShowtimeController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var result = showtimeService.Delete(id);
+            if (result == null) return NotFound();
+            return StatusCode(202, result);
+        }
+
+        [HttpPatch]
+        public IActionResult Patch() 
+        {
+            return StatusCode(500);
         }
     }
 }

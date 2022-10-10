@@ -29,6 +29,12 @@ namespace ApiApplication.Services.Implementors
             return mapper.Map<Showtime>(persitedEntity);
         }
 
+        public Showtime Delete(int id)
+        {
+            var deletedEntity = showtimesRepository.Delete(id);
+            return mapper.Map<Showtime>(deletedEntity);
+        }
+
         public List<Showtime> GetAll(string movieName, DateTime? date)
         {
             Func<ShowtimeEntity, bool> filter = (entity) =>

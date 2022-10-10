@@ -50,7 +50,10 @@ namespace ApiApplication
             });
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
             services.AddTransient<IImdbService, ImdbService.Service.Implementors.ImdbService>();
+            services.AddTransient<IShowtimeService, ShowtimeService>();
+            services.AddTransient<IImdbApiStatusService, ImdbApiStatusService>();
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
+            services.AddSingleton<IImdbApiStatusService, ImdbApiStatusService>();
             services.AddAuthentication(options =>
             {
                 options.AddScheme<CustomAuthenticationHandler>(CustomAuthenticationSchemeOptions.AuthenticationScheme, CustomAuthenticationSchemeOptions.AuthenticationScheme);
@@ -58,8 +61,7 @@ namespace ApiApplication
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
 
-            services.AddTransient<IShowtimeService, ShowtimeService>();
-
+            services.AddHostedService<ImdbStatusCheckerService>();
             services.AddControllers();
         }
 
@@ -70,9 +72,7 @@ namespace ApiApplication
             {
                 app.UseDeveloperExceptionPage();                
             }
-
             app.UseHttpsRedirection();
-
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
