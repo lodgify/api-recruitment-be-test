@@ -63,7 +63,7 @@ namespace ApiApplication.Controllers
         [Authorize(Policy = "Write")]
         public IActionResult Patch() 
         {
-            return StatusCode(500);
+            throw new Exception(); // unhandled exception
         }
     }
 }

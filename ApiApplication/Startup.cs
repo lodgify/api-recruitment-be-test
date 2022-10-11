@@ -69,6 +69,7 @@ namespace ApiApplication
             );
             services.AddControllers(config => {
                 config.Filters.Add(new ExecutionTrackingFilter());
+                config.Filters.Add(new HttpResponseExceptionFilter());
             });
         }
 
