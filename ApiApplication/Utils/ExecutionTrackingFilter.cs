@@ -9,24 +9,29 @@ namespace ApiApplication.Utils
     public class ExecutionTrackingFilter : IActionFilter
     {
         private Stopwatch stopWatch = new Stopwatch();
-        
-        public void OnActionExecuted(ActionExecutedContext context)
+
+        public void OnActionExecuting(ActionExecutingContext context)
         {
             stopWatch.Reset();
             stopWatch.Start();
         }
 
-        public void OnActionExecuting(ActionExecutingContext context)
+        public void OnActionExecuted(ActionExecutedContext context)
+        {
+            stopWatch.Stop();
+            var executionTime = stopWatch.ElapsedMilliseconds;
+            Log(context, executionTime);
+         }
+            
+        private void Log(ActionExecutedContext context, long timeMeasurement) 
         {
             var svc = context.HttpContext.RequestServices;
             var logger = svc.GetService<ILogger<ExecutionTrackingFilter>>();
-            stopWatch.Stop();
             var controllerName = ((ControllerBase)context.Controller)
                .ControllerContext.ActionDescriptor.ControllerName;
             var actionName = ((ControllerBase)context.Controller)
                .ControllerContext.ActionDescriptor.ActionName;
-            var executionTime = stopWatch.ElapsedMilliseconds;
-            logger.LogInformation($"Action [{actionName}] at Controller [{controllerName}]  -> execution lasted {executionTime} ms.");
+            logger.LogInformation($"Action [{actionName}] at Controller [{controllerName}]  -> execution lasted {timeMeasurement} ms.");
         }
     }
 }

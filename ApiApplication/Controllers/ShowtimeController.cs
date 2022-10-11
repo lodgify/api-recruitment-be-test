@@ -1,7 +1,6 @@
 ﻿using ApiApplication.Auth;
 using ApiApplication.Models;
 using ApiApplication.Services;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -40,7 +39,7 @@ namespace ApiApplication.Controllers
              return StatusCode(201, result); 
         }
 
-        // PUT api/<ShowtimeController>/5
+        // PUT api/<ShowtimeController>
         [HttpPut]
         [Authorize(Policy = "Write")]
         public async Task<IActionResult> Put([FromBody] Showtime showtime)
