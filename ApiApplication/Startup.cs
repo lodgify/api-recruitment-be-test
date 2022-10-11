@@ -4,6 +4,7 @@ using ApiApplication.ImdbService.Service;
 using ApiApplication.Services;
 using ApiApplication.Services.Implementors;
 using ApiApplication.Utils;
+using IMDbApiLib;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,8 @@ namespace ApiApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var imdbApiKey = Configuration.GetValue<string>("ImdbApi:ApiKey");
+            
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services
                 .AddMvc()
@@ -46,6 +49,7 @@ namespace ApiApplication
             services.AddTransient<IImdbApiStatusService, ImdbApiStatusService>();
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
             services.AddSingleton<IImdbApiStatusService, ImdbApiStatusService>();
+            services.AddSingleton(new ApiLib(imdbApiKey));
             services.AddAuthentication(options =>
             {
                 options.AddScheme<CustomAuthenticationHandler>(CustomAuthenticationSchemeOptions.AuthenticationScheme, CustomAuthenticationSchemeOptions.AuthenticationScheme);

@@ -9,9 +9,9 @@ namespace ApiApplication.ImdbService.Service.Implementors
     public class ImdbService : IImdbService
     {
         private ApiLib imdbApiLib;
-        public ImdbService() 
+        public ImdbService(ApiLib apiLib) 
         {
-            imdbApiLib = new ApiLib("k_sq2cg78c"); // TODO: store better this & inject this dependency
+            imdbApiLib = apiLib;
         }
 
         public async Task<Movie> FetchMovieInformation(string imdbId)
