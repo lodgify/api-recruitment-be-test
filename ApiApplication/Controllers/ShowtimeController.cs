@@ -23,11 +23,11 @@ namespace ApiApplication.Controllers
 
         // GET: api/<ShowtimeController>
         [HttpGet]
-        [Authorize(Policy = "ReadOnly")]
-        public IEnumerable<Showtime> Get(string movie = "", DateTime? date = null)
+        [Authorize(Policy = "Read")]
+        public IActionResult Get(string movie = "", DateTime? date = null)
         {
             var result = showtimeService.GetAll(movie, date);
-            return result;
+            return Ok(result);
         }
 
         // POST api/<ShowtimeController>
@@ -36,7 +36,7 @@ namespace ApiApplication.Controllers
         public async Task<IActionResult> Post([FromBody] Showtime showtime)
         {
             var result = await showtimeService.Create(showtime);
-             return StatusCode(201, result); 
+            return StatusCode(201, result); 
         }
 
         // PUT api/<ShowtimeController>
@@ -63,7 +63,7 @@ namespace ApiApplication.Controllers
         [Authorize(Policy = "Write")]
         public IActionResult Patch() 
         {
-            throw new Exception(); // unhandled exception
+            throw new Exception();
         }
     }
 }

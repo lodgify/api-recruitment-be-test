@@ -1,2 +1,68 @@
 Please add the cURLs of your tests here:
 
+// get all the showtimes
+curl --location --request GET 'https://localhost:7629/api/showtime' \
+--header 'ApiKey: MTIzNHxSZWFk'
+
+// get showtimes by movie
+curl --location --request GET 'https://localhost:7629/api/showtime?Movie=Inception' \
+--header 'ApiKey: MTIzNHxSZWFk'
+
+// get showtimes by date
+curl --location --request GET 'https://localhost:7629/api/showtime?Date=2022-01-01T00:00:00' \
+--header 'ApiKey: MTIzNHxSZWFk'
+
+// get showtimes by date and movie
+curl --location --request GET 'https://localhost:7629/api/showtime?Movie=Inception&Date=2022-01-01T00:00:00' \
+--header 'ApiKey: MTIzNHxSZWFk'
+
+// create a showtime
+curl --location --request POST 'https://localhost:7629/api/showtime' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ==' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+        "start_date": "0001-01-01T00:00:00",
+        "end_date": "2022-04-01T00:00:00",
+        "schedule": "16:00,17:00,18:00,18:30,19:00,22:00",
+        "auditorium_id": 1,
+        "movie": {
+            "imdb_id": "tt1375669"
+        }
+    }'
+
+// update a showtime, using a movie id.
+curl --location --request PUT 'https://localhost:7629/api/showtime' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ==' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+        "id": 1,
+        "start_date": "0001-01-01T00:00:00",
+        "end_date": "2022-04-01T00:00:00",
+        "schedule": "16:00,17:00,18:00,18:30,19:00,22:00",
+        "auditorium_id": 3,
+        "movie": {
+            "imdb_id": "tt1375999"
+        }
+    }'
+
+// update a showtime just changing the auditorium id, movie = null case
+
+curl --location --request PUT 'https://localhost:7629/api/showtime' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ==' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+        "id": 1,
+        "start_date": "0001-01-01T00:00:00",
+        "end_date": "2022-04-01T00:00:00",
+        "schedule": "16:00,17:00,18:00,18:30,19:00,22:00",
+        "auditorium_id": 3,
+        "movie": null
+    }'
+
+// delete a showtime
+curl --location --request DELETE 'https://localhost:7629/api/showtime/1' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ=='
+
+// get imdb api status (if i understood correctly this one shouldnt have the auth specs)
+curl --location --request GET 'https://localhost:7629/api/Status'
+

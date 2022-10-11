@@ -1,27 +1,18 @@
 using ApiApplication.Auth;
 using ApiApplication.Database;
 using ApiApplication.ImdbService.Service;
-using ApiApplication.ImdbService.Service.Implementors;
 using ApiApplication.Services;
 using ApiApplication.Services.Implementors;
 using ApiApplication.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace ApiApplication
 {
@@ -63,7 +54,7 @@ namespace ApiApplication
             });
             services.AddHostedService<ImdbStatusCheckerService>();
             services.AddAuthorization(options => {
-                options.AddPolicy("ReadOnly", policy => policy.RequireClaim(claimType: ClaimTypes.Role, "Read"));
+                options.AddPolicy("Read", policy => policy.RequireClaim(claimType: ClaimTypes.Role, "Read"));
                 options.AddPolicy("Write", policy => policy.RequireClaim(claimType: ClaimTypes.Role, "Write"));
                 }
             );

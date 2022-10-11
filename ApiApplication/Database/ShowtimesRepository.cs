@@ -20,15 +20,20 @@ namespace ApiApplication.Database
         public ShowtimeEntity Add(ShowtimeEntity showtimeEntity)
         {
             var newEntry = _context.Showtimes.Add(showtimeEntity);
-            var id =_context.SaveChanges();
+            var id = _context.SaveChanges();
             return GetCollection(s => s.Id == newEntry.Entity.Id).FirstOrDefault();
         }
 
         public ShowtimeEntity Delete(int id)
         {
-            var entityToDelete = _context.Showtimes.Find(id);
-            _context.Showtimes.Remove(entityToDelete);
-            _context.SaveChanges();
+            var entityToDelete = _context.Showtimes
+                .Include(s => s.Movie)
+                .FirstOrDefault(s => s.Id == id);
+            if(entityToDelete != null) 
+            {
+                _context.Showtimes.Remove(entityToDelete);
+                _context.SaveChanges();
+            }
             return entityToDelete;
         }
 
@@ -52,14 +57,20 @@ namespace ApiApplication.Database
 
         public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)
         {
-            var trackedEntity = _context.Showtimes.Find(showtimeEntity.Id);
-            trackedEntity.Schedule = showtimeEntity.Schedule;
-            trackedEntity.StartDate = showtimeEntity.StartDate;
-            trackedEntity.EndDate = showtimeEntity.EndDate;
-            trackedEntity.AuditoriumId = showtimeEntity.AuditoriumId;
-            if (showtimeEntity.Movie != null)
-                trackedEntity.Movie = showtimeEntity.Movie;
-            var id = _context.SaveChanges();
+            var trackedEntity = _context.Showtimes
+                .Include(s => s.Movie).FirstOrDefault(s => s.Id == showtimeEntity.Id);
+            if(trackedEntity != null)
+            { 
+                trackedEntity.Schedule = showtimeEntity.Schedule;
+                trackedEntity.StartDate = showtimeEntity.StartDate;
+                trackedEntity.EndDate = showtimeEntity.EndDate;
+                trackedEntity.AuditoriumId = showtimeEntity.AuditoriumId;
+                if (showtimeEntity.Movie != null)
+                {
+                    trackedEntity.Movie = showtimeEntity.Movie;
+                }
+            }
+            _context.SaveChanges();
             return trackedEntity;
         }
 
