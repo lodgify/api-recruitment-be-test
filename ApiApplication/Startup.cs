@@ -30,18 +30,19 @@ namespace ApiApplication
         public void ConfigureServices(IServiceCollection services)
         {
             var imdbApiKey = Configuration.GetValue<string>("ImdbApi:ApiKey");
-            
+
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services
                 .AddMvc()
-                .AddJsonOptions(x => {
-                    x.JsonSerializerOptions.PropertyNamingPolicy = new SnakeCaseNamingPolicy();   
+                .AddJsonOptions(x =>
+                {
+                    x.JsonSerializerOptions.PropertyNamingPolicy = new SnakeCaseNamingPolicy();
                 });
             services.AddDbContext<CinemaContext>(options =>
             {
                 options.UseInMemoryDatabase("CinemaDb")
                     .EnableSensitiveDataLogging()
-                    .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));                
+                    .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
             services.AddTransient<IImdbService, ImdbService.Service.Implementors.ImdbService>();
@@ -53,16 +54,18 @@ namespace ApiApplication
             services.AddAuthentication(options =>
             {
                 options.AddScheme<CustomAuthenticationHandler>(CustomAuthenticationSchemeOptions.AuthenticationScheme, CustomAuthenticationSchemeOptions.AuthenticationScheme);
-                options.RequireAuthenticatedSignIn = true;                
+                options.RequireAuthenticatedSignIn = true;
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
-            services.AddHostedService<ImdbStatusCheckerService>();
-            services.AddAuthorization(options => {
+            services.AddAuthorization(options =>
+            {
                 options.AddPolicy("Read", policy => policy.RequireClaim(claimType: ClaimTypes.Role, "Read"));
                 options.AddPolicy("Write", policy => policy.RequireClaim(claimType: ClaimTypes.Role, "Write"));
-                }
+            }
             );
-            services.AddControllers(config => {
+            services.AddHostedService<ImdbStatusCheckerService>();
+            services.AddControllers(config =>
+            {
                 config.Filters.Add(new ExecutionTrackingFilter());
                 config.Filters.Add(new HttpResponseExceptionFilter());
             });
@@ -73,7 +76,7 @@ namespace ApiApplication
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();                
+                app.UseDeveloperExceptionPage();
             }
             app.UseHttpsRedirection();
             app.UseRouting();
@@ -86,6 +89,6 @@ namespace ApiApplication
             });
 
             SampleData.Initialize(app);
-        }      
+        }
     }
 }

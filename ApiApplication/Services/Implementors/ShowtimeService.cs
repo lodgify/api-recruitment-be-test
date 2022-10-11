@@ -14,11 +14,15 @@ namespace ApiApplication.Services.Implementors
         private readonly IShowtimesRepository showtimesRepository;
         private readonly IMapper mapper;
         private readonly IImdbService imdbService;
-        
 
-        public ShowtimeService(IMapper mapper, IShowtimesRepository showtimesRepository, IImdbService imdbService) {
+
+        public ShowtimeService(
+            IMapper mapper,
+            IShowtimesRepository showtimesRepository,
+            IImdbService imdbService)
+        {
             this.mapper = mapper;
-            this.showtimesRepository = showtimesRepository; 
+            this.showtimesRepository = showtimesRepository;
             this.imdbService = imdbService;
         }
 
@@ -53,7 +57,8 @@ namespace ApiApplication.Services.Implementors
 
         public async Task<Showtime> Update(Showtime showtime)
         {
-            if (showtime.Movie != null) {
+            if (showtime.Movie != null)
+            {
                 showtime.Movie = await ObtainMovieInfo(showtime.Movie.ImdbId);
             }
             var persitedEntity = showtimesRepository.Update(mapper.Map<ShowtimeEntity>(showtime));
@@ -61,7 +66,8 @@ namespace ApiApplication.Services.Implementors
 
         }
 
-        private async Task<Movie> ObtainMovieInfo(string ImdbId) {
+        private async Task<Movie> ObtainMovieInfo(string ImdbId)
+        {
             var movieData = await imdbService.FetchMovieInformation(ImdbId);
             return mapper.Map<Movie>(movieData);
         }

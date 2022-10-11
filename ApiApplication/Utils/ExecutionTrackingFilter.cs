@@ -21,9 +21,9 @@ namespace ApiApplication.Utils
             stopWatch.Stop();
             var executionTime = stopWatch.ElapsedMilliseconds;
             Log(context, executionTime);
-         }
-            
-        private void Log(ActionExecutedContext context, long timeMeasurement) 
+        }
+
+        private void Log(ActionExecutedContext context, long timeMeasurement)
         {
             var svc = context.HttpContext.RequestServices;
             var logger = svc.GetService<ILogger<ExecutionTrackingFilter>>();

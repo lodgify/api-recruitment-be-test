@@ -6,7 +6,8 @@ namespace ApiApplication.Mappings
 {
     public class MovieProfile : Profile
     {
-        public MovieProfile() {
+        public MovieProfile()
+        {
             CreateMap<MovieEntity, Movie>()
                 .ReverseMap();
             CreateMap<Movie, ImdbService.Models.Movie>()

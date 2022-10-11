@@ -9,7 +9,7 @@ namespace ApiApplication.ImdbService.Service.Implementors
     public class ImdbService : IImdbService
     {
         private ApiLib imdbApiLib;
-        public ImdbService(ApiLib apiLib) 
+        public ImdbService(ApiLib apiLib)
         {
             imdbApiLib = apiLib;
         }
@@ -17,7 +17,8 @@ namespace ApiApplication.ImdbService.Service.Implementors
         public async Task<Movie> FetchMovieInformation(string imdbId)
         {
             var result = await imdbApiLib.TitleAsync(imdbId);
-            Movie movieData = new Movie() {
+            Movie movieData = new Movie()
+            {
                 ImdbId = imdbId,
                 Title = result.Title,
                 ReleaseDate = Convert.ToDateTime(result.ReleaseDate),

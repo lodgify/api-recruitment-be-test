@@ -13,7 +13,8 @@ namespace ApiApplication
     {
         private readonly IImdbService imdbService;
         private readonly IImdbApiStatusService imdbApiStatusService;
-        public ImdbStatusCheckerService(IImdbService imdbService, IImdbApiStatusService imdbApiStatusService) {
+        public ImdbStatusCheckerService(IImdbService imdbService, IImdbApiStatusService imdbApiStatusService)
+        {
             this.imdbService = imdbService;
             this.imdbApiStatusService = imdbApiStatusService;
         }

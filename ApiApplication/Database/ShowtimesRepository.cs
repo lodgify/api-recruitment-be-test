@@ -1,11 +1,8 @@
 ﻿using ApiApplication.Database.Entities;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace ApiApplication.Database
 {
@@ -29,7 +26,7 @@ namespace ApiApplication.Database
             var entityToDelete = _context.Showtimes
                 .Include(s => s.Movie)
                 .FirstOrDefault(s => s.Id == id);
-            if(entityToDelete != null) 
+            if (entityToDelete != null)
             {
                 _context.Showtimes.Remove(entityToDelete);
                 _context.SaveChanges();
@@ -59,8 +56,8 @@ namespace ApiApplication.Database
         {
             var trackedEntity = _context.Showtimes
                 .Include(s => s.Movie).FirstOrDefault(s => s.Id == showtimeEntity.Id);
-            if(trackedEntity != null)
-            { 
+            if (trackedEntity != null)
+            {
                 trackedEntity.Schedule = showtimeEntity.Schedule;
                 trackedEntity.StartDate = showtimeEntity.StartDate;
                 trackedEntity.EndDate = showtimeEntity.EndDate;

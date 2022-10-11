@@ -7,8 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace ApiApplication.Controllers
 {
     [Route("api/[controller]")]
@@ -17,7 +15,8 @@ namespace ApiApplication.Controllers
     public class ShowtimeController : ControllerBase
     {
         public readonly IShowtimeService showtimeService;
-        public ShowtimeController(IShowtimeService showtimeService) {
+        public ShowtimeController(IShowtimeService showtimeService)
+        {
             this.showtimeService = showtimeService;
         }
 
@@ -36,7 +35,7 @@ namespace ApiApplication.Controllers
         public async Task<IActionResult> Post([FromBody] Showtime showtime)
         {
             var result = await showtimeService.Create(showtime);
-            return StatusCode(201, result); 
+            return StatusCode(201, result);
         }
 
         // PUT api/<ShowtimeController>
@@ -61,7 +60,7 @@ namespace ApiApplication.Controllers
 
         [HttpPatch]
         [Authorize(Policy = "Write")]
-        public IActionResult Patch() 
+        public IActionResult Patch()
         {
             throw new Exception();
         }
