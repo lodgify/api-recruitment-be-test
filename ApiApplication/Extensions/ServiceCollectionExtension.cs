@@ -8,6 +8,7 @@ using ApiApplication.Database.Entities;
 using ApiApplication.DTO;
 using ApiApplication.HostedServices;
 using ApiApplication.Services;
+using ApiApplication.Services.Validatores;
 using ApiApplication.Utils;
 
 using AutoMapper;
@@ -19,6 +20,7 @@ namespace ApiApplication.Extensions {
         public static IServiceCollection AddCinema(this IServiceCollection services) {
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>()
                     .AddTransient<IShowTimeService, ShowTimeService>()
+                    .AddTransient<IShowTimeValidatore, ShowTimeValidator>()
                     .AddSingleton<IImdbService, ImdbService>()
                     .AddTransient<IUnitOfWork, UnitOfWork>()
                     .AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();

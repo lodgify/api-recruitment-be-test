@@ -22,6 +22,9 @@ namespace ApiApplication.Database {
             return entity.Entity;
         }
 
+        public bool AuditoriumExists(int id) =>
+            _context.Auditoriums.Any(a => a.Id == id);
+
         public async Task<ShowtimeEntity> DeleteAsync(int id) {
             ShowtimeEntity entity = await _context.Showtimes.FirstOrDefaultAsync(s => s.Id == id);
             if (entity != null)

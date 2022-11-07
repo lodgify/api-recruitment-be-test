@@ -15,5 +15,6 @@ namespace ApiApplication.Database {
         Task<ShowtimeEntity> AddAsync(ShowtimeEntity showtimeEntity);
         ShowtimeEntity Update(ShowtimeEntity showtimeEntity);
         Task<ShowtimeEntity> DeleteAsync(int id);
+        bool AuditoriumExists(int id);
     }
 }

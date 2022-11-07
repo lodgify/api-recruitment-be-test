@@ -8,26 +8,34 @@ using ApiApplication.Database.Entities;
 using ApiApplication.DTO;
 using ApiApplication.DTO.Queries;
 using ApiApplication.Models;
+using ApiApplication.Services.Validatores;
 using ApiApplication.Utils;
 
 namespace ApiApplication.Services {
     public class ShowTimeService : IShowTimeService {
         private readonly IImdbService _imdbService;
         private readonly IShowtimesRepository _showtimesRepository;
+        private readonly IShowTimeValidatore _showTimeValidatore;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IObjectMapper _mapper;
 
         public ShowTimeService(IImdbService imdbService,
                                IShowtimesRepository showtimesRepository,
+                               IShowTimeValidatore showTimeValidatore,
                                IUnitOfWork unitOfWork,
                                IObjectMapper mapper) {
             _imdbService = imdbService;
             _showtimesRepository = showtimesRepository;
+            _showTimeValidatore = showTimeValidatore;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public async Task<Result<ShowTime>> AddAsync(ShowTime item) {
+            Result<ShowTime> validationResult = _showTimeValidatore.ValidateAdd(item);
+            if (!validationResult.Success)
+                return validationResult;
+
             Result getMovieInfoResult = await FillMovieInfo(item);
             if (!getMovieInfoResult.Success)
                 return new Result<ShowTime>(getMovieInfoResult.Code, getMovieInfoResult.Message);
@@ -61,8 +69,11 @@ namespace ApiApplication.Services {
         }
 
         public async Task<Result<ShowTime>> UpdateAsync(ShowTime item) {
-            if (item.Id == 0)
-                return new Result<ShowTime>(ResultCode.BadRequest, "Please set id");
+            
+
+            Result<ShowTime> validationResult = _showTimeValidatore.ValidateUpdate(item);
+            if (!validationResult.Success)
+                return validationResult;
 
             Result getMovieInfoResult = await FillMovieInfo(item);
             if (!getMovieInfoResult.Success)
@@ -77,9 +88,6 @@ namespace ApiApplication.Services {
 
         #region private Methods
         private async Task<Result> FillMovieInfo(ShowTime item) {
-            if (string.IsNullOrWhiteSpace(item.Movie?.ImdbId))
-                return new Result(ResultCode.BadRequest, "Imdb Id cann't be empty");
-
             Result<ImdbMovie> movieInfo = await _imdbService.GetAsync(item.Movie.ImdbId);
             if (!movieInfo.Success)
                 return new Result(movieInfo.Code, movieInfo.Message);
