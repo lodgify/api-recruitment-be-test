@@ -7,13 +7,16 @@ using ApiApplication.Database;
 using ApiApplication.Database.Entities;
 using ApiApplication.DTO;
 using ApiApplication.HostedServices;
+using ApiApplication.Infra;
 using ApiApplication.Services;
 using ApiApplication.Services.Validatores;
 using ApiApplication.Utils;
 
 using AutoMapper;
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace ApiApplication.Extensions {
     public static class ServiceCollectionExtension {
@@ -23,7 +26,8 @@ namespace ApiApplication.Extensions {
                     .AddTransient<IShowTimeValidatore, ShowTimeValidator>()
                     .AddSingleton<IImdbService, ImdbService>()
                     .AddTransient<IUnitOfWork, UnitOfWork>()
-                    .AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
+                    .AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>()
+                    .AddTransient<IConfigureOptions<MvcOptions>, ResultFormatterSetup>();
 
             MapperConfiguration config = new MapperConfiguration(ConfigDataModels);
             IMapper mapper = config.CreateMapper();
