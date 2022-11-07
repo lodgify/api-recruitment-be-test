@@ -3,7 +3,6 @@ using System.Text.Json;
 using ApiApplication.Auth;
 using ApiApplication.Database;
 using ApiApplication.Extensions;
-using ApiApplication.Infra;
 using ApiApplication.Models;
 using ApiApplication.Models.Configurations;
 
@@ -13,14 +12,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace ApiApplication {
     public class Startup {
@@ -37,8 +34,6 @@ namespace ApiApplication {
                     .EnableSensitiveDataLogging()
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
-            //services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
-            //services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
 
             services.AddCinema()
                     .AddImdbStatusChecker();
