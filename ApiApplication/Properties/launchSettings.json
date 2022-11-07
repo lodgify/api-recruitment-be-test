@@ -1,18 +1,11 @@
 {
-  "$schema": "http://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true
-  },
   "profiles": {
     "ApiApplication": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "showtime",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:7629;http://localhost:7628"
+      "applicationUrl": "http://localhost:7628"
     },
     "Docker": {
       "commandName": "Docker",
@@ -21,5 +14,10 @@
       "publishAllPorts": true,
       "useSSL": true
     }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true
   }
 }
