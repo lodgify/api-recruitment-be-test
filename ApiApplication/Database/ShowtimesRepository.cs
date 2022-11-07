@@ -33,6 +33,11 @@ namespace ApiApplication.Database {
             throw new NotImplementedException();
         }
 
+        public ShowtimeEntity GetByMovie(Func<MovieEntity, bool> filter) {
+            return _context.Showtimes.Include(s => s.Movie)
+                                     .FirstOrDefault(s => filter(s.Movie));
+        }
+
         public IEnumerable<ShowtimeEntity> GetCollection() {
             return GetCollection(null);
         }
