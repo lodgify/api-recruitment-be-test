@@ -1,5 +1,8 @@
 using ApiApplication.Auth;
 using ApiApplication.Database;
+using ApiApplication.Database.Entities;
+using ApiApplication.Dtos;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,16 +37,33 @@ namespace ApiApplication
             {
                 options.UseInMemoryDatabase("CinemaDb")
                     .EnableSensitiveDataLogging()
-                    .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));                
+                    .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
             services.AddAuthentication(options =>
             {
                 options.AddScheme<CustomAuthenticationHandler>(CustomAuthenticationSchemeOptions.AuthenticationScheme, CustomAuthenticationSchemeOptions.AuthenticationScheme);
-                options.RequireAuthenticatedSignIn = true;                
+                options.RequireAuthenticatedSignIn = true;
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
+
+            var mapperConfig = new MapperConfiguration(config =>
+            {
+                config.CreateMap<ShowtimeEntity, ShowTimeDTO>().ReverseMap();
+
+                config.CreateMap<MovieEntity, MovieDTO>().ReverseMap();
+
+            });
+
+            var mapper = mapperConfig.CreateMapper();
+            services.AddSingleton<IMapper>(mapper);
+
+            services.AddHttpClient("IMDBClient", config =>
+            {
+                config.BaseAddress = new Uri(Configuration.GetValue<string>("IMDBBaseURL"));
+            });
+
             services.AddControllers();
         }
 
@@ -52,7 +72,7 @@ namespace ApiApplication
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();                
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();
@@ -67,6 +87,8 @@ namespace ApiApplication
             });
 
             SampleData.Initialize(app);
-        }      
+        }
+
+
     }
 }

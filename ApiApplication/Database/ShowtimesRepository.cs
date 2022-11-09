@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiApplication.Database
 {
@@ -15,7 +17,11 @@ namespace ApiApplication.Database
 
         public ShowtimeEntity Add(ShowtimeEntity showtimeEntity)
         {
-            throw new System.NotImplementedException();
+            _context.Showtimes.Add(showtimeEntity);
+
+            int id = _context.SaveChanges();
+
+            return _context.Showtimes.Find(id);
         }
 
         public ShowtimeEntity Delete(int id)
@@ -33,14 +39,33 @@ namespace ApiApplication.Database
             return GetCollection(null);
         }
 
-        public IEnumerable<ShowtimeEntity> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter)
+        //public IEnumerable<ShowtimeEntity> GetCollection(Func<IQueryable<ShowtimeEntity>, IQueryable<ShowtimeEntity>> filter)
+        //{
+        //    var query = filter != null ? filter(_context.Showtimes) : _context.Showtimes;
+
+        //    return query.AsEnumerable();
+
+        //}
+
+        public IEnumerable<ShowtimeEntity> GetCollection(Expression<Func<ShowtimeEntity, bool>> filter)
         {
-            throw new System.NotImplementedException();
+            var r = filter != null ? _context.
+                Showtimes
+                .Include(x => x.Movie)
+                .Where(filter)
+                .AsEnumerable()
+                : _context.Showtimes;
+
+            return r;
         }
+
+
 
         public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)
         {
             throw new System.NotImplementedException();
         }
+
+
     }
 }
