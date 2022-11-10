@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ApiApplication.Dtos
 {
@@ -10,6 +11,7 @@ namespace ApiApplication.Dtos
         public string Title { get; set; }
 
         [JsonProperty("imdb_id")]
+        [Required(ErrorMessage = "IMDB is required")]
         public string ImdbId { get; set; }
 
         [JsonProperty("stars")]

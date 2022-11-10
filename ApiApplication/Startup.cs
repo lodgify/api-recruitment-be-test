@@ -2,6 +2,7 @@ using ApiApplication.Auth;
 using ApiApplication.Database;
 using ApiApplication.Database.Entities;
 using ApiApplication.Dtos;
+using ApiApplication.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,6 +41,7 @@ namespace ApiApplication
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
+            services.AddTransient<IShowTimeService, ShowTimeService>();
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
             services.AddAuthentication(options =>
             {

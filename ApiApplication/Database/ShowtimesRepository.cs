@@ -63,7 +63,28 @@ namespace ApiApplication.Database
 
         public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)
         {
-            throw new System.NotImplementedException();
+            var showTimeDB = _context.Showtimes.Find(showtimeEntity.Id);
+
+            if (showTimeDB == null)
+                throw new Exception($"ShowTime entity with id = {showtimeEntity.Id} not found");
+
+            showTimeDB.AuditoriumId = showtimeEntity.AuditoriumId;
+            showTimeDB.Schedule = showtimeEntity.Schedule;
+            showTimeDB.StartDate = showtimeEntity.StartDate;
+            showTimeDB.EndDate = showtimeEntity.EndDate;
+
+            if (showtimeEntity.Movie != null)
+            {
+                showTimeDB.Movie.Stars = showtimeEntity.Movie.Stars;
+                showTimeDB.Movie.ShowtimeId = showtimeEntity.Id;
+                showTimeDB.Movie.ImdbId = showtimeEntity.Movie.ImdbId;
+                showTimeDB.Movie.ReleaseDate = showtimeEntity.Movie.ReleaseDate;
+                showTimeDB.Movie.Title = showtimeEntity.Movie.Title;
+            }
+
+            _context.SaveChanges();
+
+            return showTimeDB;
         }
 
 
