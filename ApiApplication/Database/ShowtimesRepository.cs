@@ -26,7 +26,15 @@ namespace ApiApplication.Database
 
         public ShowtimeEntity Delete(int id)
         {
-            throw new System.NotImplementedException();
+            ShowtimeEntity dbShowTime = _context.Showtimes.Find(id);
+
+            if (dbShowTime == null)
+                return null;
+
+            _context.Showtimes.Remove(dbShowTime);
+            _context.SaveChanges();
+
+            return dbShowTime;
         }
 
         public ShowtimeEntity GetByMovie(Func<IQueryable<MovieEntity>, bool> filter)
@@ -63,28 +71,28 @@ namespace ApiApplication.Database
 
         public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)
         {
-            var showTimeDB = _context.Showtimes.Find(showtimeEntity.Id);
+            var dbShowTime = _context.Showtimes.Find(showtimeEntity.Id);
 
-            if (showTimeDB == null)
-                throw new Exception($"ShowTime entity with id = {showtimeEntity.Id} not found");
+            if (dbShowTime == null)
+                return null;
 
-            showTimeDB.AuditoriumId = showtimeEntity.AuditoriumId;
-            showTimeDB.Schedule = showtimeEntity.Schedule;
-            showTimeDB.StartDate = showtimeEntity.StartDate;
-            showTimeDB.EndDate = showtimeEntity.EndDate;
+            dbShowTime.AuditoriumId = showtimeEntity.AuditoriumId;
+            dbShowTime.Schedule = showtimeEntity.Schedule;
+            dbShowTime.StartDate = showtimeEntity.StartDate;
+            dbShowTime.EndDate = showtimeEntity.EndDate;
 
             if (showtimeEntity.Movie != null)
             {
-                showTimeDB.Movie.Stars = showtimeEntity.Movie.Stars;
-                showTimeDB.Movie.ShowtimeId = showtimeEntity.Id;
-                showTimeDB.Movie.ImdbId = showtimeEntity.Movie.ImdbId;
-                showTimeDB.Movie.ReleaseDate = showtimeEntity.Movie.ReleaseDate;
-                showTimeDB.Movie.Title = showtimeEntity.Movie.Title;
+                dbShowTime.Movie.Stars = showtimeEntity.Movie.Stars;
+                dbShowTime.Movie.ShowtimeId = showtimeEntity.Id;
+                dbShowTime.Movie.ImdbId = showtimeEntity.Movie.ImdbId;
+                dbShowTime.Movie.ReleaseDate = showtimeEntity.Movie.ReleaseDate;
+                dbShowTime.Movie.Title = showtimeEntity.Movie.Title;
             }
 
             _context.SaveChanges();
 
-            return showTimeDB;
+            return dbShowTime;
         }
 
 

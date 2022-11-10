@@ -22,41 +22,113 @@ namespace ApiApplication.Controllers
     public class ShowtimeController : ControllerBase
     {
 
+        private readonly IShowtimesRepository _repository;
+        private readonly IConfiguration _configuration;
+        private readonly IHttpClientFactory _httpClient;
         private readonly IMapper _mapper;
-        private readonly IShowTimeService _service;
+        private readonly IIMDBHttpClientManager _imdbHttpClientManager;
 
-        public ShowtimeController(
-              IShowTimeService service
-            , IMapper mapper)
+        public ShowtimeController(IShowtimesRepository repository,
+            IHttpClientFactory httpclient,
+            IMapper mapper,
+            IIMDBHttpClientManager imdbHttpClientManager
+            )
         {
-            _service = service;
+            _repository = repository;
+            _httpClient = httpclient;
             _mapper = mapper;
-
+            _imdbHttpClientManager = imdbHttpClientManager;
 
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ShowTimeDTO>> Get([FromQuery] ShowTimeCriteriaDTO filter)
+        public ActionResult<IEnumerable<ShowTimeDTO>> Get([FromQuery] ShowTimeCriteriaDTO criteria)
         {
-            if (!filter.ShowTime.HasValue && string.IsNullOrEmpty(filter.MovieTitle))
+            if (!criteria.ShowTime.HasValue && string.IsNullOrEmpty(criteria.MovieTitle))
             {
-                return Ok(_mapper.Map<IEnumerable<ShowtimeEntity>, IEnumerable<ShowTimeDTO>>(_service.GetCollection()));
+                return Ok(_mapper.Map<IEnumerable<ShowtimeEntity>, IEnumerable<ShowTimeDTO>>(_repository.GetCollection()));
             }
 
-            var moviesSchedule = _service.GetCollection(filter);
+            var moviesSchedulesEntities = _repository.GetCollection(x =>
 
-            if (!moviesSchedule.Any())
+           (string.IsNullOrEmpty(criteria.MovieTitle) || x.Movie.Title.Equals(criteria.MovieTitle))
+           &&
+           (criteria.ShowTime.Value.Date >= x.StartDate.Date && criteria.ShowTime.Value.Date <= x.EndDate.Date)
+
+           );
+
+            IEnumerable<ShowTimeDTO> _movieShowTimes = _mapper.Map<IEnumerable<ShowtimeEntity>, IEnumerable<ShowTimeDTO>>(moviesSchedulesEntities);
+
+            if (!_movieShowTimes.Any())
                 return NotFound();
 
 
-            return Ok(moviesSchedule);
+            return Ok(_movieShowTimes);
 
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] ShowTimeDTO showTime)
+        public async Task<ActionResult<ShowTimeDTO>> Post([FromBody] ShowTimeDTO showTimeDTO)
         {
-            return Ok(await _service.Create(showTime));
+
+            JObject jObject = await _imdbHttpClientManager.GetIMDBJObject(showTimeDTO.Movie.ImdbId);
+
+            ShowtimeEntity showTimeEntity = _mapper.Map<ShowTimeDTO, ShowtimeEntity>(showTimeDTO);
+
+            showTimeEntity.Movie.Title = jObject["title"]?.ToString();
+
+            showTimeEntity.Movie.ReleaseDate = Convert.ToDateTime(jObject["releaseDate"]);
+
+            showTimeEntity.Movie.Stars = jObject["stars"]?.ToString();
+
+            var dbShowTime = _repository.Add(showTimeEntity);
+
+            return _mapper.Map<ShowtimeEntity, ShowTimeDTO>(dbShowTime);
+        }
+
+
+        [HttpPut]
+        public async Task<ActionResult<ShowTimeDTO>> Put([FromBody] ShowTimeDTO showTimeDTO)
+        {
+            JObject jObject = null;
+
+            ShowtimeEntity showTimeEntity = _mapper.Map<ShowTimeDTO, ShowtimeEntity>(showTimeDTO);
+
+            if (showTimeDTO.Movie != null)
+            {
+                jObject = await _imdbHttpClientManager.GetIMDBJObject(showTimeDTO.Movie.ImdbId);
+
+                showTimeEntity.Movie.Title = jObject["title"]?.ToString();
+
+                showTimeEntity.Movie.ReleaseDate = Convert.ToDateTime(jObject["releaseDate"]);
+
+                showTimeEntity.Movie.Stars = jObject["stars"]?.ToString();
+            }
+
+            var result = _repository.Update(showTimeEntity);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public ActionResult<ShowTimeDTO> Delete(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid ShowTime id");
+            }
+
+            var showTimeDTO = _repository.Delete(id);
+
+            if (showTimeDTO == null)
+                return NotFound($"ShowTime not found with id = {id}");
+
+            return Ok(showTimeDTO);
+
         }
 
     }

@@ -41,7 +41,7 @@ namespace ApiApplication
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
-            services.AddTransient<IShowTimeService, ShowTimeService>();
+            services.AddTransient<IIMDBHttpClientManager, IMDBHttpClientManager>();
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
             services.AddAuthentication(options =>
             {
