@@ -29,12 +29,16 @@ namespace ApiApplication.Middleware
             catch(InternalServerException exception)
             {
                 _logger.LogError($"{exception.Message} and status code is = {exception.StatusCode}", exception);
+
+                throw exception;
             }
             
             catch (Exception exception)
             {
 
                 _logger.LogError(exception.Message, exception);
+
+                
             }
 
 

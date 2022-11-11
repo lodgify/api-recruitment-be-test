@@ -5,6 +5,7 @@ using ApiApplication.Dtos;
 using ApiApplication.Middleware;
 using ApiApplication.Services;
 using AutoMapper;
+using IMDbApiLib;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,13 +40,15 @@ namespace ApiApplication
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("ReadOnlyToken", policy => {
-                    policy.Requirements.Add(new ReadToken("Read","1234"));
+                options.AddPolicy("ReadOnlyToken", policy =>
+                {
+                    policy.Requirements.Add(new ReadToken("Read", "1234"));
 
 
                 });
 
-                options.AddPolicy("WriteOnlyToken", policy => {
+                options.AddPolicy("WriteOnlyToken", policy =>
+                {
                     policy.Requirements.Add(new WriteToken("Write", "7894"));
 
 
@@ -59,8 +62,10 @@ namespace ApiApplication
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
-            services.AddTransient<IIMDBHttpClientManager, IMDBHttpClientManager>();
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
+            services.AddScoped(provider => new ApiLib(Configuration.GetValue<string>("IMDBApiKey")));
+
+
             services.AddAuthentication(options =>
             {
                 options.AddScheme<CustomAuthenticationHandler>(CustomAuthenticationSchemeOptions.AuthenticationScheme, CustomAuthenticationSchemeOptions.AuthenticationScheme);
@@ -79,11 +84,6 @@ namespace ApiApplication
             var mapper = mapperConfig.CreateMapper();
             services.AddSingleton<IMapper>(mapper);
 
-            services.AddHttpClient("IMDBClient", config =>
-            {
-                config.BaseAddress = new Uri(Configuration.GetValue<string>("IMDBBaseURL"));
-            });
-
             services.AddSingleton<IAuthorizationHandler, ReadTokenHandler>();
 
             services.AddSingleton<IAuthorizationHandler, WriteTokenHandler>();
@@ -100,7 +100,8 @@ namespace ApiApplication
             }
 
             app.UseMiddleware<RequestTimeCalculatorMiddleware>();
-            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMiddleware<ExceptionMiddleware>();           
+
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();

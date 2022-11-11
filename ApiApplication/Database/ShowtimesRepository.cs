@@ -63,7 +63,7 @@ namespace ApiApplication.Database
                 .Include(x => x.Movie)
                 .Where(filter)
                 .AsEnumerable()
-                : _context.Showtimes;
+                : _context.Showtimes.Include(x=>x.Movie);
 
             return r;
         }

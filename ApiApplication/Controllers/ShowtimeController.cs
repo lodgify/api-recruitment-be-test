@@ -4,6 +4,8 @@ using ApiApplication.Dtos;
 using ApiApplication.Exceptions;
 using ApiApplication.Services;
 using AutoMapper;
+using IMDbApiLib;
+using IMDbApiLib.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,21 +27,17 @@ namespace ApiApplication.Controllers
     {
 
         private readonly IShowtimesRepository _repository;
-        private readonly IConfiguration _configuration;
-        private readonly IHttpClientFactory _httpClient;
-        private readonly IMapper _mapper;
-        private readonly IIMDBHttpClientManager _imdbHttpClientManager;
+        private readonly IMapper _mapper;       
+        private readonly ApiLib _imdbLib;
 
         public ShowtimeController(IShowtimesRepository repository,
-            IHttpClientFactory httpclient,
-            IMapper mapper,
-            IIMDBHttpClientManager imdbHttpClientManager
+            IMapper mapper,           
+            ApiLib imdbLib
             )
         {
             _repository = repository;
-            _httpClient = httpclient;
-            _mapper = mapper;
-            _imdbHttpClientManager = imdbHttpClientManager;
+            _mapper = mapper;            
+            _imdbLib = imdbLib;
 
         }
 
@@ -72,16 +70,15 @@ namespace ApiApplication.Controllers
         [Authorize(Policy = "WriteOnlyToken")]
         public async Task<ActionResult<ShowTimeDTO>> Post([FromBody] ShowTimeDTO showTimeDTO)
         {
-
-            JObject jObject = await _imdbHttpClientManager.GetIMDBJObject(showTimeDTO.Movie.ImdbId);
+            TitleData data = await _imdbLib.TitleAsync(showTimeDTO.Movie.ImdbId, Language.en);
 
             ShowtimeEntity showTimeEntity = _mapper.Map<ShowTimeDTO, ShowtimeEntity>(showTimeDTO);
 
-            showTimeEntity.Movie.Title = jObject["title"]?.ToString();
+            showTimeEntity.Movie.Title = data.Title;
 
-            showTimeEntity.Movie.ReleaseDate = Convert.ToDateTime(jObject["releaseDate"]);
+            showTimeEntity.Movie.ReleaseDate = DateTime.Parse(data.ReleaseDate);
 
-            showTimeEntity.Movie.Stars = jObject["stars"]?.ToString();
+            showTimeEntity.Movie.Stars = data.Stars;
 
             var dbShowTime = _repository.Add(showTimeEntity);
 
@@ -93,19 +90,18 @@ namespace ApiApplication.Controllers
         [Authorize(Policy = "WriteOnlyToken")]
         public async Task<ActionResult<ShowTimeDTO>> Put([FromBody] ShowTimeDTO showTimeDTO)
         {
-            JObject jObject = null;
-
             ShowtimeEntity showTimeEntity = _mapper.Map<ShowTimeDTO, ShowtimeEntity>(showTimeDTO);
 
             if (showTimeDTO.Movie != null)
             {
-                jObject = await _imdbHttpClientManager.GetIMDBJObject(showTimeDTO.Movie.ImdbId);
+                TitleData data = await _imdbLib.TitleAsync(showTimeDTO.Movie.ImdbId, Language.en);
 
-                showTimeEntity.Movie.Title = jObject["title"]?.ToString();
+                showTimeEntity.Movie.Title = data.Title;
 
-                showTimeEntity.Movie.ReleaseDate = Convert.ToDateTime(jObject["releaseDate"]);
+                showTimeEntity.Movie.ReleaseDate = DateTime.Parse(data.ReleaseDate);
 
-                showTimeEntity.Movie.Stars = jObject["stars"]?.ToString();
+                showTimeEntity.Movie.Stars = data.Stars;
+
             }
 
             var result = _repository.Update(showTimeEntity);

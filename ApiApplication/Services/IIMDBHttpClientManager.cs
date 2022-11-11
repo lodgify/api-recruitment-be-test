@@ -1,5 +1,6 @@
 ﻿using ApiApplication.Database.Entities;
 using ApiApplication.Dtos;
+using IMDbApiLib.Models;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -11,7 +12,7 @@ namespace ApiApplication.Services
 {
     public interface IIMDBHttpClientManager
     {
-        Task<JObject> GetIMDBJObject(string imdbID);
+        Task<TitleData> GetIMDBJObject(string imdbID);
        
     }
 }

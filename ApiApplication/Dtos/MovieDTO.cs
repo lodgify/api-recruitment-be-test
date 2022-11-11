@@ -1,23 +1,26 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ApiApplication.Dtos
 {
     public class MovieDTO
     {
 
-        [JsonProperty("title")]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
 
-        [JsonProperty("imdb_id")]
+        [JsonPropertyName("imdb_id")]
         [Required(ErrorMessage = "IMDB id is required")]
         public string ImdbId { get; set; }
 
-        [JsonProperty("stars")]
+        [JsonPropertyName("stars")]
         public string Stars { get; set; }
 
-        [JsonProperty("release_date")]
-        public DateTime ReleaseDate { get; set; }
+        [JsonPropertyName("release_date")]
+        [DefaultValue(true)]
+        public DateTime? ReleaseDate { get; set; }
     }
 }
