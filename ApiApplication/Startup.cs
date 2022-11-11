@@ -4,6 +4,7 @@ using ApiApplication.Database.Entities;
 using ApiApplication.Dtos;
 using ApiApplication.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,6 +35,22 @@ namespace ApiApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ReadOnlyToken", policy => {
+                    policy.Requirements.Add(new ReadToken("Read","1234"));
+
+
+                });
+
+                options.AddPolicy("WriteOnlyToken", policy => {
+                    policy.Requirements.Add(new WriteToken("Write", "1234"));
+
+
+                });
+            });
+
             services.AddDbContext<CinemaContext>(options =>
             {
                 options.UseInMemoryDatabase("CinemaDb")
@@ -65,6 +82,10 @@ namespace ApiApplication
             {
                 config.BaseAddress = new Uri(Configuration.GetValue<string>("IMDBBaseURL"));
             });
+
+            services.AddSingleton<IAuthorizationHandler, ReadTokenHandler>();
+
+            services.AddSingleton<IAuthorizationHandler, WriteTokenHandler>();
 
             services.AddControllers();
         }

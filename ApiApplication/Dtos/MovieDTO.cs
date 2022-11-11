@@ -11,7 +11,7 @@ namespace ApiApplication.Dtos
         public string Title { get; set; }
 
         [JsonProperty("imdb_id")]
-        [Required(ErrorMessage = "IMDB is required")]
+        [Required(ErrorMessage = "IMDB id is required")]
         public string ImdbId { get; set; }
 
         [JsonProperty("stars")]

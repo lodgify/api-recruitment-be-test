@@ -47,6 +47,7 @@ namespace ApiApplication.Database
             return GetCollection(null);
         }
 
+        // please review this as well . I didnt found filter of type Func<IQueryable<ShowTimeEntity>,bool> and there is no dbSet.where which takes in such lambda/expression.
         //public IEnumerable<ShowtimeEntity> GetCollection(Func<IQueryable<ShowtimeEntity>, IQueryable<ShowtimeEntity>> filter)
         //{
         //    var query = filter != null ? filter(_context.Showtimes) : _context.Showtimes;
@@ -57,8 +58,8 @@ namespace ApiApplication.Database
 
         public IEnumerable<ShowtimeEntity> GetCollection(Expression<Func<ShowtimeEntity, bool>> filter)
         {
-            var r = filter != null ? _context.
-                Showtimes
+            var r = filter != null ? _context
+                .Showtimes
                 .Include(x => x.Movie)
                 .Where(filter)
                 .AsEnumerable()

@@ -3,6 +3,7 @@ using ApiApplication.Database.Entities;
 using ApiApplication.Dtos;
 using ApiApplication.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -42,8 +43,10 @@ namespace ApiApplication.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "ReadOnlyToken")]
         public ActionResult<IEnumerable<ShowTimeDTO>> Get([FromQuery] ShowTimeCriteriaDTO criteria)
         {
+
             if (!criteria.ShowTime.HasValue && string.IsNullOrEmpty(criteria.MovieTitle))
             {
                 return Ok(_mapper.Map<IEnumerable<ShowtimeEntity>, IEnumerable<ShowTimeDTO>>(_repository.GetCollection()));
@@ -53,15 +56,12 @@ namespace ApiApplication.Controllers
 
            (string.IsNullOrEmpty(criteria.MovieTitle) || x.Movie.Title.Equals(criteria.MovieTitle))
            &&
-           (criteria.ShowTime.Value.Date >= x.StartDate.Date && criteria.ShowTime.Value.Date <= x.EndDate.Date)
-
-           );
+           (!criteria.ShowTime.HasValue || (criteria.ShowTime.Value.Date >= x.StartDate.Date && criteria.ShowTime.Value.Date <= x.EndDate.Date)));
 
             IEnumerable<ShowTimeDTO> _movieShowTimes = _mapper.Map<IEnumerable<ShowtimeEntity>, IEnumerable<ShowTimeDTO>>(moviesSchedulesEntities);
 
             if (!_movieShowTimes.Any())
                 return NotFound();
-
 
             return Ok(_movieShowTimes);
 

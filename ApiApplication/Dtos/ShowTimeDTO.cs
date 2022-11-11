@@ -20,8 +20,8 @@ namespace ApiApplication.Dtos
         public DateTime StartDate { get; set; }
 
 
-        [Required(ErrorMessage = "End date is required")]
         [JsonProperty(PropertyName = "end_date")]
+        [Required(ErrorMessage = "End date is required")]       
         public DateTime EndDate { get; set; }
 
 
@@ -30,9 +30,9 @@ namespace ApiApplication.Dtos
         public IEnumerable<string> Schedule { get; set; }
 
 
-        [Required(ErrorMessage = "Auditorium is required")]
-
         [JsonProperty(PropertyName = "auditorium_id")]
+        [Required(ErrorMessage = "Auditorium is required")]
+        [Range(1,3,ErrorMessage ="Auditorium id should be between 1 to 3")]
         public int AuditoriumId { get; set; }
 
     }
