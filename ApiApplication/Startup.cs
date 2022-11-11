@@ -2,6 +2,7 @@ using ApiApplication.Auth;
 using ApiApplication.Database;
 using ApiApplication.Database.Entities;
 using ApiApplication.Dtos;
+using ApiApplication.Middleware;
 using ApiApplication.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -45,7 +46,7 @@ namespace ApiApplication
                 });
 
                 options.AddPolicy("WriteOnlyToken", policy => {
-                    policy.Requirements.Add(new WriteToken("Write", "1234"));
+                    policy.Requirements.Add(new WriteToken("Write", "7894"));
 
 
                 });
@@ -98,8 +99,9 @@ namespace ApiApplication
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<RequestTimeCalculatorMiddleware>();
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseHttpsRedirection();
-
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

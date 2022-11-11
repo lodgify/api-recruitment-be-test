@@ -1,6 +1,7 @@
 ﻿using ApiApplication.Database;
 using ApiApplication.Database.Entities;
 using ApiApplication.Dtos;
+using ApiApplication.Exceptions;
 using ApiApplication.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -68,6 +69,7 @@ namespace ApiApplication.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "WriteOnlyToken")]
         public async Task<ActionResult<ShowTimeDTO>> Post([FromBody] ShowTimeDTO showTimeDTO)
         {
 
@@ -88,6 +90,7 @@ namespace ApiApplication.Controllers
 
 
         [HttpPut]
+        [Authorize(Policy = "WriteOnlyToken")]
         public async Task<ActionResult<ShowTimeDTO>> Put([FromBody] ShowTimeDTO showTimeDTO)
         {
             JObject jObject = null;
@@ -114,6 +117,7 @@ namespace ApiApplication.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Policy = "WriteOnlyToken")]
         [Route("{id}")]
         public ActionResult<ShowTimeDTO> Delete(int id)
         {
@@ -129,6 +133,12 @@ namespace ApiApplication.Controllers
 
             return Ok(showTimeDTO);
 
+        }
+
+        [Authorize(Policy = "WriteOnlyToken")]
+        public ActionResult Patch()
+        {
+            throw new ApiApplication.Exceptions.InternalServerException("Exception thrown from patch request", System.Net.HttpStatusCode.InternalServerError);
         }
 
     }
