@@ -72,7 +72,10 @@ namespace ApiApplication.Database
 
         public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)
         {
-            var dbShowTime = _context.Showtimes.Find(showtimeEntity.Id);
+            var dbShowTime = _context.Showtimes
+                                     .Where(showTime => showTime.Id == showtimeEntity.Id)
+                                     .Include(x => x.Movie)
+                                     .Single();
 
             if (dbShowTime == null)
                 return null;

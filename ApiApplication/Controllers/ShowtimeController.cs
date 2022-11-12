@@ -71,6 +71,9 @@ namespace ApiApplication.Controllers
         {
             TitleData data = await _imdbLib.TitleAsync(showTimeDTO.Movie.ImdbId, Language.en);
 
+            if (!string.IsNullOrEmpty(data.ErrorMessage))
+                return BadRequest($"IMDB movie does not exit with id ={showTimeDTO.Movie.ImdbId}");
+
             ShowtimeEntity showTimeEntity = _mapper.Map<ShowTimeDTO, ShowtimeEntity>(showTimeDTO);
 
             showTimeEntity.Movie.Title = data.Title;
@@ -94,6 +97,9 @@ namespace ApiApplication.Controllers
             if (showTimeDTO.Movie != null)
             {
                 TitleData data = await _imdbLib.TitleAsync(showTimeDTO.Movie.ImdbId, Language.en);
+
+                if (!string.IsNullOrEmpty(data.ErrorMessage))
+                    return BadRequest($"IMDB movie does not exit with id ={showTimeDTO.Movie.ImdbId}");
 
                 showTimeEntity.Movie.Title = data.Title;
 
@@ -130,6 +136,7 @@ namespace ApiApplication.Controllers
 
         }
 
+        [HttpPatch]
         [Authorize(Policy = "WriteOnlyToken")]
         public ActionResult Patch()
         {

@@ -14,7 +14,7 @@ namespace ApiApplication.Dtos
 
 
         [JsonPropertyName("movie")]
-        public MovieDTO Movie { get; set; }
+        public MovieDTO? Movie { get; set; }
 
         [JsonPropertyName("start_date")]
         [Required(ErrorMessage = "Start date is required")]

@@ -26,19 +26,21 @@ namespace ApiApplication.Middleware
                 await _next(httpContext);
             }
 
-            catch(InternalServerException exception)
+            catch (InternalServerException exception)
             {
-                _logger.LogError($"{exception.Message} and status code is = {exception.StatusCode}", exception);
+                _logger.LogError($"{(int)exception.StatusCode} {exception.StatusCode}: {exception.Message}", exception);
 
-                throw exception;
+                httpContext.Response.StatusCode = (int)exception.StatusCode;
+
+                await httpContext.Response.WriteAsync($"{(int)exception.StatusCode} {exception.StatusCode}: {exception.Message}");
             }
-            
+
             catch (Exception exception)
             {
 
                 _logger.LogError(exception.Message, exception);
 
-                
+
             }
 
 

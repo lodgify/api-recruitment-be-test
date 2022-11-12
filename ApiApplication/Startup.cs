@@ -61,6 +61,9 @@ namespace ApiApplication
                     .EnableSensitiveDataLogging()
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
+
+
+
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
             services.AddSingleton(provider => new ApiLib(Configuration.GetValue<string>("IMDBApiKey")));
@@ -92,6 +95,7 @@ namespace ApiApplication
             services.AddSingleton<IAuthorizationHandler, ReadTokenHandler>();
 
             services.AddSingleton<IAuthorizationHandler, WriteTokenHandler>();
+
 
             services.AddControllers();
         }
