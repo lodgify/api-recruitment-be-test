@@ -3,7 +3,6 @@ using ApiApplication.Database;
 using ApiApplication.Database.Entities;
 using ApiApplication.Dtos;
 using ApiApplication.Middleware;
-using ApiApplication.Services;
 using AutoMapper;
 using IMDbApiLib;
 using Microsoft.AspNetCore.Authorization;
@@ -18,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,8 +63,13 @@ namespace ApiApplication
             });
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
-            services.AddScoped(provider => new ApiLib(Configuration.GetValue<string>("IMDBApiKey")));
+            services.AddSingleton(provider => new ApiLib(Configuration.GetValue<string>("IMDBApiKey")));
 
+            services.AddHttpClient("ApiClient", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(Configuration.GetValue<string>("ApiEndpoint"));
+                httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
+            });
 
             services.AddAuthentication(options =>
             {
@@ -100,7 +105,7 @@ namespace ApiApplication
             }
 
             app.UseMiddleware<RequestTimeCalculatorMiddleware>();
-            app.UseMiddleware<ExceptionMiddleware>();           
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseRouting();

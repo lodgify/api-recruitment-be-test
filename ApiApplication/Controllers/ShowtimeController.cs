@@ -2,7 +2,6 @@
 using ApiApplication.Database.Entities;
 using ApiApplication.Dtos;
 using ApiApplication.Exceptions;
-using ApiApplication.Services;
 using AutoMapper;
 using IMDbApiLib;
 using IMDbApiLib.Models;
