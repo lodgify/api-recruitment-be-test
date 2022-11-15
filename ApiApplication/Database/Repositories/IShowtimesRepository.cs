@@ -1,4 +1,5 @@
 ﻿using ApiApplication.Database.Entities;
+using ApiApplication.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,7 @@ namespace ApiApplication.Database
         ShowtimeEntity Add(ShowtimeEntity showtimeEntity);
         ShowtimeEntity Update(ShowtimeEntity showtimeEntity);
         ShowtimeEntity Delete(int id);
+        IEnumerable<ScheduleDTO> GetSchedule(Func<IQueryable<ScheduleDTO>, bool> filter);
     }
 }
+    

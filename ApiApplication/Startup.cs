@@ -1,20 +1,18 @@
 using ApiApplication.Auth;
 using ApiApplication.Database;
+using ApiApplication.Filters;
+using ApiApplication.Services;
+using ApiApplication.Services.Facade;
+using ApiApplication.Utils;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace ApiApplication
 {
@@ -27,7 +25,7 @@ namespace ApiApplication
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+      
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<CinemaContext>(options =>
@@ -36,7 +34,16 @@ namespace ApiApplication
                     .EnableSensitiveDataLogging()
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));                
             });
-            services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
+
+         
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Write", policy => policy.RequireClaim(ClaimTypes.Role,"Write"));
+                options.AddPolicy("Read", policy => policy.RequireClaim(ClaimTypes.Role, "Write","Read"));
+            });
+
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
             services.AddAuthentication(options =>
             {
@@ -44,15 +51,37 @@ namespace ApiApplication
                 options.RequireAuthenticatedSignIn = true;                
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
-            services.AddControllers();
-        }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            services.AddControllers().AddJsonOptions(o => 
+            o.JsonSerializerOptions.PropertyNamingPolicy = new SnakeCaseNamingPolicy()
+            );
+
+            services.AddControllers(config =>
+            {
+                config.Filters.Add<ActionFilterAsyncLog>();
+                config.Filters.Add<ActionFilterAsyncValidation>();
+            });
+            
+            services.AddHostedService<ConsumeScopedServiceHostedService>();
+            services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
+            services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
+            services.AddTransient<IShowtimeService, ShowtimeService>();          
+            services.AddTransient<IHttpClientWrapper, HttpClientWrapper>();
+            services.AddTransient<IImdbFacade, ImdbFacade>();
+            services.AddHttpClient<HttpClientWrapper>();
+
+            SwaggerConfig.Configure(services);
+        }
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();                
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Showing API V1");
+                });
             }
 
             app.UseHttpsRedirection();
@@ -65,6 +94,8 @@ namespace ApiApplication
             {
                 endpoints.MapControllers();
             });
+
+           
 
             SampleData.Initialize(app);
         }      

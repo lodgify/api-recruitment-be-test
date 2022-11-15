@@ -1,2 +1,58 @@
 Please add the cURLs of your tests here:
 
+SHOWTIME CONTROLLER
+
+POST
+https://localhost:7629/Showtime
+
+{
+    "id": 10,
+    "movie": {
+        "id": 12,
+        "title": "show1",
+        "imdb_id": "tt0110413",
+        "stars": null,
+        "release_date": "2022-11-09T09:51:05.649Z",
+        "showtime_id": 10
+    },
+    "start_date": "2022-10-09T09:51:05.649Z",
+    "end_date": "2022-12-09T09:51:05.649Z",
+    "schedule": null,
+    "auditorium_id": 3
+}
+
+PUT
+https://localhost:7629/Showtime
+
+{
+    "id": 10,
+    "movie": {
+        "id": 12,
+        "title": "show1",
+        "imdb_id": "tt0110413",
+        "stars": null,
+        "release_date": "2022-11-09T09:51:05.649Z",
+        "showtime_id": 10
+    },
+    "start_date": "2023-10-09T09:51:05.649Z",
+    "end_date": "2023-12-09T09:51:05.649Z",
+    "schedule": null,
+    "auditorium_id": 3
+}
+
+PATCH
+https://localhost:7629/Showtime
+
+GET
+Devuelven resultados:
+https://localhost:7629/Showtime?title=Léon: The Professional
+https://localhost:7629/Showtime?title=Léon: The Professional&date=2023-11-09T09:51:05.649Z
+No devuelven resultados:
+https://localhost:7629/Showtime?title=Léon: The Professional&date=2025-11-09T09:51:05.649Z 
+
+
+
+STATUS CONTROLLER
+
+GET
+https://localhost:7629/Status
