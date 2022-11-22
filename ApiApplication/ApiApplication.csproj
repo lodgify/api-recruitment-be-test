@@ -17,5 +17,9 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="ApiApplication.sln.DotSettings" />
+  </ItemGroup>
+
 
 </Project>

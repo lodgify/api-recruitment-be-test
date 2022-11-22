@@ -2,6 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using ApiApplication.Models.Showtime;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiApplication.Database
 {
@@ -28,14 +32,28 @@ namespace ApiApplication.Database
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<ShowtimeEntity> GetCollection()
+        public async Task<IEnumerable<ShowtimeEntity>> GetAsync()
         {
-            return GetCollection(null);
+            return await GetAsync(_ => true);
         }
 
-        public IEnumerable<ShowtimeEntity> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter)
+        public async Task<IEnumerable<ShowtimeEntity>> GetAsync(Expression<Func<ShowtimeEntity, bool>> filter)
         {
-            throw new System.NotImplementedException();
+            return await _context.Showtimes
+                .Where(filter)
+                .Include(entity => entity.Movie)
+                .ToListAsync();
+        }
+        
+        public async Task<IEnumerable<ShowtimeEntity>> GetByShowtimeRequestAsync(GetAllShowtimesRequest request)
+        {
+            var titleFilter = request.Title != null ? new Func<ShowtimeEntity, bool>(entity =>
+                entity.Movie.Title.ToLower().Contains(request.Title.ToLower())) : _ => true;
+
+            var dateFilter = request.DateTime != null ? new Func<ShowtimeEntity, bool>(entity =>
+                entity.StartDate <= request.DateTime && entity.EndDate >= request.DateTime) : _ => true;
+            
+            return await GetAsync();
         }
 
         public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)

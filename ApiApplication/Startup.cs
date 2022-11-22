@@ -44,6 +44,7 @@ namespace ApiApplication
                 options.RequireAuthenticatedSignIn = true;                
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
+            services.AddHealthChecks();
             services.AddControllers();
         }
 
@@ -65,6 +66,8 @@ namespace ApiApplication
             {
                 endpoints.MapControllers();
             });
+
+            app.UseHealthChecks(path: "/health");
 
             SampleData.Initialize(app);
         }      
