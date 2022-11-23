@@ -1,20 +1,14 @@
-using ApiApplication.Auth;
 using ApiApplication.Database;
+using ApiApplication.Extensions;
+using ApiApplication.Filters;
+using ApiApplication.Middlewares;
+using ApiApplication.Services.IMDB.Job;
+using ApiApplication.Services.IMDB.Status;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ApiApplication
 {
@@ -30,21 +24,16 @@ namespace ApiApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CinemaContext>(options =>
+
+            services.AddConfigurations(Configuration);
+            services.AddHostedService<ImdbStatusJobService>();
+
+            services.AddSingleton<ImdbStatusService>();
+
+            services.AddControllers(options =>
             {
-                options.UseInMemoryDatabase("CinemaDb")
-                    .EnableSensitiveDataLogging()
-                    .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));                
+                options.Filters.Add<BanchmarkActionFilter>();
             });
-            services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
-            services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
-            services.AddAuthentication(options =>
-            {
-                options.AddScheme<CustomAuthenticationHandler>(CustomAuthenticationSchemeOptions.AuthenticationScheme, CustomAuthenticationSchemeOptions.AuthenticationScheme);
-                options.RequireAuthenticatedSignIn = true;                
-                options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
-            });
-            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,12 +41,15 @@ namespace ApiApplication
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();                
+                app.UseDeveloperExceptionPage();
             }
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -66,7 +58,14 @@ namespace ApiApplication
                 endpoints.MapControllers();
             });
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
             SampleData.Initialize(app);
-        }      
+        }
     }
 }
