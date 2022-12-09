@@ -1,2 +1,71 @@
 Please add the cURLs of your tests here:
 
+GET https://localhost:7629/api/showtime
+GET https://localhost:7629/api/showtime?date=2022-03-01T00:00:00
+GET https://localhost:7629/api/showtime?title=Inception
+
+POST https://localhost:7629/api/showtime
+    request: 
+     {	
+      "showtime": {
+            "movie": {
+                "imdb_id": "tt0241527"
+            },
+            "start_date": "2022-12-01T00:00:00",
+            "end_date": "2023-01-01T00:00:00",
+            "schedule": [
+                "16:00",
+                "17:00",
+                "18:00",
+                "18:30"
+            ],
+            "auditorium_id": 2
+	    }
+     }
+
+PUT https://localhost:7629/api/showtime
+    request with movie:
+        {	
+          "showtime": {
+                "id": 2, 
+                "movie":{
+                    "id": 2,
+                    "imdb_id": "tt0330373"
+                },
+                "start_date": "2022-12-05T00:00:00",
+                "end_date": "2023-02-01T00:00:00",
+                "schedule": [
+                    "16:00",
+                    "17:00",
+                    "18:00",
+                    "19:30"
+                ],
+                "auditorium_id": 3
+	        }
+        }
+
+     request without movie:
+        {	
+          "showtime": {
+                "id": 2, 
+                "start_date": "2022-12-02T00:00:00",
+                "end_date": "2023-02-01T00:00:00",
+                "schedule": [
+                    "16:00",
+                    "17:00",
+                    "18:00",
+                    "19:30"
+                ],
+                "auditorium_id": 3
+	        }
+        }
+
+DELETE https://localhost:7629/api/showtime
+    request:
+          {
+            "id": 2
+          }
+
+PATCH https://localhost:7629/api/showtime
+
+GET https://localhost:7629/api/status

@@ -1,20 +1,18 @@
+using ApiApplication.ActionFilters;
 using ApiApplication.Auth;
+using ApiApplication.Common.HostedServices;
 using ApiApplication.Database;
+using ApiApplication.Middlewares;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.Security.Claims;
 
 namespace ApiApplication
 {
@@ -44,7 +42,25 @@ namespace ApiApplication
                 options.RequireAuthenticatedSignIn = true;                
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ReadPermission", policy =>
+                {
+                    policy.RequireClaim(ClaimTypes.Role, "Read");
+                });
+
+                options.AddPolicy("WritePermission", policy =>
+                {
+                    policy.RequireClaim(ClaimTypes.Role, "Write");
+                });
+            });
             services.AddControllers();
+
+            services.AddHostedService<UpdateCurrentIMDBStatus>();
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddScoped<ExecutionTrackingFilter>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +70,11 @@ namespace ApiApplication
             {
                 app.UseDeveloperExceptionPage();                
             }
+
+            app.UseWhen(context => context.Request.Path.StartsWithSegments("/api/showtime"), appBuilder =>
+            {
+                appBuilder.UseMiddleware<ExceptionMiddleware>();
+            });
 
             app.UseHttpsRedirection();
 
@@ -67,6 +88,8 @@ namespace ApiApplication
             });
 
             SampleData.Initialize(app);
+
+
         }      
     }
 }
