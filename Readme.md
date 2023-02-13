@@ -96,7 +96,7 @@ We ask you to create 2 `Authorization` policies.
 ### Execution Tracking
 
 We want to track the execution time of call in `ShowtimeController` and log in the Console.
-Be default we set the loggers to log in the Console, so you only need to worry to get the Logger in the code.
+By default we set the loggers to log in the Console, so you only need to worry to get the Logger in the code.
 Track the execution time without adding code inside the `ShowtimeController`, find a way.
 
 ### Error Handling
