@@ -1,2 +1,64 @@
-Please add the cURLs of your tests here:
+1. Get all showtimes with read token, returns reponse.
+
+curl -X GET "https://localhost:7629/api/showtime" -H "accept: */*" -H "ApiKey: MTIzNHxSZWFk"
+
+2. Get all showtimes without read token, returns 401 unauthorize
+
+ curl -X GET "https://localhost:7629/api/showtime" -H "accept: */*"
+
+3. Get all showtimes without write token, returns 401 unauthorize
+
+curl -X GET "https://localhost:7629/api/showtime" -H "accept: */*" -H "ApiKey: Nzg5NHxXcml0ZQ==""
+
+4. Get all with title filter and authorized with read token
+
+curl -X GET "https://localhost:7629/api/showtime?title=Inception" -H "accept: */*" -H "ApiKey: MTIzNHxSZWFk"
+
+5. Get all with date filter and authorized with read token
+
+curl -X GET "https://localhost:7629/api/showtime?date=2022-01-02" -H "accept: */*" -H "ApiKey: MTIzNHxSZWFk"
+
+
+6. Post without auth:
+"https://localhost:7629/api/showtime" -H "accept: */*" -H "Content-Type: application/json" -d "{\"startDate\":\"2022-11-22T21:31:49.704Z\",\"endDate\":\"2022-11-22T21:31:49.704Z\",\"schedule\":[\"17:10\"],\"movie\":{\"imdbId\":\"tt0111161\"},\"auditoriumId\":1}"
+
+7. Post with write token
+
+curl -X POST "https://localhost:7629/api/showtime" -H "accept: */*" -H "ApiKey: Nzg5NHxXcml0ZQ==" -H "Content-Type: application/json" -d "{\"startDate\":\"2022-11-22T21:31:49.704Z\",\"endDate\":\"2022-11-22T21:31:49.704Z\",\"schedule\":[\"17:10\"],\"movie\":{\"imdbId\":\"tt0111161\"},\"auditoriumId\":1}"
+
+8. Get details by id without token, returns 401( unathorized)
+
+curl -X GET "https://localhost:7629/api/showtime/1" -H "accept: */*"
+
+9. Get details by id with write token, returns 401( unathorized)
+
+curl -X GET "https://localhost:7629/api/showtime/1" -H "accept: */*" -H "ApiKey: Nzg5NHxXcml0ZQ=="
+
+10. Get details by id with write tokenv returns response 
+
+curl -X GET "https://localhost:7629/api/showtime/1" -H "accept: */*" -H "ApiKey: MTIzNHxSZWFk"
+
+11. Put showtime 
+
+curl -X PUT "https://localhost:7629/api/showtime" -H "accept: */*" -H "ApiKey: Nzg5NHxXcml0ZQ==" -H "Content-Type: application/json" -d "{\"id\":1,\"startDate\":\"2022-04-04T00:00:00\",\"endDate\":\"2022-06-06T00:00:00\",\"schedule\":[\"16:00\",\"17:00\"],\"movie\":{\"title\":\"Inception\",\"imdbId\":\"tt1375666\",\"stars\":\"Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page, Ken Watanabe\",\"releaseDate\":\"2010-01-14T00:00:00\"},\"auditoriumId\":1}"
+
+13. Delete with read token returns 401 (uauthorized)
+
+curl -X DELETE "https://localhost:7629/api/showtime?id=1" -H "accept: */*" -H "ApiKey: MTIzNHxSZWFk"
+
+14.Delete without writen token returns 401 (uauthorized)
+
+ curl -X DELETE "https://localhost:7629/api/showtime?id=1" -H "accept: */*"
+
+15. Delete with write token return success response
+
+curl -X DELETE "https://localhost:7629/api/showtime?id=1" -H "accept: */*" -H "ApiKey: Nzg5NHxXcml0ZQ=="
+
+16. Test Global Error Handling 
+
+curl -X PATCH "https://localhost:7629/api/showtime" -H "accept: */*"
+
+17. Check status of IMDB API
+ curl -X GET "https://localhost:7629/api/status" -H "accept: */*"
+
 
