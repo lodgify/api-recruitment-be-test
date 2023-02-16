@@ -1,7 +1,9 @@
-﻿using CinemaApplication.DTOs;
+﻿using CinemaApplication.DAL.Repositories;
+using CinemaApplication.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ApiApplication.Controllers
@@ -11,28 +13,36 @@ namespace ApiApplication.Controllers
     /// </summary>
     public class ShowtimeController : CinemaBaseApiController
     {
+        private readonly IShowtimesRepository showtimesRepository;
+
+        public ShowtimeController(IShowtimesRepository showtimesRepository)
+        {
+            this.showtimesRepository = showtimesRepository;
+        }
+
         /// <summary>
         /// Get all available showtimes.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<IEnumerable<ShowtimeDto>> Get()
+        public async Task<ActionResult<IEnumerable<ShowtimeDto>>> Get()
         {
-            return Ok(new List<ShowtimeDto>
+            var showTimes = await showtimesRepository.GetAllAsync();
+            return Ok(showTimes.Select(s => new ShowtimeDto
             {
-                new ShowtimeDto
+                Id = s.Id,
+                StartDate = s.StartDate,
+                EndDate = s.EndDate,
+                Schedule = s.Schedule,
+                AudithoriumId = s.AuditoriumId,
+                Movie = new MovieDto
                 {
-                     Id= 1,
-                     StartDate = DateTime.UtcNow.AddDays(1),
-                     EndDate = DateTime.UtcNow.AddDays(5),
-                     AudithoriumId = 1,
-                     Movie= new MovieDto
-                     {
-                         Title = "Go"
-                     },
-                    Schedule = "some schedule"
+                    Title = s.Movie.Title,
+                    ImdbId = s.Movie.ImdbId,
+                    ReleaseDate = s.Movie.ReleaseDate,
+                    Starts = s.Movie.Stars
                 }
-            });
+            }));
         }
 
         /// <summary>
