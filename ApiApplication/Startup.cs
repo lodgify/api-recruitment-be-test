@@ -1,4 +1,5 @@
 using ApiApplication.Extensions;
+using ApiApplication.Middlewares;
 using CinemaApplication.DAL;
 using CinemaApplication.DAL.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -48,7 +49,9 @@ namespace ApiApplication
 
             app.UseHttpsRedirection();
 
-            app.UseRouting()
+            app
+               .AddMiddlewares()
+               .UseRouting()
                .UseAuthentication()
                .UseAuthorization()
                .UseEndpoints(endpoints => { endpoints.MapControllers(); });

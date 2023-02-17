@@ -33,7 +33,7 @@ namespace ApiApplication.Controllers
                 Id = s.Id,
                 StartDate = s.StartDate,
                 EndDate = s.EndDate,
-                Schedule = s.Schedule,
+                Schedule = String.Join(",", s.Schedule),
                 AudithoriumId = s.AuditoriumId,
                 Movie = new MovieDto
                 {
@@ -70,9 +70,13 @@ namespace ApiApplication.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public ActionResult<Task> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return Ok(Task.CompletedTask);
+            var showtimes = await showtimesRepository.GetAllAsync(s => s.Id == id);
+
+            await showtimesRepository.DeleteAsync(showtimes.Single());
+
+            return Ok();
         }
     }
 }

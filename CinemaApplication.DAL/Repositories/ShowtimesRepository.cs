@@ -33,9 +33,10 @@ namespace CinemaApplication.DAL.Repositories
         }
 
         public async Task<IEnumerable<ShowtimeEntity>> GetAllAsync()
-        {
-            return await GetAllAsync(null);
-        }
+            => await _context
+                .Showtimes
+                .Include(s => s.Movie)
+                .ToListAsync();
 
         public async Task<IEnumerable<ShowtimeEntity>> GetAllAsync(Expression<Func<ShowtimeEntity, bool>> expression)
         {
