@@ -15,6 +15,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using ApiApplication.Resources;
+using ApiApplication.Services;
+using Quartz;
+using ApiApplication.Jobs;
+using ApiApplication.Middlewares;
 
 namespace ApiApplication
 {
@@ -34,16 +40,50 @@ namespace ApiApplication
             {
                 options.UseInMemoryDatabase("CinemaDb")
                     .EnableSensitiveDataLogging()
-                    .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));                
+                    .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
             services.AddAuthentication(options =>
             {
                 options.AddScheme<CustomAuthenticationHandler>(CustomAuthenticationSchemeOptions.AuthenticationScheme, CustomAuthenticationSchemeOptions.AuthenticationScheme);
-                options.RequireAuthenticatedSignIn = true;                
+                options.RequireAuthenticatedSignIn = true;
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
+
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("Read", policy => policy.RequireRole("Read"));
+                opt.AddPolicy("Write", policy => policy.RequireRole("Write"));
+            });
+
+            services.AddScoped<IShowtimesRepository, ShowtimesRepository>();
+            services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IImdbRepository, ImdbRepository>();
+            services.AddScoped<ShowtimeService>();
+            services.AddSingleton<IImdbPageStatus, ImdbPageStatus>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddQuartz(q =>
+            {
+                q.UseMicrosoftDependencyInjectionJobFactory();
+                var jobKey = new JobKey("ImdbJob");
+                // base quartz scheduler, job and trigger configuration
+                q.AddJob<ImdbJob>(opt => opt.WithIdentity(jobKey));
+                q.AddTrigger(t => t
+                .ForJob(jobKey).StartNow()
+                .WithIdentity("ImdbJob-trigger")
+                .WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromSeconds(60)).RepeatForever()));
+            });
+
+
+            // ASP.NET Core hosting
+            services.AddQuartzServer(options =>
+            {
+                // when shutting down we want jobs to complete gracefully
+                options.WaitForJobsToComplete = true;
+            });
+
             services.AddControllers();
         }
 
@@ -52,12 +92,14 @@ namespace ApiApplication
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();                
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMiddleware<ExecutionTrackerMiddleware>();
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -67,6 +109,6 @@ namespace ApiApplication
             });
 
             SampleData.Initialize(app);
-        }      
+        }
     }
 }
