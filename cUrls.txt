@@ -1,2 +1,68 @@
-Please add the cURLs of your tests here:
+Get all showtimes:
 
+Headers: ApiKey:MTIzNHxSZWFk
+Method: GET
+Url: https://localhost:7629/api/showtime/
+/***************************************************************************************************************/
+Get all showtimes of a day
+
+Headers: ApiKey:MTIzNHxSZWFk
+Method: GET
+Url: https://localhost:7629/api/showtime/date/2022-01-05
+/***************************************************************************************************************/
+Get all showtimes by keyword in their title
+
+Headers: ApiKey:MTIzNHxSZWFk
+Method: GET
+Url: https://localhost:7629/api/showtime/title/iNc
+/***************************************************************************************************************/
+Create a showtime:
+
+Header: ApiKey: Nzg5NHxXcml0ZQ==
+Method: POST
+Sample request body (json):
+{
+	"auditorium_id": 2,
+	"movie": { "imdb_id": "tt0120741"},
+	"start_date": "2022-05-01",
+	"end_date": "2022-07-16",
+	"schedule": "12:30, 16:30, 19:00 , 23:10"
+}
+
+Url: https://localhost:7629/api/showtime
+/***************************************************************************************************************/
+Update a showtime:
+
+Header: ApiKey: Nzg5NHxXcml0ZQ==
+Method: PUT
+Sample request body (json):
+{
+	"id": 2,
+	"auditorium_id": 2,
+	"movie": { "imdb_id": "tt0062760"},
+	"start_date": "2022-01-01",
+	"end_date": "2022-03-16",
+	"schedule": "12:30,23:00"
+}
+
+Url: https://localhost:7629/api/showtime
+/***************************************************************************************************************/
+Delete a showtime:
+
+Header: ApiKey: Nzg5NHxXcml0ZQ==
+Method: DELETE
+
+Url: https://localhost:7629/api/showtime/2
+/***************************************************************************************************************/
+Raise exception:
+
+Method: PATCH
+
+Url: https://localhost:7629/api/showtime
+/***************************************************************************************************************/
+Check imdb is alive (background service):
+
+Method: GET
+
+Url: https://localhost:7629/api/imdbstatus/
+/***************************************************************************************************************/

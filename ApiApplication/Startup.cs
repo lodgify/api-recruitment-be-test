@@ -1,5 +1,12 @@
 using ApiApplication.Auth;
 using ApiApplication.Database;
+using ApiApplication.Filters;
+using ApiApplication.Helpers;
+using ApiApplication.HostedServices;
+using ApiApplication.Mappings;
+using ApiApplication.Middlewares;
+using ApiApplication.Dtos;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,13 +45,38 @@ namespace ApiApplication
             });
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
+            services.AddSingleton<IImdbHelper>(new ImdbApiHelper(Configuration.GetValue<string>("ImdbApiKey")));
+            services.AddSingleton(new ImdbStatusDto() { Up = false });
             services.AddAuthentication(options =>
             {
                 options.AddScheme<CustomAuthenticationHandler>(CustomAuthenticationSchemeOptions.AuthenticationScheme, CustomAuthenticationSchemeOptions.AuthenticationScheme);
                 options.RequireAuthenticatedSignIn = true;                
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
-            services.AddControllers();
+
+            services.AddHostedService<ImdbStatusBackgroundService>();
+            services.AddScoped<IImdbMonitoringService, ImdbMonitoringService>();
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new CustomExceptionFilter());
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+            services.AddControllers(option => 
+            { 
+                option.Filters.Add<ValidateModel>(int.MinValue);
+            }).AddJsonOptions(
+                options => {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonSnakeCaseNamingPolicy.Instance;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +92,8 @@ namespace ApiApplication
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseMiddleware<ExecutionTimeMiddleware>();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

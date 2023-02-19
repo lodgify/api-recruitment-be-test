@@ -9,7 +9,7 @@
 
  Thank you and good luck! 
 
----
+--
 
 ## Context
 
@@ -27,8 +27,8 @@ An Authentication Scheme is already implemented that work with a very simple tok
 
 **Write Token** Header Name: `ApiKey` | Header Value : `Nzg5NHxXcml0ZQ==` 
 
- To use the IMDB API you will need to create an account to get an Api Key to use with their system.
-
+To use the IMDB API you will need to create an account to get an Api Key to use with their system.
+My Api Key: k_o92e2q30
  ---
 
  ## Implementation instructions
@@ -80,7 +80,7 @@ We want a  **backgorund** task that calls the IMDB API, you can use any method y
 
 ### Data Layer Repository
 
-To complete the API Controller implementation you will need to complete the implementation of `ShowtimesRepository`.
+To complete the API Controller implementation you will need to complete the implementation of ` `.
 
 ### Authorization
 
