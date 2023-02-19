@@ -1,5 +1,6 @@
 ﻿using CinemaApplication.DAL.Repositories;
 using CinemaApplication.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,21 +14,22 @@ namespace ApiApplication.Controllers
     /// </summary>
     public class ShowtimeController : CinemaBaseApiController
     {
-        private readonly IShowtimesRepository showtimesRepository;
+        private readonly IShowtimesRepository _showtimeRepository;
 
-        public ShowtimeController(IShowtimesRepository showtimesRepository)
+        public ShowtimeController(IShowtimesRepository showtimeRepository)
         {
-            this.showtimesRepository = showtimesRepository;
+            this._showtimeRepository = showtimeRepository;
         }
 
         /// <summary>
-        /// Get all available showtimes.
+        /// Get all available showtimes
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ShowtimeDto>>> Get()
+        //[Authorize(Policy = "Read")]
+        public async Task<ActionResult<IEnumerable<ShowtimeDto>>> GetShowtimes()
         {
-            var showTimes = await showtimesRepository.GetAllAsync();
+            var showTimes = await _showtimeRepository.GetAllAsync();
             return Ok(showTimes.Select(s => new ShowtimeDto
             {
                 Id = s.Id,
@@ -50,9 +52,24 @@ namespace ApiApplication.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<IEnumerable<int>> Post()
+        //[Authorize(Policy = "Write")]
+        public async Task<ActionResult<IEnumerable<int>>> CreateShowtime(NewShowtimeDto showtime)
         {
-            return Ok(new List<int> { 1, 4 });
+            var newShowtime = await _showtimeRepository.AddAsync(new CinemaApplication.DAL.Models.ShowtimeEntity
+            {
+                AuditoriumId = showtime.AudithoriumId,
+                StartDate = showtime.StartDate,
+                EndDate = showtime.EndDate,
+                Schedule = showtime.Schedule,
+                Movie = new CinemaApplication.DAL.Models.MovieEntity
+                {
+                    ImdbId = showtime.Movie.ImdbId,
+                    Title = showtime.Movie.Title,
+                    ReleaseDate = showtime.Movie.ReleaseDate
+                }
+            });
+
+            return Ok(newShowtime);
         }
 
         /// <summary>
@@ -60,7 +77,8 @@ namespace ApiApplication.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        public ActionResult<IEnumerable<int>> Update()
+        //[Authorize(Policy = "Write")]
+        public ActionResult<IEnumerable<int>> UpdateShowtime()
         {
             return Ok(new List<int> { 1, 4 });
         }
@@ -70,11 +88,12 @@ namespace ApiApplication.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        //[Authorize(Policy = "Write")]
+        public async Task<ActionResult> DeleteShowtime(int id)
         {
-            var showtimes = await showtimesRepository.GetAllAsync(s => s.Id == id);
+            var showtimes = await _showtimeRepository.GetAllAsync(s => s.Id == id);
 
-            await showtimesRepository.DeleteAsync(showtimes.Single());
+            await _showtimeRepository.DeleteAsync(showtimes.Single());
 
             return Ok();
         }

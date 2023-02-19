@@ -19,7 +19,7 @@ namespace ApiApplication
                     {
                         options.AddConsole();
                     });
-                    webBuilder.UseStartup<Startup>();                    
+                    webBuilder.UseStartup<Startup>();  
                 });
     }
 }

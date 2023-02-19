@@ -1,5 +1,6 @@
 ﻿using ApiApplication.Auth;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Claims;
 
 namespace ApiApplication.Extensions
 {
@@ -14,6 +15,17 @@ namespace ApiApplication.Extensions
                 options.RequireAuthenticatedSignIn = true;
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Read", policy => policy.RequireClaim(ClaimTypes.Role, "Read"));
+                options.AddPolicy("Write", policy => policy.RequireClaim(ClaimTypes.Role, "Write"));
+            });
+
+            services.AddHttpClient("default", client =>
+            {
+            });
+
 
             return services;
         }
