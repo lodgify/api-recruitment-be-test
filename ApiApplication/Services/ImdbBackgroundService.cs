@@ -27,7 +27,11 @@ namespace ApiApplication.Services
             {
                 _logger.LogInformation($"Calling IMDB API at {DateTime.UtcNow}");
 
-                _imdbStatusObject.Status = await _imdbStatusService.GetImdbStatus();
+                var result = await _imdbStatusService.GetImdbStatus();
+                if(result.IsSuccessful)
+                {
+                    _imdbStatusObject.Status = result.Data;
+                }
 
                 await Task.Delay(new System.TimeSpan(0, 0, 5));
             }

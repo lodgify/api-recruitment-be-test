@@ -3,6 +3,8 @@ using CinemaApplication.DAL.Models;
 using CinemaApplication.DAL.Repositories;
 using CinemaApplication.DTOs;
 using CinemaApplication.Services.Abstractions;
+using CinemaApplication.Services.Models;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,88 +18,135 @@ namespace CinemaApplication.Services.Concrete
         private readonly IMovieRepository _movieRepository;
         private readonly IAuditoriumRepository _auditoriumRepository;
         private readonly IImdbService _imdbService;
+        private readonly ILogger _logger;
 
-        public ShowtimeService(IShowtimeRepository showtimeRepository,
+        public ShowtimeService(
+            IShowtimeRepository showtimeRepository,
             IMovieRepository movieRepository,
             IAuditoriumRepository auditoriumRepository,
-            IImdbService imdbService)
+            IImdbService imdbService,
+            ILoggerFactory loggerFactory)
         {
             _showtimeRepository = showtimeRepository;
             _movieRepository = movieRepository;
             _auditoriumRepository = auditoriumRepository;
             _imdbService = imdbService;
+            _logger = loggerFactory.CreateLogger<ShowtimeService>();
         }
 
-        public async Task<IEnumerable<ShowtimeDto>> GetAllAsync()
+        public async Task<ServiceDataResult<IEnumerable<ShowtimeDto>>> GetAllAsync()
         {
-            var showTimes = await _showtimeRepository.GetAllAsync();
-            return showTimes.Select(s => new ShowtimeDto
+            try
             {
-                Id = s.Id,
-                StartDate = s.StartDate,
-                EndDate = s.EndDate,
-                Schedule = String.Join(",", s.Schedule),
-                AudithoriumId = s.AuditoriumId,
-                Movie = new MovieDto
+                var showTimes = await _showtimeRepository.GetAllAsync();
+                return ServiceDataResult<IEnumerable<ShowtimeDto>>.WithData(showTimes.Select(s => new ShowtimeDto
                 {
-                    Title = s.Movie.Title,
-                    ImdbId = s.Movie.ImdbId,
-                    ReleaseDate = s.Movie.ReleaseDate,
-                    Starts = s.Movie.Stars
-                }
-            });
-        }
-
-        public async Task<int> AddAsync(NewShowtimeDto showtime)
-        {
-            var auditorum = await _auditoriumRepository.GetAsync(showtime.AudithoriumId);
-            if (auditorum == null)
-            {
-                //TODO: Stop throwing exceptions.
-                throw new Exception("Auditorium not found.");
+                    Id = s.Id,
+                    StartDate = s.StartDate,
+                    EndDate = s.EndDate,
+                    Schedule = String.Join(",", s.Schedule),
+                    AudithoriumId = s.AuditoriumId,
+                    Movie = new MovieDto
+                    {
+                        Title = s.Movie.Title,
+                        ImdbId = s.Movie.ImdbId,
+                        ReleaseDate = s.Movie.ReleaseDate,
+                        Starts = s.Movie.Stars
+                    }
+                }));
             }
-
-            var movie = await _movieRepository.GetAsync(showtime.Movie.ImdbId);
-            if (movie == null)
+            catch(Exception ex)
             {
-                var imdbMovie = await _imdbService.GetMovieAsync(showtime.Movie.ImdbId);
-                movie = new MovieEntity
-                {
-                    ImdbId = imdbMovie.Id,
-                    Title = imdbMovie.Title
-                };
+                _logger.LogCritical(ex.Message);
+                return ServiceDataResult<IEnumerable<ShowtimeDto>>.WithError(ex.Message);
             }
-
-            var newShowtimeEntity = await _showtimeRepository.AddAsync(new ShowtimeEntity
-            {
-                AuditoriumId = showtime.AudithoriumId,
-                StartDate = showtime.StartDate,
-                EndDate = showtime.EndDate,
-                Schedule = showtime.Schedule,
-                Movie = movie
-            });
-
-            return newShowtimeEntity.Id;
         }
 
-        public async Task DeleteAsync(int showtimeId)
-            => await _showtimeRepository.DeleteAsync(showtimeId);
-
-        public async Task UpdateAsync(ShowtimeDto showtime)
+        public async Task<ServiceDataResult<int>> AddAsync(NewShowtimeDto showtime)
         {
-            await _showtimeRepository.UpdateAsync(new ShowtimeEntity
+            try
             {
-                AuditoriumId = showtime.AudithoriumId,
-                StartDate = showtime.StartDate,
-                EndDate = showtime.EndDate,
-                Schedule = showtime.Schedule.Split(','),
-                Movie = new MovieEntity
+                var auditorum = await _auditoriumRepository.GetAsync(showtime.AuditoriumId);
+                if (auditorum == null)
                 {
-                    ImdbId = showtime.Movie.ImdbId,
-                    Title = showtime.Movie.Title,
-                    ReleaseDate = showtime.Movie.ReleaseDate
+                    return ServiceDataResult<int>.WithError("Auditorium is not found.");
                 }
-            });
+
+                var movie = await _movieRepository.GetAsync(showtime.Movie.ImdbId);
+                if (movie == null)
+                {
+                    var movieResult = await _imdbService.GetMovieAsync(showtime.Movie.ImdbId);
+                    if (movieResult.IsError)
+                    {
+                        return ServiceDataResult<int>.WithError(movieResult.Error);
+                    }
+
+                    movie = new MovieEntity
+                    {
+                        ImdbId = movieResult.Data.Id,
+                        Title = movieResult.Data.Title
+                    };
+                }
+
+                var newShowtimeEntity = await _showtimeRepository.AddAsync(new ShowtimeEntity
+                {
+                    AuditoriumId = showtime.AuditoriumId,
+                    StartDate = showtime.StartDate,
+                    EndDate = showtime.EndDate,
+                    Schedule = showtime.Schedule,
+                    Movie = movie
+                });
+
+
+                return ServiceDataResult<int>.WithData(newShowtimeEntity.Id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex.Message);
+                return ServiceDataResult<int>.WithError("Failed to add new showtime.");
+            }
+        }
+
+        public async Task<ServiceResult> DeleteAsync(int showtimeId)
+        {
+            try
+            {
+                await _showtimeRepository.DeleteAsync(showtimeId);
+
+                return ServiceResult.Success;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex.Message);
+                return ServiceResult.Failure(ex.Message);
+            }
+        }
+
+        public async Task<ServiceResult> UpdateAsync(ShowtimeDto showtime)
+        {
+            try
+            {
+                await _showtimeRepository.UpdateAsync(new ShowtimeEntity
+                {
+                    AuditoriumId = showtime.AudithoriumId,
+                    StartDate = showtime.StartDate,
+                    EndDate = showtime.EndDate,
+                    Schedule = showtime.Schedule.Split(','),
+                    Movie = new MovieEntity
+                    {
+                        ImdbId = showtime.Movie.ImdbId,
+                        Title = showtime.Movie.Title,
+                        ReleaseDate = showtime.Movie.ReleaseDate
+                    }
+                });
+
+                return ServiceResult.Success;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex.Message);
+                return ServiceResult.Failure(ex.Message);
+            }
         }
     }
 }

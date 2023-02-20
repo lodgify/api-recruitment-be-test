@@ -5,8 +5,8 @@ namespace CinemaApplication.Services.Abstractions
 {
     public interface IImdbService
     {
-        Task<bool> GetImdbStatus();
+        Task<ServiceDataResult<bool>> GetImdbStatus();
 
-        Task<ImdbMovie> GetMovieAsync(string imdbId);
+        Task<ServiceDataResult<ImdbMovie>> GetMovieAsync(string imdbId);
     }
 }

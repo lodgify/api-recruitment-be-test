@@ -1,4 +1,5 @@
-﻿using CinemaApplication.DTOs;
+﻿using ApiApplication.Extensions;
+using CinemaApplication.DTOs;
 using CinemaApplication.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace ApiApplication.Controllers
         [HttpGet]
         //[Authorize(Policy = "Read")]
         public async Task<ActionResult<IEnumerable<ShowtimeDto>>> GetShowtimes()
-            => Ok(await _showtimeService.GetAllAsync());
+            => (await _showtimeService.GetAllAsync()).ToActionResult();
 
         /// <summary>
         /// Create new showtime
@@ -34,8 +35,8 @@ namespace ApiApplication.Controllers
         /// <returns></returns>
         [HttpPost]
         //[Authorize(Policy = "Write")]
-        public async Task<ActionResult<IEnumerable<int>>> CreateShowtime(NewShowtimeDto showtime)
-            => Ok(await _showtimeService.AddAsync(showtime));
+        public async Task<ActionResult<int>> CreateShowtime(NewShowtimeDto showtime)
+            => (await _showtimeService.AddAsync(showtime)).ToActionResult();
 
         /// <summary>
         /// Updates existing showtime
