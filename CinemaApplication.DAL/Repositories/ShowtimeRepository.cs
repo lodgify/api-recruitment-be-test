@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace CinemaApplication.DAL.Repositories
 {
-    public class ShowtimesRepository : IShowtimesRepository
+    public class ShowtimeRepository : IShowtimeRepository
     {
         private readonly CinemaContext _context;
-        public ShowtimesRepository(CinemaContext context)
+        public ShowtimeRepository(CinemaContext context)
         {
             _context = context;
         }
@@ -25,9 +25,9 @@ namespace CinemaApplication.DAL.Repositories
             return showtimeEntity;
         }
 
-        public async Task DeleteAsync(ShowtimeEntity entity)
+        public async Task DeleteAsync(int showtimeId)
         {
-            var removedEntity = _context.Showtimes.Remove(entity);
+            var removedEntity = _context.Showtimes.Remove(new ShowtimeEntity { Id = showtimeId });
             removedEntity.State = EntityState.Deleted;
             await _context.SaveChangesAsync();
         }

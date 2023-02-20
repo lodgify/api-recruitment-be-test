@@ -2,6 +2,7 @@ using ApiApplication.Extensions;
 using ApiApplication.Services;
 using CinemaApplication.DAL;
 using CinemaApplication.DAL.Extensions;
+using CinemaApplication.Services.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -25,7 +26,7 @@ namespace ApiApplication
 
         public void ConfigureServices(IServiceCollection services)
             => services
-                .AddDAL()
+                .AddServices()
                 .AddHostedService<ImdbBackgroundService>()
                 .AddSingleton<ImdbStatusModel>()
                 .AddAuth()

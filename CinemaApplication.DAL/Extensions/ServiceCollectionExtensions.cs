@@ -15,7 +15,7 @@ namespace CinemaApplication.DAL.Extensions
                     .EnableSensitiveDataLogging()
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
-            services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
+            services.AddTransient<IShowtimeRepository, ShowtimeRepository>();
             return services;
         }
     }

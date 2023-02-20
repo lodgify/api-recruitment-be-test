@@ -12,13 +12,4 @@ namespace CinemaApplication.DTOs
         public MovieDto Movie { get; set; }
         public int AudithoriumId { get; set; }
     }
-
-    public class NewShowtimeDto
-    {
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public IList<string> Schedule { get; set; } = new List<string>();
-        public MovieDto Movie { get; set; }
-        public int AudithoriumId { get; set; }
-    }
 }

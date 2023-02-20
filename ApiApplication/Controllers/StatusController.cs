@@ -1,4 +1,5 @@
 ﻿using CinemaApplication.DTOs;
+using CinemaApplication.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -9,6 +10,13 @@ namespace ApiApplication.Controllers
     /// </summary>
     public class StatusController : CinemaBaseApiController
     {
+        private readonly IImdbService imdbStatusService;
+
+        public StatusController(IImdbService imdbStatusService)
+        {
+            this.imdbStatusService = imdbStatusService;
+        }
+
         /// <summary>
         /// Get the current IMDB status
         /// </summary>

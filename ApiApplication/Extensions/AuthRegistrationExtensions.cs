@@ -22,11 +22,6 @@ namespace ApiApplication.Extensions
                 options.AddPolicy("Write", policy => policy.RequireClaim(ClaimTypes.Role, "Write"));
             });
 
-            services.AddHttpClient("default", client =>
-            {
-            });
-
-
             return services;
         }
     }
