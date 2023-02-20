@@ -1,4 +1,5 @@
-﻿using CinemaApplication.DAL.Models;
+﻿using CinemaApplication.DAL.Abstractions;
+using CinemaApplication.DAL.Models;
 using CinemaApplication.DAL.Repositories;
 using CinemaApplication.DTOs;
 using CinemaApplication.Services.Abstractions;
@@ -13,14 +14,17 @@ namespace CinemaApplication.Services.Concrete
     {
         private readonly IShowtimeRepository _showtimeRepository;
         private readonly IMovieRepository _movieRepository;
+        private readonly IAuditoriumRepository _auditoriumRepository;
         private readonly IImdbService _imdbService;
 
         public ShowtimeService(IShowtimeRepository showtimeRepository,
             IMovieRepository movieRepository,
+            IAuditoriumRepository auditoriumRepository,
             IImdbService imdbService)
         {
             _showtimeRepository = showtimeRepository;
             _movieRepository = movieRepository;
+            _auditoriumRepository = auditoriumRepository;
             _imdbService = imdbService;
         }
 
@@ -46,6 +50,13 @@ namespace CinemaApplication.Services.Concrete
 
         public async Task<int> AddAsync(NewShowtimeDto showtime)
         {
+            var auditorum = await _auditoriumRepository.GetAsync(showtime.AudithoriumId);
+            if (auditorum == null)
+            {
+                //TODO: Stop throwing exceptions.
+                throw new Exception("Auditorium not found.");
+            }
+
             var movie = await _movieRepository.GetAsync(showtime.Movie.ImdbId);
             if (movie == null)
             {

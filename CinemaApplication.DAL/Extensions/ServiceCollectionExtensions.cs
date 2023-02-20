@@ -1,4 +1,5 @@
-﻿using CinemaApplication.DAL.Repositories;
+﻿using CinemaApplication.DAL.Abstractions;
+using CinemaApplication.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,7 @@ namespace CinemaApplication.DAL.Extensions
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
 
+            services.AddScoped<IAuditoriumRepository, AuditoriumRepository>();
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IShowtimeRepository, ShowtimeRepository>();
             return services;
