@@ -13,7 +13,8 @@ namespace ApiApplication.Services
         private readonly ImdbStatusModel _imdbStatusObject;
         private readonly IImdbService _imdbStatusService;
 
-        public ImdbBackgroundService(ILoggerFactory loggerFactory,
+        public ImdbBackgroundService(
+            ILoggerFactory loggerFactory,
             ImdbStatusModel imdbStatusObject,
             IImdbService imdbStatusService)
         {
@@ -28,25 +29,20 @@ namespace ApiApplication.Services
                 _logger.LogInformation($"Calling IMDB API at {DateTime.UtcNow}");
 
                 var result = await _imdbStatusService.GetImdbStatus();
-                if(result.IsSuccessful)
+                if (result.IsSuccess)
                 {
-                    _imdbStatusObject.Status = result.Data;
+                    _imdbStatusObject.Up = result.Data.Up;
+                    _imdbStatusObject.LastCall = result.Data.LastCall;
                 }
 
-                await Task.Delay(new System.TimeSpan(0, 0, 5));
+                await Task.Delay(new TimeSpan(0, 0, 10));
             }
         }
     }
 
     public class ImdbStatusModel
     {
-        private bool _status;
-
-        public bool Status
-        {
-            get { return _status; }
-
-            set { _status = value; }
-        }
+        public bool Up { get; set; }
+        public DateTime LastCall { get; set; }
     }
 }

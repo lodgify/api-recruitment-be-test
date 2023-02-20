@@ -1,4 +1,5 @@
-﻿using CinemaApplication.Services.Abstractions;
+﻿using CinemaApplication.DTOs;
+using CinemaApplication.Services.Abstractions;
 using CinemaApplication.Services.Models;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -21,17 +22,21 @@ namespace CinemaApplication.Services.Concrete
             _logger = loggerFactory.CreateLogger<ImdbService>();
         }
 
-        public async Task<ServiceDataResult<bool>> GetImdbStatus()
+        public async Task<ServiceDataResult<ImdbStatusDto>> GetImdbStatus()
         {
             try
             {
                 var response = await _client.GetAsync("https://www.imdb.com/");
-                return ServiceDataResult<bool>.WithData(response.IsSuccessStatusCode);
+                return ServiceDataResult<ImdbStatusDto>.WithData(new ImdbStatusDto
+                {
+                    Up = response.IsSuccessStatusCode,
+                    LastCall = DateTime.UtcNow
+                });
             }
             catch (Exception ex)
             {
                 _logger.LogCritical(ex.Message);
-                return ServiceDataResult<bool>.WithError(ex.Message);
+                return ServiceDataResult<ImdbStatusDto>.WithError(ex.Message);
             }
         }
 

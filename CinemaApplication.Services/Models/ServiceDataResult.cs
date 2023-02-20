@@ -4,12 +4,12 @@
     {
         public TData Data { get; }
 
-        private ServiceDataResult(bool isSuccessful, string error)
-            : base(isSuccessful, error)
+        private ServiceDataResult(ServiceResultType serviceResult, string error)
+            : base(serviceResult, error)
         { }
 
         public ServiceDataResult(TData data)
-            : base(true)
+            : base(ServiceResultType.Success)
         {
             this.Data = data;
         }
@@ -18,6 +18,6 @@
             => new ServiceDataResult<TData>(data);
 
         public static ServiceDataResult<TData> WithError(string errorMessage)
-            => new ServiceDataResult<TData>(false, errorMessage);
+            => new ServiceDataResult<TData>(ServiceResultType.Failed, errorMessage);
     }
 }

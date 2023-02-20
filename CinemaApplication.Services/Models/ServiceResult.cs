@@ -1,35 +1,31 @@
 ﻿namespace CinemaApplication.Services.Models
 {
-    public enum ServiceResultType
-    {
-        Success,
-        Failed
-    }
-
     public class ServiceResult
     {
-        public bool IsSuccessful { get; }
+        public ServiceResultType Status { get; }
         public string Error { get; }
 
-        public ServiceResult(bool isSuccessful)
-            : this(isSuccessful, string.Empty)
+        public ServiceResult(ServiceResultType status)
+            : this(status, string.Empty)
         { }
 
-        public ServiceResult(bool isSuccessful, string error)
+        public ServiceResult(ServiceResultType status, string error)
         {
-            this.IsSuccessful = isSuccessful;
+            this.Status = status;
             this.Error = error;
         }
 
         public static ServiceResult Success
-            => new ServiceResult(true);
+            => new ServiceResult(ServiceResultType.Success);
 
         public static ServiceResult Failure(string error)
-            => new ServiceResult(false, error);
+            => new ServiceResult(ServiceResultType.Failed, error);
 
-        public static implicit operator ServiceResult(bool result)
-            => new ServiceResult(result);
+        public static implicit operator ServiceResult(bool isSucessful)
+            => new ServiceResult(isSucessful ? ServiceResultType.Success : ServiceResultType.Failed);
 
-        public bool IsError => !IsSuccessful;
+        public bool IsError => Status != ServiceResultType.Success;
+
+        public bool IsSuccess => Status == ServiceResultType.Success;
     }
 }

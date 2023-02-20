@@ -1,7 +1,6 @@
-﻿using CinemaApplication.DTOs;
-using CinemaApplication.Services.Abstractions;
+﻿using ApiApplication.Services;
+using CinemaApplication.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace ApiApplication.Controllers
 {
@@ -10,11 +9,12 @@ namespace ApiApplication.Controllers
     /// </summary>
     public class StatusController : CinemaBaseApiController
     {
-        private readonly IImdbService imdbStatusService;
+        private readonly ImdbStatusModel _imdbStatusModel;
 
-        public StatusController(IImdbService imdbStatusService)
+        public StatusController(
+            ImdbStatusModel imdbStatusModel)
         {
-            this.imdbStatusService = imdbStatusService;
+            _imdbStatusModel = imdbStatusModel;
         }
 
         /// <summary>
@@ -23,12 +23,10 @@ namespace ApiApplication.Controllers
         /// <returns>Imdb status info</returns>
         [HttpGet]
         public ActionResult<ImdbStatusDto> Get()
-        {
-            return Ok(new ImdbStatusDto()
+            => Ok(new ImdbStatusDto
             {
-                Up = true,
-                LastCall = DateTime.Now,
+                Up = _imdbStatusModel.Up,
+                LastCall = _imdbStatusModel.LastCall
             });
-        }
     }
 }
