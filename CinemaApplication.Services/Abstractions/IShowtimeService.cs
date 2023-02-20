@@ -8,7 +8,7 @@ namespace CinemaApplication.Services.Abstractions
     {
         Task<IEnumerable<ShowtimeDto>> GetAllAsync();
 
-        Task<int> CreateAsync(NewShowtimeDto showtime);
+        Task<int> AddAsync(NewShowtimeDto showtime);
 
         Task UpdateAsync(ShowtimeDto showtime);
 

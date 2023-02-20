@@ -35,7 +35,7 @@ namespace ApiApplication.Controllers
         [HttpPost]
         //[Authorize(Policy = "Write")]
         public async Task<ActionResult<IEnumerable<int>>> CreateShowtime(NewShowtimeDto showtime)
-            => Ok(await _showtimeService.CreateAsync(showtime));
+            => Ok(await _showtimeService.AddAsync(showtime));
 
         /// <summary>
         /// Updates existing showtime

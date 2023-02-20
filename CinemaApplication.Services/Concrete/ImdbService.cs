@@ -1,5 +1,6 @@
-﻿using CinemaApplication.DAL.Models;
-using CinemaApplication.Services.Abstractions;
+﻿using CinemaApplication.Services.Abstractions;
+using CinemaApplication.Services.Models;
+using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -21,13 +22,13 @@ namespace CinemaApplication.Services.Concrete
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<MovieEntity> GetMovieAsync(string id)
+        public async Task<ImdbMovie> GetMovieAsync(string imdbId)
         {
             // TODO: Refactor below code
             var response = await _client.SendAsync(new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri("https://imdb8.p.rapidapi.com/title/get-details?tconst=tt0120338"),
+                RequestUri = new Uri("https://imdb8.p.rapidapi.com/title/get-details?tconst={imdbId}"),
                 Headers =
                 {
                     { "X-RapidAPI-Key", "2cb6f07896mshed6c555fa39c38fp1d618fjsnae88ac9183b8" },
@@ -35,9 +36,10 @@ namespace CinemaApplication.Services.Concrete
                 }
             });
 
-            var contentStr = await response.Content.ReadAsStringAsync();
+            response.EnsureSuccessStatusCode();
 
-            return null;
+            var contentStr = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ImdbMovie>(contentStr);
         }
     }
 }

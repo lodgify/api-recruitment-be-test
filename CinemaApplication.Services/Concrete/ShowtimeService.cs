@@ -12,12 +12,15 @@ namespace CinemaApplication.Services.Concrete
     public class ShowtimeService : IShowtimeService
     {
         private readonly IShowtimeRepository _showtimeRepository;
-        private readonly ImdbService _imdbService;
+        private readonly IMovieRepository _movieRepository;
+        private readonly IImdbService _imdbService;
 
         public ShowtimeService(IShowtimeRepository showtimeRepository,
-            ImdbService imdbService)
+            IMovieRepository movieRepository,
+            IImdbService imdbService)
         {
             _showtimeRepository = showtimeRepository;
+            _movieRepository = movieRepository;
             _imdbService = imdbService;
         }
 
@@ -41,9 +44,19 @@ namespace CinemaApplication.Services.Concrete
             });
         }
 
-        public async Task<int> CreateAsync(NewShowtimeDto showtime)
+        public async Task<int> AddAsync(NewShowtimeDto showtime)
         {
-            var movie = await _imdbService.GetMovieAsync(showtime.Movie.ImdbId);
+            var movie = await _movieRepository.GetAsync(showtime.Movie.ImdbId);
+            if (movie == null)
+            {
+                var imdbMovie = await _imdbService.GetMovieAsync(showtime.Movie.ImdbId);
+                movie = new MovieEntity
+                {
+                    ImdbId = imdbMovie.Id,
+                    Title = imdbMovie.Title
+                };
+            }
+
             var newShowtimeEntity = await _showtimeRepository.AddAsync(new ShowtimeEntity
             {
                 AuditoriumId = showtime.AudithoriumId,

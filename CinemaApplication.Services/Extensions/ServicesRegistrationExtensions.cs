@@ -19,9 +19,9 @@ namespace CinemaApplication.Services.Extensions
 
         private static IServiceCollection RegisterServices(this IServiceCollection services)
         {
-            services.AddScoped<IShowtimeService, ShowtimeService>();
             services.AddSingleton<IImdbService, ImdbService>();
-
+            services.AddScoped<IShowtimeService, ShowtimeService>();
+            
             return services;
         }
     }

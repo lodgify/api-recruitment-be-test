@@ -1,4 +1,4 @@
-﻿using CinemaApplication.DAL.Models;
+﻿using CinemaApplication.Services.Models;
 using System.Threading.Tasks;
 
 namespace CinemaApplication.Services.Abstractions
@@ -7,6 +7,6 @@ namespace CinemaApplication.Services.Abstractions
     {
         Task<bool> GetImdbStatus();
 
-        Task<MovieEntity> GetMovieAsync(string id);
+        Task<ImdbMovie> GetMovieAsync(string imdbId);
     }
 }
