@@ -26,8 +26,8 @@ namespace ApiApplication.Controllers
         /// <returns></returns>
         [HttpGet]
         //[Authorize(Policy = "Read")]
-        public async Task<ActionResult<IEnumerable<ShowtimeDto>>> GetShowtimes()
-            => (await _showtimeService.GetAllAsync()).ToActionResult();
+        public async Task<ActionResult<IEnumerable<ShowtimeDto>>> GetShowtimes([FromQuery] ShowtimeQuery query)
+            => (await _showtimeService.GetAllAsync(query)).ToActionResult();
 
         /// <summary>
         /// Create new showtime

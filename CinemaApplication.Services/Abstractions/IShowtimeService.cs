@@ -7,7 +7,7 @@ namespace CinemaApplication.Services.Abstractions
 {
     public interface IShowtimeService
     {
-        Task<ServiceDataResult<IEnumerable<ShowtimeDto>>> GetAllAsync();
+        Task<ServiceDataResult<IEnumerable<ShowtimeDto>>> GetAllAsync(ShowtimeQuery query);
 
         Task<ServiceDataResult<int>> AddAsync(NewShowtimeDto showtime);
 

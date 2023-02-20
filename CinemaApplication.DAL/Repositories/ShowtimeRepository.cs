@@ -61,5 +61,10 @@ namespace CinemaApplication.DAL.Repositories
             updatedEntity.State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
+
+        public IQueryable<ShowtimeEntity> GetQueryable()
+            => _context.Set<ShowtimeEntity>()
+                .Include(s => s.Movie)
+                .AsNoTracking();
     }
 }

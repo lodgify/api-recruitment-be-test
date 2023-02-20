@@ -4,6 +4,7 @@ using CinemaApplication.DAL.Repositories;
 using CinemaApplication.DTOs;
 using CinemaApplication.Services.Abstractions;
 using CinemaApplication.Services.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -34,11 +35,24 @@ namespace CinemaApplication.Services.Concrete
             _logger = loggerFactory.CreateLogger<ShowtimeService>();
         }
 
-        public async Task<ServiceDataResult<IEnumerable<ShowtimeDto>>> GetAllAsync()
+        public async Task<ServiceDataResult<IEnumerable<ShowtimeDto>>> GetAllAsync(ShowtimeQuery query)
         {
             try
             {
-                var showTimes = await _showtimeRepository.GetAllAsync();
+                IQueryable<ShowtimeEntity> showtimesQuery = _showtimeRepository.GetQueryable();
+
+                if (!string.IsNullOrEmpty(query.Title))
+                {
+                    showtimesQuery = showtimesQuery.Where(x => x.Movie.Title.Contains(query.Title, StringComparison.OrdinalIgnoreCase));
+                }
+
+                if (query.Date.HasValue)
+                {
+                    showtimesQuery = showtimesQuery.Where(x => x.StartDate <= query.Date.Value && x.EndDate >= query.Date.Value);
+                }
+
+                var showTimes = await showtimesQuery.ToListAsync();
+
                 return ServiceDataResult<IEnumerable<ShowtimeDto>>.WithData(showTimes.Select(s => new ShowtimeDto
                 {
                     Id = s.Id,
@@ -55,7 +69,7 @@ namespace CinemaApplication.Services.Concrete
                     }
                 }));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogCritical(ex.Message);
                 return ServiceDataResult<IEnumerable<ShowtimeDto>>.WithError(ex.Message);

@@ -1,6 +1,7 @@
 ﻿using CinemaApplication.DAL.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -13,5 +14,6 @@ namespace CinemaApplication.DAL.Repositories
         Task<ShowtimeEntity> AddAsync(ShowtimeEntity showtimeEntity);
         Task UpdateAsync(ShowtimeEntity showtimeEntity);
         Task DeleteAsync(int showtimeId);
+        IQueryable<ShowtimeEntity> GetQueryable();
     }
 }
