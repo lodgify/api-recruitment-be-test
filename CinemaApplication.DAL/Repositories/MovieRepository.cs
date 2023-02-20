@@ -1,6 +1,5 @@
 ﻿using CinemaApplication.DAL.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CinemaApplication.DAL.Repositories
@@ -15,11 +14,14 @@ namespace CinemaApplication.DAL.Repositories
         }
 
         public async Task<MovieEntity> GetAsync(string imdbId)
-        {
-            var movie = await _dbContext.Movies
+            => await _dbContext.Movies
                  .SingleOrDefaultAsync(m => m.ImdbId == imdbId);
 
-            return movie;
+        public async Task UpdateAsync(MovieEntity movie)
+        {
+            var updatedMovie = _dbContext.Movies.Update(movie);
+            updatedMovie.State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

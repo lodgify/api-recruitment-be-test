@@ -140,6 +140,21 @@ namespace CinemaApplication.Services.Concrete
         {
             try
             {
+                if (showtime.Movie != null &&
+                   !string.IsNullOrEmpty(showtime.Movie.ImdbId))
+                {
+                    var movieResult = await _imdbService.GetMovieAsync(showtime.Movie.ImdbId);
+                    if (movieResult.IsError)
+                        return ServiceResult.Failure($"Failed to pull movie info.");
+
+                    await _movieRepository.UpdateAsync(new MovieEntity
+                    {
+                        ImdbId = movieResult.Data.Id,
+                        Title = movieResult.Data.Title,
+                        ShowtimeId = showtime.Id
+                    });
+                }
+
                 await _showtimeRepository.UpdateAsync(new ShowtimeEntity
                 {
                     AuditoriumId = showtime.AudithoriumId,
