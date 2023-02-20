@@ -35,7 +35,7 @@ namespace ApiApplication.Services
                     _imdbStatusObject.LastCall = result.Data.LastCall;
                 }
 
-                await Task.Delay(new TimeSpan(0, 0, 10));
+                await Task.Delay(new TimeSpan(0, 0, 60));
             }
         }
     }
