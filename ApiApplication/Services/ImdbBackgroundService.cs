@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ApiApplication.Services
 {
+    /// <summary>
+    /// Background service executed every 60 seconds
+    /// </summary>
     public class ImdbBackgroundService : BackgroundService
     {
         private readonly ILogger _logger;
@@ -22,6 +25,7 @@ namespace ApiApplication.Services
             _imdbStatusObject = imdbStatusObject;
             _imdbStatusService = imdbStatusService;
         }
+
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
@@ -35,7 +39,7 @@ namespace ApiApplication.Services
                     _imdbStatusObject.LastCall = result.Data.LastCall;
                 }
 
-                await Task.Delay(new TimeSpan(0, 0, 60));
+                await Task.Delay(60000, stoppingToken);
             }
         }
     }

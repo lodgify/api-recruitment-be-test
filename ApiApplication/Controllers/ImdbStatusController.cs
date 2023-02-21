@@ -5,13 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace ApiApplication.Controllers
 {
     /// <summary>
-    /// Exposes operations for current status
+    /// Exposes operations managing Imdb status
     /// </summary>
-    public class StatusController : CinemaBaseApiController
+    public class ImdbStatusController : CinemaBaseApiController
     {
         private readonly ImdbStatusModel _imdbStatusModel;
 
-        public StatusController(
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ImdbStatusController(
             ImdbStatusModel imdbStatusModel)
         {
             _imdbStatusModel = imdbStatusModel;

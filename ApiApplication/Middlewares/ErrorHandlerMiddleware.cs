@@ -32,7 +32,8 @@ namespace ApiApplication.Middlewares
                 context.Response.ContentType = "application/json";
                 var errorMessage = JsonConvert.SerializeObject(new ErrorDto
                 {
-                    Message = "Something went wrong. Please try again later."
+                    Message = "Something went wrong. Please try again later.",
+                    StackTrace = exc.StackTrace
                 });
 
                 await context.Response.WriteAsync(errorMessage);

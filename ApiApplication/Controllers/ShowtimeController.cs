@@ -1,21 +1,24 @@
 ﻿using ApiApplication.Extensions;
+using ApiApplication.Utils.Exceptions;
 using CinemaApplication.DTOs;
 using CinemaApplication.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ApiApplication.Controllers
 {
     /// <summary>
-    /// Exposes operations for showtimes
+    /// Exposes operations for showtime management
     /// </summary>
     public class ShowtimeController : CinemaBaseApiController
     {
         private readonly IShowtimeService _showtimeService;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ShowtimeController(IShowtimeService showtimeService)
         {
             _showtimeService = showtimeService;
@@ -24,25 +27,24 @@ namespace ApiApplication.Controllers
         /// <summary>
         /// Get all available showtimes
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Collection of showtime metadata</returns>
         [HttpGet]
         [Authorize(Policy = "Read")]
         public async Task<ActionResult<IEnumerable<ShowtimeDto>>> GetShowtimes([FromQuery] ShowtimeQuery query)
             => (await _showtimeService.GetAllAsync(query)).ToActionResult();
 
         /// <summary>
-        /// Create new showtime
+        /// Create a new showtime
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Id of newly added showtime</returns>
         [HttpPost]
         [Authorize(Policy = "Write")]
         public async Task<ActionResult<int>> CreateShowtime(NewShowtimeDto showtime)
             => (await _showtimeService.AddAsync(showtime)).ToActionResult();
 
         /// <summary>
-        /// Updates existing showtime
+        /// Update existing showtime
         /// </summary>
-        /// <returns></returns>
         [HttpPut]
         [Authorize(Policy = "Write")]
         public async Task<IActionResult> UpdateShowtime(ShowtimeDto showtime)
@@ -53,9 +55,8 @@ namespace ApiApplication.Controllers
         }
 
         /// <summary>
-        /// Deletes a showtime
+        /// Delete existing showtime
         /// </summary>
-        /// <returns></returns>
         [HttpDelete("{id}")]
         [Authorize(Policy = "Write")]
         public async Task<IActionResult> DeleteShowtime(int id)
@@ -65,6 +66,14 @@ namespace ApiApplication.Controllers
             return Ok();
         }
 
-        //TODO: PATCH
+        /// <summary>
+        /// Partial update of a showtime
+        /// </summary>
+        [HttpPatch]
+        [Authorize(Policy = "Write")]
+        public async Task<IActionResult> PatchShowtime(ShowtimeDto s)
+        {
+            throw new ShowtimeException("Partial update has thrown unhandled exception.");
+        }
     }
 }
