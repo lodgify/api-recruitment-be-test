@@ -1,6 +1,6 @@
 Please add the cURLs of your tests here:
 
---------- Get all available showtimes --------
+--------- Get all available showtimes by filtering with title and date ------------------------------------------
 
 curl -X 'GET' \
   'http://localhost:7629/api/Showtime?title=Inception&date=2022-03-01' \
@@ -9,14 +9,16 @@ curl -X 'GET' \
   
   
   
---------- Delete showtime --------
+--------- Delete showtime ---------------------------------------------------------------------------------------
+
 curl -X 'DELETE' \
   'http://localhost:7629/api/Showtime/1' \
   -H 'accept: */*' \
   -H 'ApiKey: Nzg5NHxXcml0ZQ=='
   
   
--------- Patch showtime --------
+-------- Patch showtime ------------------------------------------------------------------------------------------
+
 curl -X 'PATCH' \
   'http://localhost:7629/api/Showtime' \
   -H 'accept: */*' \
@@ -26,7 +28,7 @@ curl -X 'PATCH' \
   "id": 0,
   "start_date": "2023-02-21T10:15:11.079Z",
   "end_date": "2023-02-21T10:15:11.079Z",
-  "schedule": "string",
+  "schedule": [],
   "movie": {
     "title": "string",
     "imdb_id": "string",
@@ -36,4 +38,50 @@ curl -X 'PATCH' \
   "audithorium_id": 0
 }'
 
+---------- Create new showtime ---------------------------------------------------------------------------------
+
+curl -X 'POST' \
+  'http://localhost:7629/api/Showtime' \
+  -H 'accept: text/plain' \
+  -H 'Content-Type: application/json' \
+  -H 'ApiKey: Nzg5NHxXcml0ZQ==' \
+  -d '{
+  "start_date": "2023-02-21T10:22:00.270Z",
+  "end_date": "2023-02-23T10:22:00.270Z",
+  "schedule": [
+    "12:00",
+    "14:00"
+  ],
+  "movie": {
+    "imdb_id": "tt0119345"
+  },
+  "auditorium_id": 2
+}'
+
+
+---------- Update existing showtime --------------------------------------------------------------------------
+
+curl -X 'PUT' \
+  'http://localhost:7629/api/Showtime' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -H 'ApiKey: Nzg5NHxXcml0ZQ==' \
+  -d '{
+  "id": 1,
+  "start_date": "2023-02-22T10:47:35.118Z",
+  "end_date": "2023-02-24T10:47:35.118Z",
+  "schedule": [
+    "16:00"
+  ],
+  "movie": {
+    "imdb_id": "tt0119345"
+  },
+  "audithorium_id": 2
+}'
+
+---------- Get Imdb status --------------------------------------------------------------------------
+
+curl -X 'GET' \
+  'http://localhost:7629/api/ImdbStatus' \
+  -H 'accept: text/plain'
 
