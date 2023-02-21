@@ -28,7 +28,7 @@ curl -X 'PATCH' \
   "id": 0,
   "start_date": "2023-02-21T10:15:11.079Z",
   "end_date": "2023-02-21T10:15:11.079Z",
-  "schedule": "string",
+  "schedule": [],
   "movie": {
     "title": "string",
     "imdb_id": "string",
