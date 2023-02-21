@@ -35,7 +35,7 @@ curl -X 'PATCH' \
     "starts": "string",
     "release_date": "2023-02-21T10:15:11.079Z"
   },
-  "audithorium_id": 0
+  "auditorium_id": 0
 }'
 
 ---------- Create new showtime ---------------------------------------------------------------------------------
@@ -76,7 +76,7 @@ curl -X 'PUT' \
   "movie": {
     "imdb_id": "tt0119345"
   },
-  "audithorium_id": 2
+  "auditorium_id": 2
 }'
 
 ---------- Get Imdb status --------------------------------------------------------------------------
