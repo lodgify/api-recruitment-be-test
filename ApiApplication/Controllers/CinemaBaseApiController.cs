@@ -6,7 +6,7 @@ namespace ApiApplication.Controllers
     /// Base cinema API controller
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public abstract class CinemaBaseApiController : ControllerBase
     { }
 }
