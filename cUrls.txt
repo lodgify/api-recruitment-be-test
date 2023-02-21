@@ -57,3 +57,31 @@ curl -X 'POST' \
   },
   "auditorium_id": 2
 }'
+
+
+---------- Update existing showtime --------------------------------------------------------------------------
+
+curl -X 'PUT' \
+  'http://localhost:7629/api/Showtime' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -H 'ApiKey: Nzg5NHxXcml0ZQ==' \
+  -d '{
+  "id": 1,
+  "start_date": "2023-02-22T10:47:35.118Z",
+  "end_date": "2023-02-24T10:47:35.118Z",
+  "schedule": [
+    "16:00"
+  ],
+  "movie": {
+    "imdb_id": "tt0119345"
+  },
+  "audithorium_id": 2
+}'
+
+---------- Get Imdb status --------------------------------------------------------------------------
+
+curl -X 'GET' \
+  'http://localhost:7629/api/ImdbStatus' \
+  -H 'accept: text/plain'
+
