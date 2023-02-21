@@ -1,2 +1,39 @@
 Please add the cURLs of your tests here:
 
+--------- Get all available showtimes --------
+
+curl -X 'GET' \
+  'http://localhost:7629/api/Showtime?title=Inception&date=2022-03-01' \
+  -H 'accept: */*' \
+  -H 'ApiKey: MTIzNHxSZWFk'
+  
+  
+  
+--------- Delete showtime --------
+curl -X 'DELETE' \
+  'http://localhost:7629/api/Showtime/1' \
+  -H 'accept: */*' \
+  -H 'ApiKey: Nzg5NHxXcml0ZQ=='
+  
+  
+-------- Patch showtime --------
+curl -X 'PATCH' \
+  'http://localhost:7629/api/Showtime' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -H 'ApiKey: Nzg5NHxXcml0ZQ=='\
+  -d '{
+  "id": 0,
+  "start_date": "2023-02-21T10:15:11.079Z",
+  "end_date": "2023-02-21T10:15:11.079Z",
+  "schedule": "string",
+  "movie": {
+    "title": "string",
+    "imdb_id": "string",
+    "starts": "string",
+    "release_date": "2023-02-21T10:15:11.079Z"
+  },
+  "audithorium_id": 0
+}'
+
+
