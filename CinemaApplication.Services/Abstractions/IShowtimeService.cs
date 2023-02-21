@@ -11,7 +11,7 @@ namespace CinemaApplication.Services.Abstractions
 
         Task<ServiceDataResult<int>> AddAsync(NewShowtimeDto showtime);
 
-        Task<ServiceResult> UpdateAsync(ShowtimeDto showtime);
+        Task<ServiceResult> UpdateAsync(UpdateShowtimeDto showtime);
 
         Task<ServiceResult> DeleteAsync(int showtimeId);
     }

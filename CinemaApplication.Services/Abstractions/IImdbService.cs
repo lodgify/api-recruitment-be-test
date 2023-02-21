@@ -8,6 +8,6 @@ namespace CinemaApplication.Services.Abstractions
     {
         Task<ServiceDataResult<ImdbStatusDto>> GetImdbStatus();
 
-        Task<ServiceDataResult<ImdbMovie>> GetMovieAsync(string imdbId);
+        Task<ServiceDataResult<ImdbApiMovie>> GetMovieAsync(string imdbId);
     }
 }

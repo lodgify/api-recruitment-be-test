@@ -58,7 +58,7 @@ namespace CinemaApplication.Services.Concrete
                     Id = s.Id,
                     StartDate = s.StartDate,
                     EndDate = s.EndDate,
-                    Schedule = String.Join(",", s.Schedule),
+                    Schedule = s.Schedule,
                     AudithoriumId = s.AuditoriumId,
                     Movie = new MovieDto
                     {
@@ -90,14 +90,15 @@ namespace CinemaApplication.Services.Concrete
                 if (movie == null)
                 {
                     var movieResult = await _imdbService.GetMovieAsync(showtime.Movie.ImdbId);
-                    if (movieResult.IsError)
+                    if (movieResult.IsError ||
+                        movieResult.Data == null)
                     {
                         return ServiceDataResult<int>.WithError(movieResult.Error);
                     }
 
                     movie = new MovieEntity
                     {
-                        ImdbId = movieResult.Data.Id,
+                        ImdbId = movieResult.Data.SanitizedId,
                         Title = movieResult.Data.Title
                     };
                 }
@@ -136,14 +137,13 @@ namespace CinemaApplication.Services.Concrete
             }
         }
 
-        public async Task<ServiceResult> UpdateAsync(ShowtimeDto showtime)
+        public async Task<ServiceResult> UpdateAsync(UpdateShowtimeDto showtime)
         {
             try
             {
-                if (showtime.Movie != null &&
-                   !string.IsNullOrEmpty(showtime.Movie.ImdbId))
+                if (!string.IsNullOrEmpty(showtime.ImdbId))
                 {
-                    var movieResult = await _imdbService.GetMovieAsync(showtime.Movie.ImdbId);
+                    var movieResult = await _imdbService.GetMovieAsync(showtime.ImdbId);
                     if (movieResult.IsError)
                         return ServiceResult.Failure($"Failed to pull movie info.");
 
@@ -160,12 +160,10 @@ namespace CinemaApplication.Services.Concrete
                     AuditoriumId = showtime.AudithoriumId,
                     StartDate = showtime.StartDate,
                     EndDate = showtime.EndDate,
-                    Schedule = showtime.Schedule.Split(','),
+                    Schedule = showtime.Schedule,
                     Movie = new MovieEntity
                     {
-                        ImdbId = showtime.Movie.ImdbId,
-                        Title = showtime.Movie.Title,
-                        ReleaseDate = showtime.Movie.ReleaseDate
+                        ImdbId = showtime.ImdbId
                     }
                 });
 

@@ -18,5 +18,17 @@ namespace ApiApplication.Extensions
                 _ => new ObjectResult(serviceData.Data) { StatusCode = StatusCodes.Status500InternalServerError }
             };
         }
+
+        internal static ActionResult ToActionResult(this ServiceResult serviceData)
+        {
+            return serviceData.Status switch
+            {
+                ServiceResultType.Success => new OkResult(),
+                ServiceResultType.Failed => new ObjectResult(serviceData.Error) { StatusCode = StatusCodes.Status500InternalServerError },
+                ServiceResultType.NotFound => new NotFoundObjectResult(serviceData.Error),
+                ServiceResultType.ValidationFailed => new BadRequestObjectResult(serviceData.Error),
+                _ => new ObjectResult(serviceData.Error) { StatusCode = StatusCodes.Status500InternalServerError }
+            };
+        }
     }
 }

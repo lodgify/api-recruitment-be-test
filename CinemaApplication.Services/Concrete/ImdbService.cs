@@ -40,32 +40,32 @@ namespace CinemaApplication.Services.Concrete
             }
         }
 
-        public async Task<ServiceDataResult<ImdbMovie>> GetMovieAsync(string imdbId)
+        public async Task<ServiceDataResult<ImdbApiMovie>> GetMovieAsync(string imdbId)
         {
             try
             {
                 var response = await _client.SendAsync(new HttpRequestMessage
                 {
                     Method = HttpMethod.Get,
-                    RequestUri = new Uri("https://imdb8.p.rapidapi.com/title/get-details?tconst={imdbId}"),
+                    RequestUri = new Uri($"https://imdb8.p.rapidapi.com/title/get-details?tconst={imdbId}"),
                     Headers =
-                {
-                    { "X-RapidAPI-Key", "2cb6f07896mshed6c555fa39c38fp1d618fjsnae88ac9183b8" },
-                    { "X-RapidAPI-Host", "imdb8.p.rapidapi.com" },
-                }
+                    {
+                        { "X-RapidAPI-Key", "2cb6f07896mshed6c555fa39c38fp1d618fjsnae88ac9183b8" },
+                        { "X-RapidAPI-Host", "imdb8.p.rapidapi.com" },
+                    }
                 });
 
                 response.EnsureSuccessStatusCode();
 
                 var contentStr = await response.Content.ReadAsStringAsync();
-                var movie = JsonConvert.DeserializeObject<ImdbMovie>(contentStr);
+                var movie = JsonConvert.DeserializeObject<ImdbApiMovie>(contentStr);
 
-                return ServiceDataResult<ImdbMovie>.WithData(movie);
+                return ServiceDataResult<ImdbApiMovie>.WithData(movie);
             }
             catch (Exception ex)
             {
                 _logger.LogCritical(ex.Message);
-                return ServiceDataResult<ImdbMovie>.WithError(ex.Message);
+                return ServiceDataResult<ImdbApiMovie>.WithError(ex.Message);
             }
         }
     }

@@ -47,12 +47,8 @@ namespace ApiApplication.Controllers
         /// </summary>
         [HttpPut]
         [Authorize(Policy = "Write")]
-        public async Task<IActionResult> UpdateShowtime(ShowtimeDto showtime)
-        {
-            await _showtimeService.UpdateAsync(showtime);
-
-            return Ok();
-        }
+        public async Task<IActionResult> UpdateShowtime(UpdateShowtimeDto showtime)
+            => (await _showtimeService.UpdateAsync(showtime)).ToActionResult();
 
         /// <summary>
         /// Delete existing showtime
@@ -60,18 +56,14 @@ namespace ApiApplication.Controllers
         [HttpDelete("{id}")]
         [Authorize(Policy = "Write")]
         public async Task<IActionResult> DeleteShowtime(int id)
-        {
-            await _showtimeService.DeleteAsync(id);
-
-            return Ok();
-        }
+            => (await _showtimeService.DeleteAsync(id)).ToActionResult();
 
         /// <summary>
         /// Partial update of a showtime
         /// </summary>
         [HttpPatch]
         [Authorize(Policy = "Write")]
-        public async Task<IActionResult> PatchShowtime(ShowtimeDto s)
+        public async Task<IActionResult> PatchShowtime(ShowtimeDto _)
         {
             throw new ShowtimeException("Partial update has thrown unhandled exception.");
         }
