@@ -47,7 +47,7 @@ namespace ApiApplication.Controllers
         /// </summary>
         [HttpPut]
         [Authorize(Policy = "Write")]
-        public async Task<IActionResult> UpdateShowtime(UpdateShowtimeDto showtime)
+        public async Task<IActionResult> UpdateShowtime(ShowtimeDto showtime)
             => (await _showtimeService.UpdateAsync(showtime)).ToActionResult();
 
         /// <summary>

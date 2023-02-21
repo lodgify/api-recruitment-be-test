@@ -59,7 +59,7 @@ namespace CinemaApplication.Services.Concrete
                     StartDate = s.StartDate,
                     EndDate = s.EndDate,
                     Schedule = s.Schedule,
-                    AudithoriumId = s.AuditoriumId,
+                    AuditoriumId = s.AuditoriumId,
                     Movie = new MovieDto
                     {
                         Title = s.Movie.Title,
@@ -137,35 +137,52 @@ namespace CinemaApplication.Services.Concrete
             }
         }
 
-        public async Task<ServiceResult> UpdateAsync(UpdateShowtimeDto showtime)
+        public async Task<ServiceResult> UpdateAsync(ShowtimeDto showtime)
         {
             try
             {
-                if (!string.IsNullOrEmpty(showtime.ImdbId))
+                var showtimeEntity = (await _showtimeRepository.GetAllAsync()).SingleOrDefault(x => x.Id == showtime.Id);
+                if (showtimeEntity != null)
                 {
-                    var movieResult = await _imdbService.GetMovieAsync(showtime.ImdbId);
-                    if (movieResult.IsError)
-                        return ServiceResult.Failure($"Failed to pull movie info.");
+                    //TODO: Check if showtime movie needs update. Calling API etc.
 
-                    await _movieRepository.UpdateAsync(new MovieEntity
-                    {
-                        ImdbId = movieResult.Data.Id,
-                        Title = movieResult.Data.Title,
-                        ShowtimeId = showtime.Id
-                    });
+                    showtimeEntity.StartDate = showtime.StartDate;
+                    showtimeEntity.EndDate = showtime.EndDate;
+                    showtimeEntity.Schedule = showtime.Schedule;
+                    showtimeEntity.AuditoriumId = showtime.AuditoriumId;
+
+                    await _showtimeRepository.UpdateAsync(showtimeEntity);
                 }
 
-                await _showtimeRepository.UpdateAsync(new ShowtimeEntity
-                {
-                    AuditoriumId = showtime.AudithoriumId,
-                    StartDate = showtime.StartDate,
-                    EndDate = showtime.EndDate,
-                    Schedule = showtime.Schedule,
-                    Movie = new MovieEntity
-                    {
-                        ImdbId = showtime.ImdbId
-                    }
-                });
+                //if (showtime.Movie != null &&
+                //    !string.IsNullOrEmpty(showtime.Movie.ImdbId))
+                //{
+                //    var movieResult = await _imdbService.GetMovieAsync(showtime.Movie.ImdbId);
+                //    if (movieResult.IsError)
+                //        return ServiceResult.Failure($"Failed to pull movie info.");
+
+                //    var storedMovie = _movieRepository.GetAsync(showtime.Movie.ImdbId);
+                //    if (storedMovie == null)
+                //    {
+                //        await _movieRepository.UpdateAsync(new MovieEntity
+                //        {
+                //            ImdbId = movieResult.Data.Id,
+                //            Title = movieResult.Data.Title,
+                //            ShowtimeId = showtime.Id
+                //        });
+                //    }
+                //    else
+                //    {
+                //        await _movieRepository.UpdateAsync(new MovieEntity
+                //        {
+                //            ImdbId = movieResult.Data.Id,
+                //            Title = movieResult.Data.Title,
+                //            ShowtimeId = showtime.Id
+                //        });
+                //    }
+                //}
+
+
 
                 return ServiceResult.Success;
             }
