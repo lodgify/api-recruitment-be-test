@@ -9,6 +9,7 @@ namespace CinemaApplication.DAL.Repositories
 {
     public interface IShowtimeRepository
     {
+        Task<ShowtimeEntity> GetAsync(int id);
         Task<IEnumerable<ShowtimeEntity>> GetAllAsync();
         Task<IEnumerable<ShowtimeEntity>> GetAllAsync(Expression<Func<ShowtimeEntity, bool>> expression);
         Task<ShowtimeEntity> AddAsync(ShowtimeEntity showtimeEntity);

@@ -16,6 +16,7 @@ namespace CinemaApplication.DAL.Repositories
 
         public async Task<AuditoriumEntity> GetAsync(int id)
             => await _dbContext.Auditoriums
+                .AsNoTracking()
                 .SingleOrDefaultAsync(a => a.Id == id);
     }
 }

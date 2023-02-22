@@ -18,8 +18,7 @@ namespace CinemaApplication.DAL.Repositories
 
         public async Task<ShowtimeEntity> AddAsync(ShowtimeEntity showtimeEntity)
         {
-            var newShowtimeEntity = await _context.Showtimes.AddAsync(showtimeEntity);
-            newShowtimeEntity.State = EntityState.Added;
+            await _context.Showtimes.AddAsync(showtimeEntity);
             await _context.SaveChangesAsync();
 
             return showtimeEntity;
@@ -27,10 +26,25 @@ namespace CinemaApplication.DAL.Repositories
 
         public async Task DeleteAsync(int showtimeId)
         {
-            var removedEntity = _context.Showtimes.Remove(new ShowtimeEntity { Id = showtimeId });
-            removedEntity.State = EntityState.Deleted;
+            _context.Showtimes.Remove(new ShowtimeEntity { Id = showtimeId });
             await _context.SaveChangesAsync();
         }
+
+        public async Task<ShowtimeEntity> GetAsync(int id)
+            => await _context
+                .Showtimes
+                .Where(s => s.Id == id)
+                .Select(s => new ShowtimeEntity
+                {
+                    Id = s.Id,
+                    StartDate = s.StartDate,
+                    EndDate = s.EndDate,
+                    Schedule = s.Schedule,
+                    AuditoriumId = s.AuditoriumId,
+                    Movie = s.Movie,
+                })
+                .AsNoTracking()
+                .SingleOrDefaultAsync();
 
         public async Task<IEnumerable<ShowtimeEntity>> GetAllAsync()
             => await _context
@@ -57,8 +71,7 @@ namespace CinemaApplication.DAL.Repositories
 
         public async Task UpdateAsync(ShowtimeEntity showtimeEntity)
         {
-            var updatedEntity = _context.Update(showtimeEntity);
-            updatedEntity.State = EntityState.Modified;
+            _context.Update(showtimeEntity);
             await _context.SaveChangesAsync();
         }
 
