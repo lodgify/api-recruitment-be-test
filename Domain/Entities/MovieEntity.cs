@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ApiApplication.Database.Entities
+namespace Domain.Entities
 {
     public class MovieEntity
     {
@@ -10,7 +9,6 @@ namespace ApiApplication.Database.Entities
         public string ImdbId { get; set; }
         public string Stars { get; set; }
         public DateTime ReleaseDate { get; set; }
-
         public int ShowtimeId { get; set; }
     }
 }
