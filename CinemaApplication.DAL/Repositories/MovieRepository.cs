@@ -15,7 +15,7 @@ namespace CinemaApplication.DAL.Repositories
 
         public async Task<MovieEntity> GetAsync(string imdbId)
             => await _dbContext.Movies
-                 .SingleOrDefaultAsync(m => m.ImdbId == imdbId);
+                 .FirstOrDefaultAsync(m => m.ImdbId == imdbId);
 
         public async Task UpdateAsync(MovieEntity movie)
         {

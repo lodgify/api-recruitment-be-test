@@ -86,6 +86,7 @@ namespace CinemaApplication.Services.Concrete
                     return ServiceDataResult<int>.WithError("Auditorium is not found.");
                 }
 
+                MovieEntity showtimeMovie;
                 var movie = await _movieRepository.GetAsync(showtime.Movie.ImdbId);
                 if (movie == null)
                 {
@@ -96,10 +97,21 @@ namespace CinemaApplication.Services.Concrete
                         return ServiceDataResult<int>.WithError(movieResult.Error);
                     }
 
-                    movie = new MovieEntity
+                    showtimeMovie = new MovieEntity
                     {
                         ImdbId = movieResult.Data.SanitizedId,
                         Title = movieResult.Data.Title
+                    };
+                }
+                else
+                {
+                    showtimeMovie = new MovieEntity
+                    {
+                        Id = 0,
+                        ImdbId = movie.ImdbId,
+                        ReleaseDate = movie.ReleaseDate,
+                        Title = movie.Title,
+                        Stars = movie.Stars
                     };
                 }
 
@@ -109,7 +121,7 @@ namespace CinemaApplication.Services.Concrete
                     StartDate = showtime.StartDate,
                     EndDate = showtime.EndDate,
                     Schedule = showtime.Schedule,
-                    Movie = movie
+                    Movie = showtimeMovie
                 });
 
 
