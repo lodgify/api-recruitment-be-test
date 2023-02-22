@@ -1,6 +1,8 @@
-﻿using CinemaApplication.Services.Abstractions;
+﻿using ApiApplication.Models;
+using CinemaApplication.Services.Abstractions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,15 +17,18 @@ namespace ApiApplication.Services
         private readonly ILogger _logger;
         private readonly ImdbStatusModel _imdbStatusObject;
         private readonly IImdbService _imdbStatusService;
+        private readonly IOptions<ImdbAPIConfig> _imdbAPIConfig;
 
         public ImdbBackgroundService(
             ILoggerFactory loggerFactory,
             ImdbStatusModel imdbStatusObject,
-            IImdbService imdbStatusService)
+            IImdbService imdbStatusService,
+            IOptions<ImdbAPIConfig> imdbAPIConfig)
         {
             _logger = loggerFactory.CreateLogger<ImdbBackgroundService>();
             _imdbStatusObject = imdbStatusObject;
             _imdbStatusService = imdbStatusService;
+            _imdbAPIConfig = imdbAPIConfig;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -32,11 +37,11 @@ namespace ApiApplication.Services
             {
                 _logger.LogInformation($"Calling IMDB API at {DateTime.UtcNow}");
 
-                var result = await _imdbStatusService.GetImdbStatus();
+                var result = await _imdbStatusService.GetMovieAsync(_imdbAPIConfig.Value.TestImdbId);
                 if (result.IsSuccess)
                 {
-                    _imdbStatusObject.Up = result.Data.Up;
-                    _imdbStatusObject.LastCall = result.Data.LastCall;
+                    _imdbStatusObject.Up = true;
+                    _imdbStatusObject.LastCall = DateTime.UtcNow;
                 }
 
                 await Task.Delay(60000, stoppingToken);

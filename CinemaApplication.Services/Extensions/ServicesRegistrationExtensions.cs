@@ -12,7 +12,12 @@ namespace CinemaApplication.Services.Extensions
             services
                 .AddDAL()
                 .RegisterServices()
-                .AddHttpClient("default", client => { });
+                .AddHttpClient("ImdbAPI", client => 
+                {
+                    client.BaseAddress = new System.Uri("https://imdb8.p.rapidapi.com/");
+                    client.DefaultRequestHeaders.Add("X-RapidAPI-Key", "2cb6f07896mshed6c555fa39c38fp1d618fjsnae88ac9183b8");
+                    client.DefaultRequestHeaders.Add("X-RapidAPI-Host", "imdb8.p.rapidapi.com");
+                });
 
             return services;
         }

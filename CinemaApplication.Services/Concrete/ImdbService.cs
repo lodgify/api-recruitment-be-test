@@ -18,7 +18,7 @@ namespace CinemaApplication.Services.Concrete
             IHttpClientFactory httpClientFactory,
             ILoggerFactory loggerFactory)
         {
-            _client = httpClientFactory.CreateClient("default");
+            _client = httpClientFactory.CreateClient("ImdbAPI");
             _logger = loggerFactory.CreateLogger<ImdbService>();
         }
 
@@ -44,16 +44,7 @@ namespace CinemaApplication.Services.Concrete
         {
             try
             {
-                var response = await _client.SendAsync(new HttpRequestMessage
-                {
-                    Method = HttpMethod.Get,
-                    RequestUri = new Uri($"https://imdb8.p.rapidapi.com/title/get-details?tconst={imdbId}"),
-                    Headers =
-                    {
-                        { "X-RapidAPI-Key", "2cb6f07896mshed6c555fa39c38fp1d618fjsnae88ac9183b8" },
-                        { "X-RapidAPI-Host", "imdb8.p.rapidapi.com" },
-                    }
-                });
+                var response = await _client.GetAsync($"/title/get-details?tconst={imdbId}");
 
                 response.EnsureSuccessStatusCode();
 
