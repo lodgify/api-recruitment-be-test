@@ -1,4 +1,4 @@
-﻿namespace ApiApplication.Models
+﻿namespace CinemaApplication.Core.Models
 {
     public class ImdbAPIConfig
     {

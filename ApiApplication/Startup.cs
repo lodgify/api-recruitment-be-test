@@ -21,8 +21,7 @@ namespace ApiApplication
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
-        {
-            services
+            => services
                 .AddConfigurations(Configuration)
                 .AddServices()
                 .AddHostedService<ImdbBackgroundService>()
@@ -34,7 +33,6 @@ namespace ApiApplication
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = new SnakeCaseNamingPolicy();
                 });
-        }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

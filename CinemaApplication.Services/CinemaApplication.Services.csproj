@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CinemaApplication.Core\CinemaApplication.Core.csproj" />
     <ProjectReference Include="..\CinemaApplication.DAL\CinemaApplication.DAL.csproj" />
     <ProjectReference Include="..\CinemaApplication.DTOs\CinemaApplication.DTOs.csproj" />
   </ItemGroup>

@@ -1,5 +1,5 @@
 ﻿using ApiApplication.Extensions;
-using ApiApplication.Utils.Exceptions;
+using CinemaApplication.Core.Exceptions;
 using CinemaApplication.DTOs;
 using CinemaApplication.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;

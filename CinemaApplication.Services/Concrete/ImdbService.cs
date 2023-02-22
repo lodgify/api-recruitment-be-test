@@ -1,4 +1,5 @@
-﻿using CinemaApplication.DTOs;
+﻿using CinemaApplication.Core.Constants;
+using CinemaApplication.DTOs;
 using CinemaApplication.Services.Abstractions;
 using CinemaApplication.Services.Models;
 using Microsoft.Extensions.Logging;
@@ -18,7 +19,7 @@ namespace CinemaApplication.Services.Concrete
             IHttpClientFactory httpClientFactory,
             ILoggerFactory loggerFactory)
         {
-            _client = httpClientFactory.CreateClient("ImdbAPI");
+            _client = httpClientFactory.CreateClient(ApiConstants.IMDB_HTTP_CLIENT_KEY);
             _logger = loggerFactory.CreateLogger<ImdbService>();
         }
 

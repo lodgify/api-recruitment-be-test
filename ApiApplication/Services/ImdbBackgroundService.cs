@@ -1,4 +1,4 @@
-﻿using ApiApplication.Models;
+﻿using CinemaApplication.Core.Models;
 using CinemaApplication.Services.Abstractions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

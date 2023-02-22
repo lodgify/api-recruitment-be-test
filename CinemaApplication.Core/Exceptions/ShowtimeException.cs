@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace ApiApplication.Utils.Exceptions
+namespace CinemaApplication.Core.Exceptions
 {
     public class ShowtimeException : Exception
     {
-        public ShowtimeException(string message) 
+        public ShowtimeException(string message)
             : base(message)
         {
         }

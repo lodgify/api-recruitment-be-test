@@ -1,4 +1,4 @@
-﻿using ApiApplication.Models;
+﻿using CinemaApplication.Core.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
