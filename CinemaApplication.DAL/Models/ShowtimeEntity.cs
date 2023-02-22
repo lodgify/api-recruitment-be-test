@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ApiApplication.Database.Entities
+namespace CinemaApplication.DAL.Models
 {
     public class ShowtimeEntity
     {
@@ -10,7 +9,7 @@ namespace ApiApplication.Database.Entities
         public MovieEntity Movie { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public IEnumerable<string> Schedule { get; set; }
+        public IList<string> Schedule { get; set; }
         public int AuditoriumId { get; set; }
     }
 }
