@@ -8,7 +8,7 @@
     "ApiApplication": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "showtime",
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
