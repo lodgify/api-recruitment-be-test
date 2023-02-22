@@ -1,4 +1,5 @@
-﻿using CinemaApplication.DTOs;
+﻿using CinemaApplication.Core.Models.ServiceResults;
+using CinemaApplication.DTOs;
 using CinemaApplication.Services.Models;
 using System.Threading.Tasks;
 

@@ -1,4 +1,4 @@
-﻿namespace CinemaApplication.Services.Models
+﻿namespace CinemaApplication.Core.Models.ServiceResults
 {
     public enum ServiceResultType
     {

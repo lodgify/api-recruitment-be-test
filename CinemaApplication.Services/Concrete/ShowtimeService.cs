@@ -1,9 +1,9 @@
-﻿using CinemaApplication.DAL.Abstractions;
+﻿using CinemaApplication.Core.Models.ServiceResults;
+using CinemaApplication.DAL.Abstractions;
 using CinemaApplication.DAL.Models;
 using CinemaApplication.DAL.Repositories;
 using CinemaApplication.DTOs;
 using CinemaApplication.Services.Abstractions;
-using CinemaApplication.Services.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;

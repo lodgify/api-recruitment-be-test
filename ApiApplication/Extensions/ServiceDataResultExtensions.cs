@@ -1,4 +1,4 @@
-﻿using CinemaApplication.Services.Models;
+﻿using CinemaApplication.Core.Models.ServiceResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

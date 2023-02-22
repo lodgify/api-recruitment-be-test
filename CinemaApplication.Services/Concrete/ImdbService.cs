@@ -1,4 +1,5 @@
 ﻿using CinemaApplication.Core.Constants;
+using CinemaApplication.Core.Models.ServiceResults;
 using CinemaApplication.DTOs;
 using CinemaApplication.Services.Abstractions;
 using CinemaApplication.Services.Models;
