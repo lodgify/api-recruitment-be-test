@@ -62,11 +62,11 @@ last_call : DateTime
  ```
 
  We want an API controller named `ShowtimeController` with the following methods:
-  - `GET` : Get All Showtimes, 
+  - `GET` : Get All Showtimes, [DONE]
     - optionally it can be filtered by a date (QueryString) that should match the current showtimes in projection.
     - optionally it can be queried by movie title (QueryString).
     
-  - `POST` : Creates a showtime using a `Showtime` resource in the payload. The `movie` property must come only with the `imdb_id` and the rest of the values will be filled calling the IMDB API. For the `auditorium_id` use one of the already created `Auditorium`s, Ids: 1, 2 or 3. 
+  - `POST` : Creates a showtime using a `Showtime` resource in the payload. The `movie` property must come only with the `imdb_id` and the rest of the values will be filled calling the IMDB API. For the `auditorium_id` use one of the already created `Auditorium`s, Ids: 1, 2 or 3. [DONE]
   
   - `PUT` : Updates the `Showtime` resource, if the `movie` property comes `null` is ignored. if not the data is updated using the `imdb_id` and calling the IMDB API.
   

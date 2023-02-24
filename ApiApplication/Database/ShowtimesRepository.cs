@@ -1,7 +1,10 @@
 ﻿using ApiApplication.Database.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace ApiApplication.Database
 {
@@ -13,14 +16,16 @@ namespace ApiApplication.Database
             _context = context;
         }
 
-        public ShowtimeEntity Add(ShowtimeEntity showtimeEntity)
+        public void Add(ShowtimeEntity showtimeEntity)
         {
-            throw new System.NotImplementedException();
+            _context.Add(showtimeEntity);
+            _context.SaveChanges();
         }
 
-        public ShowtimeEntity Delete(int id)
+        public void Delete(int id)
         {
-            throw new System.NotImplementedException();
+            _context.Remove(new ShowtimeEntity { Id = id });
+            _context.SaveChanges();
         }
 
         public ShowtimeEntity GetByMovie(Func<IQueryable<MovieEntity>, bool> filter)
@@ -33,14 +38,24 @@ namespace ApiApplication.Database
             return GetCollection(null);
         }
 
-        public IEnumerable<ShowtimeEntity> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter)
+        public IEnumerable<ShowtimeEntity> GetCollection(Func<ShowtimeEntity, bool> filter)
         {
-            throw new System.NotImplementedException();
+            IEnumerable<ShowtimeEntity> query = _context.Showtimes
+                                                .Include( s => s.Movie);
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            return query;
         }
 
         public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)
         {
-            throw new System.NotImplementedException();
+            _context.Update(showtimeEntity);
+            _context.SaveChanges();
+            return _context.Showtimes.Find(showtimeEntity);
         }
     }
 }

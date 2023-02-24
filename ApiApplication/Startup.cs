@@ -1,20 +1,15 @@
 using ApiApplication.Auth;
 using ApiApplication.Database;
+using ApiApplication.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
+//using Swashbuckle.Swagger;
 
 namespace ApiApplication
 {
@@ -37,6 +32,12 @@ namespace ApiApplication
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));                
             });
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
+            services.AddTransient<IImdbService, ImdbService>();
+            services.AddTransient<IShowTimeService, ShowTimeService>();
+
+            services.AddSwaggerGen(opts => opts.SwaggerDoc("v1", new OpenApiInfo { Title = "Cinema Api", Version = "v1" }));
+            services.AddSwaggerGenNewtonsoftSupport();
+
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
             services.AddAuthentication(options =>
             {
@@ -58,8 +59,8 @@ namespace ApiApplication
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -67,6 +68,9 @@ namespace ApiApplication
             });
 
             SampleData.Initialize(app);
+
+            app.UseSwagger();
+            app.UseSwaggerUI(opts => opts.SwaggerEndpoint("/swagger/v1/swagger.json", "Cinema v1"));
         }      
     }
 }
