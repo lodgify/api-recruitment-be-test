@@ -27,9 +27,11 @@ namespace ApiApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var apiApplicationSettings = Configuration.GetSection("ApiApplicationConfiguration").Get<ApiApplicationConfiguration>();
+
             services.AddDbContext<CinemaContext>(options =>
             {
-                options.UseInMemoryDatabase("CinemaDb")
+                options.UseInMemoryDatabase(apiApplicationSettings.Database)
                     .EnableSensitiveDataLogging()
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));                
             });
@@ -71,7 +73,7 @@ namespace ApiApplication
             services.AddSingleton<IImdb, Imdb>();
             services.AddHttpClient("imdbApi", client =>
             {
-                client.BaseAddress = new Uri("https://imdb-api.com");
+                client.BaseAddress = new Uri(apiApplicationSettings.ImdbApiBaseUrl);
             });
             services.AddHostedService<ImdbWorker>();
         }

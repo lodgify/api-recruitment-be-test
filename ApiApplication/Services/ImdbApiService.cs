@@ -6,13 +6,14 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace ApiApplication.Services
 {
     public class ImdbApiService : IImdbApiService
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        public ImdbApiService(IHttpClientFactory httpClientFactory)
+        public ImdbApiService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
         }
@@ -26,7 +27,6 @@ namespace ApiApplication.Services
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"Error retrieving movie from IMDB API. Status code: {response.StatusCode}");
-//                return BadRequest($"Error retrieving movie from IMDB API. Status code: {response.StatusCode}");
             }
 
             string responseBody = await response.Content.ReadAsStringAsync();
