@@ -77,14 +77,16 @@ namespace ApiApplication
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<TrackingTimeMiddleware> logger)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<TrackingTimeMiddleware> trackingLogger, 
+                              ILogger<ExceptionHandlerMiddleware> exceptionLogger)
         {
             if (env.IsDevelopment())
             { 
                 app.UseDeveloperExceptionPage();                
             }
 
-            app.UseMiddleware<TrackingTimeMiddleware>(logger);
+            app.UseMiddleware<ExceptionHandlerMiddleware>(exceptionLogger);
+            app.UseMiddleware<TrackingTimeMiddleware>(trackingLogger);
 
             app.UseHttpsRedirection();
 
