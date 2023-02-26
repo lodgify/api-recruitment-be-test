@@ -10,11 +10,11 @@ namespace ApiApplication.Services
     {
         public IEnumerable<ShowTimeResponseModel> Get(DateTime? date, string movieTitle);
 
-        public Task Create(ShowTimeRequestModel showTime);
+        public Task<ShowTimeResponseModel> Create(ShowTimeRequestModel showTime);
 
-        public ShowTimeResponseModel Update(ShowTimeRequestModel showTime);
+        public Task<ShowTimeResponseModel> Update(ShowTimeRequestModel showTime);
 
-        public ShowTimeResponseModel Update(int id, JsonPatchDocument<ShowTimeRequestModel> showTimePatch);
+        public Task<ShowTimeResponseModel> Update(int id, JsonPatchDocument<ShowTimeRequestModel> showTimePatch);
 
         public void Delete(int id);
     }

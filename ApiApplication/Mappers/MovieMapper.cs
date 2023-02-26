@@ -1,4 +1,5 @@
 ﻿using ApiApplication.Database.Entities;
+using ApiApplication.Services;
 
 namespace ApiApplication.Mappers
 {
@@ -11,7 +12,6 @@ namespace ApiApplication.Mappers
                 ImdbId  = titleImdbEntity.Id,
                 Title = titleImdbEntity.Title,
                 ReleaseDate = titleImdbEntity.ReleaseDate,
-//                ShowtimeId = titleImdbEntity.ShowtimeId,
                 Stars = titleImdbEntity.Stars
             };
         }

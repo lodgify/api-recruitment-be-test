@@ -5,6 +5,7 @@ namespace ApiApplication.Database.Entities
 {
     public class MovieEntity
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Title { get; set; }
         public string ImdbId { get; set; }

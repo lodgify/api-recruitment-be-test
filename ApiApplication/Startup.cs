@@ -1,4 +1,5 @@
 using ApiApplication.Auth;
+using ApiApplication.BgTaskImdb;
 using ApiApplication.Database;
 using ApiApplication.Services;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
+using System;
 //using Swashbuckle.Swagger;
 
 namespace ApiApplication
@@ -31,12 +34,13 @@ namespace ApiApplication
                     .EnableSensitiveDataLogging()
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));                
             });
+
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
-            services.AddTransient<IImdbService, ImdbService>();
+            services.AddTransient<IImdbApiService, ImdbApiService>();
             services.AddTransient<IShowTimeService, ShowTimeService>();
+            services.AddTransient<IImdbService, ImdbService>();
 
             services.AddSwaggerGen(opts => opts.SwaggerDoc("v1", new OpenApiInfo { Title = "Cinema Api", Version = "v1" }));
-            services.AddSwaggerGenNewtonsoftSupport();
 
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
             services.AddAuthentication(options =>
@@ -46,13 +50,20 @@ namespace ApiApplication
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
             services.AddControllers();
+
+            services.AddSingleton<IImdb, Imdb>();
+            services.AddHttpClient("imdbApi", client =>
+            {
+                client.BaseAddress = new Uri("https://imdb-api.com");
+            });
+            services.AddHostedService<ImdbWorker>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
+            { 
                 app.UseDeveloperExceptionPage();                
             }
 

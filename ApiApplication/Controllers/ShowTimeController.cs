@@ -28,17 +28,17 @@ namespace ApiApplication.Controllers
         [HttpPost]
         public async Task<ActionResult<ShowTimeResponseModel>> Post([FromBody] ShowTimeRequestModel showTime)
         {
-            await _showTimeService.Create(showTime);
+            var showTimeCreated = await _showTimeService.Create(showTime);
 
-            return CreatedAtAction(nameof(Post), new { id = showTime.Id }, showTime);
+            return CreatedAtAction(nameof(Post), new { id = showTimeCreated.Id }, showTimeCreated);
         }
 
         [HttpPut]
-        public ActionResult<ShowTimeResponseModel> Put([FromBody] ShowTimeRequestModel showTime)
+        public async Task<ActionResult<ShowTimeResponseModel>> Put([FromBody] ShowTimeRequestModel showTime)
         {
-            var showTimes = _showTimeService.Update(showTime);
+            var showTimeUpdated = await _showTimeService.Update(showTime);
 
-            return Ok(showTimes);
+            return Ok(showTimeUpdated);
         }
 
         [HttpDelete]
@@ -52,11 +52,11 @@ namespace ApiApplication.Controllers
 
         [HttpPatch]
         [Route("{id}")]
-        public ActionResult<ShowTimeResponseModel> Patch([FromRoute] int id, [FromBody] JsonPatchDocument<ShowTimeRequestModel> showTimePatch)
+        public async Task<ActionResult<ShowTimeResponseModel>> Patch([FromRoute] int id, [FromBody] JsonPatchDocument<ShowTimeRequestModel> showTimePatch)
         {
-            _showTimeService.Delete(id);
+            var showTimesUpdated = await _showTimeService.Update(id, showTimePatch);
 
-            return Ok(id);
+            return Ok(showTimesUpdated);
         }
     }
 }

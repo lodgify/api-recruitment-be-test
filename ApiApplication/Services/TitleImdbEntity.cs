@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace ApiApplication.Database.Entities
+namespace ApiApplication.Services
 {
     public class TitleImdbEntity
     {

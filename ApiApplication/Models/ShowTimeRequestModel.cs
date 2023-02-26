@@ -1,6 +1,4 @@
-﻿using ApiApplication.Database.Entities;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 

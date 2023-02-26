@@ -1,10 +1,8 @@
 ﻿using ApiApplication.Database.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace ApiApplication.Database
 {
@@ -16,10 +14,11 @@ namespace ApiApplication.Database
             _context = context;
         }
 
-        public void Add(ShowtimeEntity showtimeEntity)
+        public ShowtimeEntity Add(ShowtimeEntity showtimeEntity)
         {
             _context.Add(showtimeEntity);
             _context.SaveChanges();
+            return _context.Showtimes.Find(showtimeEntity.Id);
         }
 
         public void Delete(int id)
@@ -55,7 +54,7 @@ namespace ApiApplication.Database
         {
             _context.Update(showtimeEntity);
             _context.SaveChanges();
-            return _context.Showtimes.Find(showtimeEntity);
+            return _context.Showtimes.Find(showtimeEntity.Id);
         }
     }
 }

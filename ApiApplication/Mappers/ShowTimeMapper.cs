@@ -1,5 +1,6 @@
 ﻿using ApiApplication.Database.Entities;
 using ApiApplication.Models;
+using ApiApplication.Services;
 
 namespace ApiApplication.Mappers
 {
@@ -13,9 +14,9 @@ namespace ApiApplication.Mappers
                 AuditoriumId = showTimeModel.AuditoriumId,
                 StartDate = showTimeModel.StartDate,
                 EndDate = showTimeModel.EndDate,
+                Schedule = showTimeModel.Schedule,
                 Movie = new MovieEntity()
                 {
-                    Id = showTimeModel.Movie.Id,
                     ImdbId = showTimeModel.Movie.ImdbId,
                     ReleaseDate = showTimeModel.Movie.ReleaseDate,
                     ShowtimeId = showTimeModel.Movie.Id,
@@ -25,7 +26,7 @@ namespace ApiApplication.Mappers
             };
         }
 
-        public static ShowtimeEntity MapToEntity(ShowTimeRequestModel showTimeModel, MovieEntity movieEntity)
+        public static ShowtimeEntity MapToEntity(ShowTimeRequestModel showTimeModel, TitleImdbEntity movieEntity)
         {
             return new ShowtimeEntity()
             {
@@ -33,9 +34,9 @@ namespace ApiApplication.Mappers
                 AuditoriumId = showTimeModel.AuditoriumId,
                 StartDate = showTimeModel.StartDate,
                 EndDate = showTimeModel.EndDate,
+                Schedule = showTimeModel.Schedule,
                 Movie = new MovieEntity()
                 {
-                    Id = showTimeModel.Movie.Id,
                     ImdbId = showTimeModel.Movie.ImdbId,
                     ReleaseDate = movieEntity.ReleaseDate,
                     ShowtimeId = showTimeModel.Id,
@@ -45,7 +46,6 @@ namespace ApiApplication.Mappers
             };
         }
 
-
         public static ShowTimeResponseModel MapToModel(ShowtimeEntity showTimeEntity)
         {
             return new ShowTimeResponseModel()
@@ -54,6 +54,7 @@ namespace ApiApplication.Mappers
                 AuditoriumId = showTimeEntity.AuditoriumId,
                 StartDate = showTimeEntity.StartDate,
                 EndDate = showTimeEntity.EndDate,
+                Schedule = showTimeEntity.Schedule,
                 Movie = new MovieResponseModel()
                 {
                     Id = showTimeEntity.Movie.Id,
