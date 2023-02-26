@@ -2,6 +2,7 @@ using ApiApplication.Auth;
 using ApiApplication.BgTaskImdb;
 using ApiApplication.Database;
 using ApiApplication.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,24 @@ namespace ApiApplication
                 options.RequireAuthenticatedSignIn = true;                
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ApiKeyReadPolicy", policy =>
+                {
+                    policy.AuthenticationSchemes.Add(CustomAuthenticationSchemeOptions.AuthenticationScheme);
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "Read");
+                });
+
+                options.AddPolicy("ApiKeyWritePolicy", policy =>
+                {
+                    policy.AuthenticationSchemes.Add(CustomAuthenticationSchemeOptions.AuthenticationScheme);
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "Write");
+                });
+            });
+
             services.AddControllers();
 
             services.AddSingleton<IImdb, Imdb>();
@@ -70,8 +89,8 @@ namespace ApiApplication
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            //app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

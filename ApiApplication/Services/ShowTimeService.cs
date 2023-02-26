@@ -39,7 +39,7 @@ namespace ApiApplication.Services
 
             var showTimeCreated = _showtimesRepository.Add(showTimeEntity);
 
-            return (showTimeCreated != null) ? ShowTimeMapper.MapToModel(showTimeCreated) : new ShowTimeResponseModel();
+            return (showTimeCreated != null) ? ShowTimeMapper.MapToModel(showTimeCreated) : null;
         }
 
         public IEnumerable<ShowTimeResponseModel> Get(DateTime? date, string movieTitle)
@@ -83,41 +83,13 @@ namespace ApiApplication.Services
 
             var showTimeUpdated = _showtimesRepository.Update(showTimeEntity);
 
-            return (showTimeUpdated != null) ? ShowTimeMapper.MapToModel(showTimeUpdated) : new ShowTimeResponseModel();
-            //return ShowTimeMapper.MapToModel(showTimeUpdated);
+            return (showTimeUpdated != null) ? ShowTimeMapper.MapToModel(showTimeUpdated) : null;
         }
 
         public async Task<ShowTimeResponseModel> Update(int id, JsonPatchDocument<ShowTimeRequestModel> showTimePatch)
         {
             throw new Exception("Error on partial update Showtime");
-
-            //// pass this to validator and return no content modified
-            //if (showTime.Movie == null)
-            //{
-            //    return null;
-            //}
-
-            //if (string.IsNullOrEmpty(showTime.Movie.ImdbId))
-            //{
-            //    throw new Exception("Movie imdb id is invalid.");
-            //}
-
-            //if (!allowedAuditoriumIds.Contains(showTime.AuditoriumId))
-            //{
-            //    throw new Exception("Auditorium Id is invalid.");
-            //}
-
-            //var showTimeEntity = _showtimesRepository.GetCollection( s => s.Id == id );
-
-            //ShowTimeMapper.MapToEntity()
-
-            //showTimePatch.ApplyTo(showTimeEntity);
-
-            //var showTimeUpdated = _showtimesRepository.Update(showTimeEntity);
-
-            //return ShowTimeMapper.MapToModel(showTimeUpdated);
         }
-
 
         public void Delete(int id)
         {

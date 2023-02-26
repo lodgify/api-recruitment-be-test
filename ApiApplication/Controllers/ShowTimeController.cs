@@ -1,5 +1,6 @@
 ﻿using ApiApplication.Models;
 using ApiApplication.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,6 +10,7 @@ namespace ApiApplication.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ShowTimeController : ControllerBase
     {
         private readonly IShowTimeService _showTimeService;
@@ -18,6 +20,7 @@ namespace ApiApplication.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "ApiKeyReadPolicy")]
         public IActionResult Get([FromQuery(Name = "date")] DateTime? date = null, [FromQuery(Name = "movie_title")] string movieTitle = null)
         {
             var showTimes = _showTimeService.Get(date, movieTitle);
@@ -26,6 +29,7 @@ namespace ApiApplication.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "ApiKeyWritePolicy")]
         public async Task<ActionResult<ShowTimeResponseModel>> Post([FromBody] ShowTimeRequestModel showTime)
         {
             var showTimeCreated = await _showTimeService.Create(showTime);
@@ -34,6 +38,7 @@ namespace ApiApplication.Controllers
         }
 
         [HttpPut]
+        [Authorize(Policy = "ApiKeyWritePolicy")]
         public async Task<ActionResult<ShowTimeResponseModel>> Put([FromBody] ShowTimeRequestModel showTime)
         {
             var showTimeUpdated = await _showTimeService.Update(showTime);
@@ -43,6 +48,7 @@ namespace ApiApplication.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Policy = "ApiKeyWritePolicy")]
         public ActionResult<ShowTimeResponseModel> Delete([FromRoute] int id)
         {
             _showTimeService.Delete(id);
@@ -52,6 +58,7 @@ namespace ApiApplication.Controllers
 
         [HttpPatch]
         [Route("{id}")]
+        [Authorize(Policy = "ApiKeyWritePolicy")]
         public async Task<ActionResult<ShowTimeResponseModel>> Patch([FromRoute] int id, [FromBody] JsonPatchDocument<ShowTimeRequestModel> showTimePatch)
         {
             var showTimesUpdated = await _showTimeService.Update(id, showTimePatch);

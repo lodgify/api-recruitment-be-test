@@ -52,6 +52,11 @@ namespace ApiApplication.Database
 
         public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)
         {
+            if (_context.Showtimes.Find(showtimeEntity.Id) == null)
+            {
+                return null;
+            }
+
             _context.Update(showtimeEntity);
             _context.SaveChanges();
             return _context.Showtimes.Find(showtimeEntity.Id);
