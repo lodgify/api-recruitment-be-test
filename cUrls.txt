@@ -1,2 +1,93 @@
 Please add the cURLs of your tests here:
 
+curl --location --request GET 'https://localhost:7629/api/ShowTime' \
+--header 'accept: text/plain' \
+--header 'Content-Type: application/json' \
+--header 'ApiKey: MTIzNHxSZWFk' \
+--data '{
+  "id": 3,
+  "start_date": "2023-02-19T16:00:00Z",
+  "end_date": "2023-03-04T18:00:00Z",
+  "schedule": [ "16:00" ],
+  "movie": {
+    "imdb_id": "tt4154796"
+  },
+  "auditorium_id": 1
+}'
+
+curl --location --request POST 'https://localhost:7629/api/ShowTime' \
+--header 'accept: text/plain' \
+--header 'Content-Type: application/json' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ==' \
+--data '{
+  "id": 3,
+  "start_date": "2023-02-19T16:00:00Z",
+  "end_date": "2023-03-04T18:00:00Z",
+  "schedule": [ "16:00", "18:00" ],
+  "movie": {
+    "imdb_id": "tt4154796"
+  },
+  "auditorium_id": 2
+}'
+
+curl --location --request PUT 'https://localhost:7629/api/ShowTime' \
+--header 'accept: text/plain' \
+--header 'Content-Type: application/json' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ==' \
+--data '{
+  "id": 3,
+  "start_date": "2023-02-19T16:00:00Z",
+  "end_date": "2023-03-04T18:00:00Z",
+  "schedule": [ "16:00" ],
+  "auditorium_id": 1
+}'
+
+curl --location --request PUT 'https://localhost:7629/api/ShowTime' \
+--header 'accept: text/plain' \
+--header 'Content-Type: application/json' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ==' \
+--data '{
+  "id": 2,
+  "start_date": "2023-02-19T16:00:00Z",
+  "end_date": "2023-03-04T18:00:00Z",
+  "schedule": [ "20:00" ],
+  "movie": {
+    "imdb_id": "tt4154796"
+  },
+  "auditorium_id": 3
+}'
+
+curl --location --request PATCH 'https://localhost:7629/api/ShowTime/2' \
+--header 'accept: text/plain' \
+--header 'Content-Type: application/json' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ==' \
+--data '{
+  "id": 2,
+  "start_date": "2023-02-19T16:00:00Z",
+  "end_date": "2023-03-04T18:00:00Z",
+  "schedule": [ "19:00" ],
+  "movie": {
+    "imdb_id": "tt4154796"
+  },
+  "auditorium_id": 1
+}'
+
+curl --location --request DELETE 'https://localhost:7629/api/ShowTime/3' \
+--header 'accept: text/plain' \
+--header 'Content-Type: application/json' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ==' \
+--data '{
+  "id": 2,
+  "start_date": "2023-02-19T16:00:00Z",
+  "end_date": "2023-03-04T18:00:00Z",
+  "schedule": [ "19:00" ],
+  "movie": {
+    "imdb_id": "tt4154796"
+  },
+  "auditorium_id": 1
+}'
+
+curl --location 'https://localhost:7629/api/Status' \
+--header 'accept: */*' \
+--header 'ApiKey: MTIzNHxSZWFk'
+

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ApiApplication.Database.Entities
+namespace ApiApplication.Models
 {
-    public class MovieEntity
+    public class MovieResponseModel
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Title { get; set; }
         public string ImdbId { get; set; }

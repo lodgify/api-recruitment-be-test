@@ -1,7 +1,9 @@
 ﻿using ApiApplication.Database.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace ApiApplication.Database
 {
@@ -15,12 +17,22 @@ namespace ApiApplication.Database
 
         public ShowtimeEntity Add(ShowtimeEntity showtimeEntity)
         {
-            throw new System.NotImplementedException();
+            _context.Add(showtimeEntity);
+            _context.SaveChanges();
+            return _context.Showtimes.Find(showtimeEntity.Id);
         }
 
-        public ShowtimeEntity Delete(int id)
+        public void Delete(int id)
         {
-            throw new System.NotImplementedException();
+            var showTime = _context.Showtimes.Find(id);
+
+            if (showTime == null)
+            {
+                throw new Exception("Showtime Id doesn't exist.");
+            }
+
+            _context.Remove(showTime);
+            _context.SaveChanges();
         }
 
         public ShowtimeEntity GetByMovie(Func<IQueryable<MovieEntity>, bool> filter)
@@ -33,14 +45,29 @@ namespace ApiApplication.Database
             return GetCollection(null);
         }
 
-        public IEnumerable<ShowtimeEntity> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter)
+        public IEnumerable<ShowtimeEntity> GetCollection(Func<ShowtimeEntity, bool> filter)
         {
-            throw new System.NotImplementedException();
+            IEnumerable<ShowtimeEntity> query = _context.Showtimes
+                                                .Include( s => s.Movie);
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            return query;
         }
 
         public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)
         {
-            throw new System.NotImplementedException();
+            if (_context.Showtimes.Find(showtimeEntity.Id) == null)
+            {
+                return null;
+            }
+
+            _context.Update(showtimeEntity);
+            _context.SaveChanges();
+            return _context.Showtimes.Find(showtimeEntity.Id);
         }
     }
 }
