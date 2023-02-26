@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace ApiApplication.Database
 {
@@ -23,7 +24,14 @@ namespace ApiApplication.Database
 
         public void Delete(int id)
         {
-            _context.Remove(new ShowtimeEntity { Id = id });
+            var showTime = _context.Showtimes.Find(id);
+
+            if (showTime == null)
+            {
+                throw new Exception("Showtime Id doesn't exist.");
+            }
+
+            _context.Remove(showTime);
             _context.SaveChanges();
         }
 

@@ -49,11 +49,11 @@ namespace ApiApplication.Controllers
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Policy = "ApiKeyWritePolicy")]
-        public ActionResult<ShowTimeResponseModel> Delete([FromRoute] int id)
+        public ActionResult Delete([FromRoute] int id)
         {
-            _showTimeService.Delete(id);
+           _showTimeService.Delete(id);
 
-            return Ok(id);
+            return Ok();
         }
 
         [HttpPatch]
