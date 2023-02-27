@@ -20,7 +20,10 @@ namespace ApiApplication
         public void ConfigureServices(IServiceCollection services)
         {
 
+
             services.ConfigureBrotliAndGzipResponseCompression()
+                    .ConfigureFilters()
+                    .ConfigureNotificationAndLog()
                     .ConfigureDbContext()
                     .ConfigureBusinessDependencies()
                     .ConfigureAuthentication()
@@ -31,7 +34,6 @@ namespace ApiApplication
             services.AddControllers();
 
             services.ConfigureSwagger();
-          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
