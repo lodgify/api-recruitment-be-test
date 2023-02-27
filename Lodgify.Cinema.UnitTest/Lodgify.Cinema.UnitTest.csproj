@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ApiApplication\ApiApplication.csproj" />
+    <ProjectReference Include="..\Lodgify.Cinema.Domain\Lodgify.Cinema.Domain.csproj" />
   </ItemGroup>
 
 </Project>
