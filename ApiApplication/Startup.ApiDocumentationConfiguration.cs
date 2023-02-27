@@ -4,7 +4,7 @@ using Microsoft.OpenApi.Models;
 
 namespace ApiApplication
 {
-    public static class ApiDocumentation
+    public static class ApiDocumentationConfiguration
     {
         public static void ConfigureSwagger(this IServiceCollection services)
         {

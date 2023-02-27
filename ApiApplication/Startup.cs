@@ -22,30 +22,18 @@ namespace ApiApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CinemaContext>(options =>
-            {
-                options.UseInMemoryDatabase("CinemaDb")
-                    .EnableSensitiveDataLogging()
-                    .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
-            });
-            services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
-            services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
-            services.AddAuthentication(options =>
-            {
-                options.AddScheme<CustomAuthenticationHandler>(CustomAuthenticationSchemeOptions.AuthenticationScheme, CustomAuthenticationSchemeOptions.AuthenticationScheme);
-                options.RequireAuthenticatedSignIn = true;
-                options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
-            });
 
-            #region [ResponseCache]
+            services.ConfigureDbContext()
+                    .ConfigureBusinessDependencies()
+                    .ConfigureAuthentication()
+                    .AddResponseCaching();
 
             services.AddResponseCaching();
-
-            #endregion [ResponseCache]
 
             services.AddControllers();
 
             services.ConfigureSwagger();
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
