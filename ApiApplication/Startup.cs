@@ -1,9 +1,6 @@
-using ApiApplication.Auth;
 using ApiApplication.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,7 +20,8 @@ namespace ApiApplication
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.ConfigureDbContext()
+            services.ConfigureBrotliAndGzipResponseCompression()
+                    .ConfigureDbContext()
                     .ConfigureBusinessDependencies()
                     .ConfigureAuthentication()
                     .AddResponseCaching();
