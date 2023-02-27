@@ -1,5 +1,6 @@
 ﻿using Lodgify.Cinema.Domain.Contract.Repositorie;
 using Lodgify.Cinema.Domain.Entitie;
+using Lodgify.Cinema.Domain.Pagination;
 using Lodgify.Cinema.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,9 +14,11 @@ namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
     public class ShowtimesRepository : IShowtimesRepository
     {
         private readonly CinemaContext _context;
-        public ShowtimesRepository(CinemaContext context)
+        private readonly IPaginatedRequest _paginatedRequest;
+        public ShowtimesRepository(CinemaContext context, IPaginatedRequest paginatedRequest)
         {
             _context = context;
+            _paginatedRequest = paginatedRequest;
         }
 
         public async Task<ShowtimeEntity> AddAsync(ShowtimeEntity showtimeEntity, CancellationToken cancellationToken)
@@ -34,9 +37,9 @@ namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
         public async Task<ShowtimeEntity> GetByMovieAsync(Func<MovieEntity, bool> filter, CancellationToken cancellationToken)
         {
             var movie = _context.Movies.FirstOrDefault(movie => filter(movie));
-            return  movie == null 
-                          ? null 
-                          :await _context.Showtimes.FirstOrDefaultAsync(showTime => showTime.Movie.Id == movie.Id, cancellationToken);
+            return movie == null
+                          ? null
+                          : await _context.Showtimes.FirstOrDefaultAsync(showTime => showTime.Movie.Id == movie.Id, cancellationToken);
         }
 
         public IEnumerable<ShowtimeEntity> GetCollection()

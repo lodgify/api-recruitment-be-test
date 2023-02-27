@@ -1,6 +1,7 @@
 ﻿using ApiApplication.Core.CQRS;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ApiApplication.Core.Base
@@ -15,5 +16,17 @@ namespace ApiApplication.Core.Base
              ? resultForNull ?? BadRequest()
              : Ok(response);
         }
+
+        protected async Task<IActionResult> ExecuteAsync(Func<Task<IEnumerable<IResponse>>> executeFunction, IActionResult resultForNull = null)
+        {
+            var response = await executeFunction();
+
+            return response == null
+             ? resultForNull ?? BadRequest()
+             : Ok(response);
+        }
+
+
+
     }
 }

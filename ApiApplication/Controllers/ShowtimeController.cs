@@ -1,4 +1,5 @@
 ﻿using ApiApplication.Application.Command;
+using ApiApplication.Application.Querie;
 using ApiApplication.Core.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,11 +14,13 @@ namespace ApiApplication.Controllers
     [ApiController]
     public class ShowtimeController : BaseController
     {
-        private IAddShowTimeCommandHandler _addShowTimeCommandHandler;
-
-        public ShowtimeController(IAddShowTimeCommandHandler addShowTimeCommandHandler)
+        private readonly IAddShowTimeCommandHandler _addShowTimeCommandHandler;
+        private readonly IGetShowTimeQueryHandler _getShowTimeQueryHandler;
+        public ShowtimeController(IAddShowTimeCommandHandler addShowTimeCommandHandler,
+             IGetShowTimeQueryHandler getShowTimeQueryHandler)
         {
             _addShowTimeCommandHandler = addShowTimeCommandHandler;
+            _getShowTimeQueryHandler = getShowTimeQueryHandler;
         }
 
         [AllowAnonymous]
@@ -29,9 +32,21 @@ namespace ApiApplication.Controllers
             return await ExecuteAsync(async () => await _addShowTimeCommandHandler.ExecuteAsync(command, cancellationToken));
         }
 
+
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ResponseCache(Duration = 120)]
+        [Microsoft.AspNetCore.Mvc.HttpGet("")]
+        public async Task<IActionResult> Get(GetShowTimeRequest request, CancellationToken cancellationToken)
+        {
+            return await ExecuteAsync(async () => await _getShowTimeQueryHandler.ExecuteGetAsync(request, cancellationToken),NoContent());
+        }
+
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [Microsoft.AspNetCore.Mvc.HttpPatch("/api/TestamentoDigital/{guid}/AlterarTipo")]
+        [Microsoft.AspNetCore.Mvc.HttpPatch("")]
         public async Task<IActionResult> Patch(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
