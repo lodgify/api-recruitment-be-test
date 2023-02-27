@@ -10,6 +10,7 @@ namespace ApiApplication
         {
             services.AddScoped<ErrorFilterAttribute>();
             services.AddScoped<PaginationFilterAttribute>();
+            services.AddScoped<MetricsFilterAttribute>();
             services.AddScoped<IPaginatedRequest, PaginatedRequest>(c => new PaginatedRequest(0, 0));
             return services;
         }
