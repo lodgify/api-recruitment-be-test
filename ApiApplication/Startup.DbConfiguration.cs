@@ -1,4 +1,5 @@
 ﻿using ApiApplication.Database;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,13 @@ namespace ApiApplication
             });
 
             return services;
+        }
+
+        public static void Initialize(this IApplicationBuilder app)
+        {
+            using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            var context = serviceScope.ServiceProvider.GetService<CinemaContext>();
+            SampleData.Initialize(context);
         }
     }
 }

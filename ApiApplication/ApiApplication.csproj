@@ -14,5 +14,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Lodgify.Cinema.Data\Lodgify.Cinema.Data.csproj" />
+  </ItemGroup>
+
 
 </Project>

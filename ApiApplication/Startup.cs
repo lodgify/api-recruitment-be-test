@@ -56,7 +56,7 @@ namespace ApiApplication
                 endpoints.MapControllers();
             });
 
-            SampleData.Initialize(app);
+            app.Initialize();
         }
     }
 }
