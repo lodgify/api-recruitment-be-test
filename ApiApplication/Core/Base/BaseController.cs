@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ApiApplication.Core.Base
 {
+    [ServiceFilter(typeof(MetricsFilterAttribute))]
     [ServiceFilter(typeof(ErrorFilterAttribute))]
     public abstract class BaseController : ControllerBase
     {

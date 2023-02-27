@@ -12,6 +12,7 @@ namespace ApiApplication
         {
             services.AddScoped<ErrorFilterAttribute>()
                     .AddScoped<PaginationFilterAttribute>()
+                    .AddScoped<MetricsFilterAttribute>()
                     .AddScoped<IPaginatedRequest, PaginatedRequest>(c => new PaginatedRequest(0, 0));
 
             PaginationFilterAttribute.EnableOptionalPagination = configuration.GetValue<bool>("Application:EnableOptionalPagination");

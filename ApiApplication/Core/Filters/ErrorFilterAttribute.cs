@@ -1,4 +1,5 @@
 ﻿using Lodgify.Cinema.Domain.Notification;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
@@ -28,12 +29,14 @@ namespace ApiApplication.Core.Filters
 
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            if (filterContext.Exception != null)
+            if (filterContext.Exception != null && !filterContext.ExceptionHandled)
             {
+                filterContext.ExceptionHandled = true;
                 _logger.LogError(filterContext.Exception.ToString());
+                var result = new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                filterContext.Result = result;
             }
-
-            if (_domainNotification.HasNotification)
+            else if (_domainNotification.HasNotification)
             {
                 var message = string.Join(',', _domainNotification.GetNotifications.Select(s => s));
                 var result = new BadRequestObjectResult($"{message}");

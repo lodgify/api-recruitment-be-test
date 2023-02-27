@@ -30,7 +30,7 @@ namespace ApiApplication.Core.Filters
         public override void OnResultExecuting(ResultExecutingContext context)
         {
             _stopwatch.Stop();
-            context.HttpContext.Response.Headers.Add("ResponseTime", new Microsoft.Extensions.Primitives.StringValues(_stopwatch.Elapsed.ToString()));
+            context.HttpContext.Response.Headers.Add("x-response-time", new Microsoft.Extensions.Primitives.StringValues(_stopwatch.Elapsed.ToString()));
             Console.WriteLine(_stopwatch.Elapsed);
         }
 
