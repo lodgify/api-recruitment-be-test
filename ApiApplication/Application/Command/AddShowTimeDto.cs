@@ -5,15 +5,20 @@ using System.Collections.Generic;
 
 namespace ApiApplication.Application.Command
 {
-    public sealed class AddShowTimeRequest : IRequest
+    public sealed class AddShowTimeRequest : AddShowTimeDto,IRequest
     {
-        public MovieRequest Movie { get; set; }
+      
+    }
+
+    public  class AddShowTimeDto : IRequest
+    {
+        public MovieDto Movie { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public IEnumerable<string> Schedule { get; set; }
         public int AuditoriumId { get; set; }
 
-        public static implicit operator ShowtimeEntity(AddShowTimeRequest request)
+        public static implicit operator ShowtimeEntity(AddShowTimeDto request)
         {
             return new ShowtimeEntity
             {
@@ -26,7 +31,7 @@ namespace ApiApplication.Application.Command
         }
     }
 
-    public sealed class MovieRequest
+    public sealed class MovieDto
     {
         public string Title { get; set; }
         public string ImdbId { get; set; }
@@ -35,7 +40,7 @@ namespace ApiApplication.Application.Command
 
         public int ShowtimeId { get; set; }
 
-        public static implicit operator MovieEntity(MovieRequest request)
+        public static implicit operator MovieEntity(MovieDto request)
         {
             return new MovieEntity
             {

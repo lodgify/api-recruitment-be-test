@@ -1,4 +1,5 @@
-﻿using Lodgify.Cinema.Domain.Contract.Repositorie;
+﻿using ApiApplication.Application.Command;
+using Lodgify.Cinema.Domain.Contract.Repositorie;
 using Lodgify.Cinema.Domain.Entitie;
 using Lodgify.Cinema.Domain.Notification;
 using Lodgify.Cinema.Domain.Pagination;
@@ -27,11 +28,10 @@ namespace ApiApplication.Application.Querie
         {
             IEnumerable<ShowtimeEntity> response = null;
 
-            if (request == null && string.IsNullOrEmpty(request.MovieTitle) && !request.StartDate.HasValue && !request.StartDate.HasValue)
+            if (request == null || (string.IsNullOrEmpty(request.MovieTitle) && !request.StartDate.HasValue && !request.StartDate.HasValue))
                 response = _showtimesRepository.GetCollection();
-
-            else if (!string.IsNullOrEmpty(request.MovieTitle) || request.StartDate.HasValue)
-                response = _showtimesRepository.GetCollection(showTime => Filter(showTime,request));
+            else 
+                response = _showtimesRepository.GetCollection(showTime => Filter(showTime, request));
 
             if (response == null || !response.Any() || response == default(IEnumerable<GetShowTimeResponse>))
                 return null;
@@ -42,14 +42,31 @@ namespace ApiApplication.Application.Querie
 
         private bool Filter(ShowtimeEntity showTime, GetShowTimeRequest request)
         {
-            return    (showTime.Movie.Title == request.MovieTitle || string.IsNullOrEmpty(request.MovieTitle))
+            return (showTime.Movie.Title == request.MovieTitle || string.IsNullOrEmpty(request.MovieTitle))
                     && (showTime.StartDate >= request.StartDate || !request.StartDate.HasValue)
                     && (showTime.EndDate <= request.EndDate || !request.EndDate.HasValue);
         }
 
-        private IEnumerable<GetShowTimeResponse> Convert(IEnumerable<ShowtimeEntity> data)
+        private IEnumerable<GetShowTimeResponse> Convert(IEnumerable<ShowtimeEntity> showTimes)
         {
-            return null;
+            foreach (var showTime in showTimes)
+                yield return new GetShowTimeResponse()
+                {
+                    AuditoriumId = showTime.AuditoriumId,
+                    EndDate = showTime.EndDate,
+                    Schedule = showTime.Schedule,
+                    StartDate = showTime.StartDate,
+                    Movie = showTime.Movie != null 
+                            ?  new MovieDto
+                            {
+                                ImdbId = showTime.Movie.ImdbId,
+                                ReleaseDate = showTime.Movie.ReleaseDate,
+                                ShowtimeId = showTime.Movie.ShowtimeId,
+                                Title = showTime.Movie.Title,
+                                Stars = showTime.Movie.Stars,
+                            }
+                            : null
+                };
         }
 
 

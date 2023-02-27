@@ -1,6 +1,7 @@
 ﻿using ApiApplication.Application.Command;
 using ApiApplication.Application.Querie;
 using ApiApplication.Core.Base;
+using ApiApplication.Core.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,9 +28,9 @@ namespace ApiApplication.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Microsoft.AspNetCore.Mvc.HttpPost("")]
-        public async Task<IActionResult> Post(AddShowTimeRequest command, CancellationToken cancellationToken)
+        public async Task<IActionResult> Post(AddShowTimeRequest request, CancellationToken cancellationToken)
         {
-            return await ExecuteAsync(async () => await _addShowTimeCommandHandler.ExecuteAsync(command, cancellationToken));
+            return await ExecuteAsync(async () => await _addShowTimeCommandHandler.ExecuteAsync(request, cancellationToken));
         }
 
 
@@ -37,9 +38,10 @@ namespace ApiApplication.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ServiceFilter(typeof(PaginationFilterAttribute))]
         [ResponseCache(Duration = 120)]
         [Microsoft.AspNetCore.Mvc.HttpGet("")]
-        public async Task<IActionResult> Get(GetShowTimeRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Get([FromQuery] GetShowTimeRequest request, CancellationToken cancellationToken)
         {
             return await ExecuteAsync(async () => await _getShowTimeQueryHandler.ExecuteGetAsync(request, cancellationToken),NoContent());
         }
