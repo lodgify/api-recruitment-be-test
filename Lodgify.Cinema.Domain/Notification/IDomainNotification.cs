@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ApiApplication.Core.Notification
+namespace Lodgify.Cinema.Domain.Notification
 {
     public interface IDomainNotification
     {

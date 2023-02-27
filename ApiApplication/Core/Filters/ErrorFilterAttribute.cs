@@ -1,4 +1,4 @@
-﻿using ApiApplication.Core.Notification;
+﻿using Lodgify.Cinema.Domain.Notification;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;

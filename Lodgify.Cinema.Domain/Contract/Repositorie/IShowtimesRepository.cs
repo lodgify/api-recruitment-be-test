@@ -1,9 +1,10 @@
-﻿using ApiApplication.Database.Entities;
+﻿using Lodgify.Cinema.Domain.Entitie;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ApiApplication.Database
+namespace Lodgify.Cinema.Domain.Contract.Repositorie
+
 {
     public interface IShowtimesRepository
     {

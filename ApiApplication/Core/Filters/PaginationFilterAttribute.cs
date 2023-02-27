@@ -1,6 +1,6 @@
 ﻿using ApiApplication.Core.CQRS;
-using ApiApplication.Core.Notification;
-using ApiApplication.Core.Pagination;
+using Lodgify.Cinema.Domain.Notification;
+using Lodgify.Cinema.Domain.Pagination;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

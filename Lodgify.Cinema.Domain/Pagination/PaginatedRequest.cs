@@ -1,4 +1,4 @@
-﻿namespace ApiApplication.Core.Pagination
+﻿namespace Lodgify.Cinema.Domain.Pagination
 {
     public class PaginatedRequest : IPaginatedRequest
     {

@@ -1,5 +1,5 @@
-﻿using ApiApplication.Database;
-using ApiApplication.Database.Entities;
+﻿using Lodgify.Cinema.Domain.Contract.Repositorie;
+using Lodgify.Cinema.Domain.Entitie;
 using Lodgify.Cinema.Infrastructure.Data.Context;
 using System;
 using System.Collections.Generic;

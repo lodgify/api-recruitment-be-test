@@ -1,4 +1,4 @@
-﻿using ApiApplication.Database;
+﻿using Lodgify.Cinema.Domain.Contract.Repositorie;
 using Lodgify.Cinema.Infrastructure.Data.Context;
 using Lodgify.Cinema.Infrastructure.Data.Database;
 using Lodgify.Cinema.Infrastructure.Data.Repositorie;

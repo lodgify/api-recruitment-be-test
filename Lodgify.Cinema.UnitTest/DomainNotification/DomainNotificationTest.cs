@@ -1,9 +1,7 @@
-﻿using ApiApplication.Core.Notification;
-using FluentAssertions;
+﻿using FluentAssertions;
+using Lodgify.Cinema.Domain.Notification;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace Lodgify.Cinema.UnitTest

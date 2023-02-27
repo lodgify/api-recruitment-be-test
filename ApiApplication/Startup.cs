@@ -1,10 +1,9 @@
-using ApiApplication.Database;
+using Lodgify.Cinema.Infrastructure.Ioc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Lodgify.Cinema.Infrastructure.Ioc;
 
 namespace ApiApplication
 {

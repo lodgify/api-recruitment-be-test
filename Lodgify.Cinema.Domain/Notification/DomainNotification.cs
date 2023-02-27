@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ApiApplication.Core.Notification
+namespace Lodgify.Cinema.Domain.Notification
 {
     public sealed class DomainNotification : IDomainNotification
     {

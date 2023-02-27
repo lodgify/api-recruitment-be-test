@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ApiApplication.Database.Entities
+namespace Lodgify.Cinema.Domain.Entitie
 {
     public class AuditoriumEntity
     {

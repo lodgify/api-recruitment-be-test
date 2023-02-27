@@ -1,5 +1,5 @@
-﻿using ApiApplication.Core.Pagination;
-using FluentAssertions;
+﻿using FluentAssertions;
+using Lodgify.Cinema.Domain.Pagination;
 using Xunit;
 
 namespace Lodgify.Cinema.UnitTest

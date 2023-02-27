@@ -1,4 +1,4 @@
-﻿using ApiApplication.Database.Entities;
+﻿using Lodgify.Cinema.Domain.Entitie;
 using Lodgify.Cinema.Infrastructure.Data.Context;
 using System;
 using System.Collections.Generic;

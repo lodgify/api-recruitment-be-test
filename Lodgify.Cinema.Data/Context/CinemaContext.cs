@@ -1,4 +1,4 @@
-﻿using ApiApplication.Database.Entities;
+﻿using Lodgify.Cinema.Domain.Entitie;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;

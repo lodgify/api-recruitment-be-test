@@ -1,4 +1,4 @@
-﻿using ApiApplication.Core.Notification;
+﻿using Lodgify.Cinema.Domain.Notification;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
