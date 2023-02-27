@@ -19,5 +19,9 @@
     <ProjectReference Include="..\Lodgify.Cinema.Infrastructure.Ioc\Lodgify.Cinema.Infrastructure.Ioc.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\Querie\" />
+  </ItemGroup>
+
 
 </Project>

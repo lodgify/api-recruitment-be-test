@@ -5,20 +5,22 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
 {
     public class ShowtimesRepository : IShowtimesRepository
     {
-        private readonly CinemaContext _context;
-        public ShowtimesRepository(CinemaContext context)
+        private readonly IDbContext _context;
+        public ShowtimesRepository(IDbContext context)
         {
             _context = context;
         }
 
-        public ShowtimeEntity Add(ShowtimeEntity showtimeEntity)
+        public async Task<ShowtimeEntity> AddAsync(ShowtimeEntity showtimeEntity, CancellationToken cancellationToken)
         {
-            _context.Showtimes.Add(showtimeEntity);
+            await _context.Showtimes.AddAsync(showtimeEntity, cancellationToken);
             return showtimeEntity;
         }
 
@@ -29,12 +31,12 @@ namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
             return entitie;
         }
 
-        public ShowtimeEntity GetByMovie(Func<MovieEntity, bool> filter)
+        public async Task<ShowtimeEntity> GetByMovieAsync(Func<MovieEntity, bool> filter, CancellationToken cancellationToken)
         {
             var movie = _context.Movies.FirstOrDefault(movie => filter(movie));
-            return movie == null 
+            return  movie == null 
                           ? null 
-                          :_context.Showtimes.FirstOrDefault(showTime => showTime.Movie.Id == movie.Id);
+                          :await _context.Showtimes.FirstOrDefaultAsync(showTime => showTime.Movie.Id == movie.Id, cancellationToken);
         }
 
         public IEnumerable<ShowtimeEntity> GetCollection()
@@ -49,8 +51,7 @@ namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
 
         public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)
         {
-            _context.Showtimes.Attach(showtimeEntity);
-            _context.Entry(showtimeEntity).State = EntityState.Modified;
+            _context.Showtimes.Update(showtimeEntity);
             return showtimeEntity;
         }
     }

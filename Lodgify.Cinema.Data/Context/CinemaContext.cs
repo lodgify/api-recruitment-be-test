@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace Lodgify.Cinema.Infrastructure.Data.Context
 {
-    public class CinemaContext : DbContext
+    public class CinemaContext : DbContext, IDbContext
     {
         public CinemaContext(DbContextOptions<CinemaContext> options) : base(options)
         {
-            
+
         }
 
         public DbSet<AuditoriumEntity> Auditoriums { get; set; }

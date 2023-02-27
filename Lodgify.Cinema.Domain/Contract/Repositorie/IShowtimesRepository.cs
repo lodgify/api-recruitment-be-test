@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Lodgify.Cinema.Domain.Contract.Repositorie
 
@@ -10,8 +12,8 @@ namespace Lodgify.Cinema.Domain.Contract.Repositorie
     {
         IEnumerable<ShowtimeEntity> GetCollection();
         IEnumerable<ShowtimeEntity> GetCollection(Func<ShowtimeEntity, bool> filter);
-        ShowtimeEntity GetByMovie(Func<MovieEntity, bool> filter);
-        ShowtimeEntity Add(ShowtimeEntity showtimeEntity);
+        Task<ShowtimeEntity> GetByMovieAsync(Func<MovieEntity, bool> filter, CancellationToken cancellationToken);
+        Task<ShowtimeEntity> AddAsync(ShowtimeEntity showtimeEntity, CancellationToken cancellationToken);
         ShowtimeEntity Update(ShowtimeEntity showtimeEntity);
         ShowtimeEntity Delete(int id);
     }

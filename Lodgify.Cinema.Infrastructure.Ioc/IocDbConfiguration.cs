@@ -11,7 +11,7 @@ namespace Lodgify.Cinema.Infrastructure.Ioc
     {
         public static IServiceCollection ConfigureIocDbDependencies(this IServiceCollection services)
         {
-            services.AddDbContext<CinemaContext>(options =>
+            services.AddDbContext<IDbContext,CinemaContext>(options =>
             {
                 options.UseInMemoryDatabase("CinemaDb")
                     .EnableSensitiveDataLogging()
