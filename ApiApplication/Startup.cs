@@ -36,6 +36,13 @@ namespace ApiApplication
                 options.RequireAuthenticatedSignIn = true;
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
+
+            #region [ResponseCache]
+
+            services.AddResponseCaching();
+
+            #endregion [ResponseCache]
+
             services.AddControllers();
 
             services.ConfigureSwagger();
@@ -55,6 +62,8 @@ namespace ApiApplication
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseResponseCaching();
 
             app.UseEndpoints(endpoints =>
             {
