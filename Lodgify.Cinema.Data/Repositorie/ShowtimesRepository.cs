@@ -1,6 +1,7 @@
 ﻿using Lodgify.Cinema.Domain.Contract.Repositorie;
 using Lodgify.Cinema.Domain.Entitie;
 using Lodgify.Cinema.Infrastructure.Data.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,32 +18,40 @@ namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
 
         public ShowtimeEntity Add(ShowtimeEntity showtimeEntity)
         {
-            throw new System.NotImplementedException();
+            _context.Showtimes.Add(showtimeEntity);
+            return showtimeEntity;
         }
 
         public ShowtimeEntity Delete(int id)
         {
-            throw new System.NotImplementedException();
+            var entitie = _context.Showtimes.Single(s => s.Id == id);
+            _context.Showtimes.Remove(entitie);
+            return entitie;
         }
 
-        public ShowtimeEntity GetByMovie(Func<IQueryable<MovieEntity>, bool> filter)
+        public ShowtimeEntity GetByMovie(Func<MovieEntity, bool> filter)
         {
-            throw new System.NotImplementedException();
+            var movie = _context.Movies.FirstOrDefault(movie => filter(movie));
+            return movie == null 
+                          ? null 
+                          :_context.Showtimes.FirstOrDefault(showTime => showTime.Movie.Id == movie.Id);
         }
 
         public IEnumerable<ShowtimeEntity> GetCollection()
         {
-            return GetCollection(null);
+            return _context.Showtimes;
         }
 
-        public IEnumerable<ShowtimeEntity> GetCollection(Func<IQueryable<ShowtimeEntity>, bool> filter)
+        public IEnumerable<ShowtimeEntity> GetCollection(Func<ShowtimeEntity, bool> filter)
         {
-            throw new System.NotImplementedException();
+            return _context.Showtimes.Where(showTime => filter(showTime));
         }
 
         public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)
         {
-            throw new System.NotImplementedException();
+            _context.Showtimes.Attach(showtimeEntity);
+            _context.Entry(showtimeEntity).State = EntityState.Modified;
+            return showtimeEntity;
         }
     }
 }
