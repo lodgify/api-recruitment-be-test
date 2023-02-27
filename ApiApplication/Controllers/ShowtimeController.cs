@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ApiApplication.Core.Base;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ApiApplication.Controllers
 {
-    public class ShowtimeController : Controller
+    public class ShowtimeController : BaseController
     {
         public IActionResult Index()
         {
-            return View();
+            return Ok();
         }
     }
 }
