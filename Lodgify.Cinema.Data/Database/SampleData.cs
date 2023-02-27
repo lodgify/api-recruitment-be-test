@@ -1,9 +1,9 @@
 ﻿using ApiApplication.Database.Entities;
-using Microsoft.Extensions.DependencyInjection;
+using Lodgify.Cinema.Infrastructure.Data.Context;
 using System;
 using System.Collections.Generic;
 
-namespace ApiApplication.Database
+namespace Lodgify.Cinema.Infrastructure.Data.Database
 {
     public class SampleData
     {

@@ -1,4 +1,7 @@
 ﻿using ApiApplication.Database;
+using Lodgify.Cinema.Infrastructure.Data.Context;
+using Lodgify.Cinema.Infrastructure.Data.Database;
+using Lodgify.Cinema.Infrastructure.Data.Repositorie;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
-namespace ApiApplication.Database
+namespace Lodgify.Cinema.Infrastructure.Data.Context
 {
     public class CinemaContext : DbContext
     {
