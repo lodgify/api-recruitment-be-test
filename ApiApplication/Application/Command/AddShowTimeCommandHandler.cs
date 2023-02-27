@@ -14,7 +14,7 @@ namespace ApiApplication.Application.Command
         private readonly IDomainNotification _domainNotification;
 
         public AddShowTimeCommandHandler(IShowtimesRepository showtimesRepository,
-            IDbContext dbContext,
+            CinemaContext dbContext,
             IDomainNotification domainNotification) : base(dbContext, domainNotification)
         {
             _showtimesRepository = showtimesRepository;

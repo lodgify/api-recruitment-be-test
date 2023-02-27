@@ -9,7 +9,7 @@ namespace ApiApplication
     {
         public static IServiceCollection ConfigureBusinessDependencies(this IServiceCollection services) =>
             services.ConfigureIocBusinessDependencies()
-                    .AddSingleton<IAddShowTimeCommandHandler, AddShowTimeCommandHandler>()
-                    .AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
+                    .AddScoped<IAddShowTimeCommandHandler, AddShowTimeCommandHandler>()
+                    .AddScoped<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
     }
 }

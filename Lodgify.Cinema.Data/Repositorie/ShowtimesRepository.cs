@@ -12,8 +12,8 @@ namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
 {
     public class ShowtimesRepository : IShowtimesRepository
     {
-        private readonly IDbContext _context;
-        public ShowtimesRepository(IDbContext context)
+        private readonly CinemaContext _context;
+        public ShowtimesRepository(CinemaContext context)
         {
             _context = context;
         }

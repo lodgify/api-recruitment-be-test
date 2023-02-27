@@ -11,13 +11,13 @@ namespace Lodgify.Cinema.Infrastructure.Ioc
     {
         public static IServiceCollection ConfigureIocDbDependencies(this IServiceCollection services)
         {
-            services.AddDbContext<IDbContext,CinemaContext>(options =>
+            services.AddDbContext<CinemaContext>(options =>
             {
                 options.UseInMemoryDatabase("CinemaDb")
                     .EnableSensitiveDataLogging()
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
-
+       
             return services;
         }
 

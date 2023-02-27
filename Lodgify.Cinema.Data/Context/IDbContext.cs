@@ -1,5 +1,6 @@
 ﻿using Lodgify.Cinema.Domain.Entitie;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,5 +14,9 @@ namespace Lodgify.Cinema.Infrastructure.Data.Context
         DbSet<AuditoriumEntity> Auditoriums { get; set; }
         DbSet<ShowtimeEntity> Showtimes { get; set; }
         DbSet<MovieEntity> Movies { get; set; }
+        DatabaseFacade Database { get; }
+
+
+
     }
 }
