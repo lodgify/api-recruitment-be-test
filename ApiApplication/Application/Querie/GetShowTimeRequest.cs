@@ -3,7 +3,7 @@ using System;
 
 namespace ApiApplication.Application.Querie
 {
-    public sealed class GetShowTimeRequest:IRequest
+    public sealed class GetShowTimeRequest: IRequest
     {
         public string MovieTitle { get; set; }
 

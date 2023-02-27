@@ -20,7 +20,7 @@ namespace ApiApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureBrotliAndGzipResponseCompression()
-                    .ConfigureFilters()
+                    .ConfigureFilters(Configuration)
                     .ConfigureNotificationAndLog()
                     .ConfigureIocDbDependencies()
                     .ConfigureBusinessDependencies()

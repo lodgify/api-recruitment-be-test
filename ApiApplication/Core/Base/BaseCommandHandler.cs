@@ -29,6 +29,8 @@ namespace ApiApplication.Core.Base
         {
             try
             {
+                if (_domainNotification.HasNotification)
+                    return;
 
                 await action();
 
@@ -46,6 +48,8 @@ namespace ApiApplication.Core.Base
         {
             try
             {
+                if (_domainNotification.HasNotification)
+                    return null;
 
                 var response = await function();
 

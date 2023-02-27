@@ -39,9 +39,9 @@ namespace ApiApplication.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ServiceFilter(typeof(PaginationFilterAttribute))]
-        [ResponseCache(Duration = 120)]
+        [ResponseCache(Duration = 120, VaryByQueryKeys = new string []{"MovieTitle", "StartDate", "EndDate", "Since", "PageSize"} )]
         [Microsoft.AspNetCore.Mvc.HttpGet("")]
-        public async Task<IActionResult> Get([FromQuery] GetShowTimeRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Get([FromQuery] GetShowTimeRequest request, [FromQuery] long since, [FromQuery] string pageSize, CancellationToken cancellationToken)
         {
             return await ExecuteAsync(async () => await _getShowTimeQueryHandler.ExecuteGetAsync(request, cancellationToken),NoContent());
         }

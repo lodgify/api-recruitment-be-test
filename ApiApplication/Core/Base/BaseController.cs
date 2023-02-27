@@ -1,4 +1,5 @@
 ﻿using ApiApplication.Core.CQRS;
+using ApiApplication.Core.Filters;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ApiApplication.Core.Base
 {
+    [ServiceFilter(typeof(ErrorFilterAttribute))]
     public abstract class BaseController : ControllerBase
     {
         protected async Task<IActionResult> ExecuteAsync(Func<Task<IResponse>> executeFunction, IActionResult resultForNull = null)

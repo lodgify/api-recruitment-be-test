@@ -15,6 +15,7 @@ namespace ApiApplication.Core.Filters
 
         private IPaginatedRequest _paginatedRequest;
         private IDomainNotification _domainNotification;
+        public static bool EnableOptionalPagination = false;
 
         #endregion [prop]
 
@@ -40,13 +41,13 @@ namespace ApiApplication.Core.Filters
 
             long since;
 
-            if (!long.TryParse(stringSince, out since))
+            if (!long.TryParse(stringSince, out since) && !EnableOptionalPagination)
             {
                 _domainNotification.Add("Please, enter a value or a valid value for a querystring since parameter");
             }
 
             int pagesize;
-            if (!int.TryParse(stringPageSize, out pagesize))
+            if (!int.TryParse(stringPageSize, out pagesize) && !EnableOptionalPagination)
             {
                 _domainNotification.Add("Please, enter a value or a valid value for a querystring pagesize parameter");
                 return;

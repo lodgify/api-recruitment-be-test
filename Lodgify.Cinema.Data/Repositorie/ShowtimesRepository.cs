@@ -44,12 +44,21 @@ namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
 
         public IEnumerable<ShowtimeEntity> GetCollection()
         {
-            return _context.Showtimes;
+            var response =  _context.Showtimes.AsEnumerable();
+
+            if (_paginatedRequest != null && _paginatedRequest.Since > 0)
+                response = response.Skip((int)_paginatedRequest.Since).Take(_paginatedRequest.PageSize);
+
+            return response;
         }
 
         public IEnumerable<ShowtimeEntity> GetCollection(Func<ShowtimeEntity, bool> filter)
         {
-            return _context.Showtimes.Where(showTime => filter(showTime));
+            var response =  _context.Showtimes.Where(showTime => filter(showTime));
+            if (_paginatedRequest != null && _paginatedRequest.Since > 0)
+                response = response.Skip((int)_paginatedRequest.Since).Take(_paginatedRequest.PageSize);
+
+            return response;
         }
 
         public ShowtimeEntity Update(ShowtimeEntity showtimeEntity)
