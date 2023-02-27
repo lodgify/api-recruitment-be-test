@@ -39,5 +39,6 @@ namespace ApiApplication.Core.Filters
             await base.OnResultExecutionAsync(context, next);
             OnResultExecuting(context);
 
+        }
     }
 }
