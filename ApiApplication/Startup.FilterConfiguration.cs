@@ -6,12 +6,10 @@ namespace ApiApplication
 {
     public static class FilterConfiguration
     {
-        public static IServiceCollection ConfigureFilters(this IServiceCollection services)
-        {
-            services.AddScoped<ErrorFilterAttribute>();
-            services.AddScoped<PaginationFilterAttribute>();
-            services.AddScoped<IPaginatedRequest, PaginatedRequest>(c => new PaginatedRequest(0, 0));
-            return services;
-        }
+        public static IServiceCollection ConfigureFilters(this IServiceCollection services) =>
+            services.AddScoped<ErrorFilterAttribute>()
+                    .AddScoped<PaginationFilterAttribute>()
+                    .AddScoped<IPaginatedRequest, PaginatedRequest>(c => new PaginatedRequest(0, 0));
+
     }
 }

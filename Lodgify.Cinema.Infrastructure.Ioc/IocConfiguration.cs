@@ -4,11 +4,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ApiApplication
+namespace Lodgify.Cinema.Infrastructure.Ioc
 {
-    public static class DbConfiguration
+    public static class IocConfiguration
     {
-        public static IServiceCollection ConfigureDbContext(this IServiceCollection services)
+        public static IServiceCollection ConfigureIocBusinessDependencies(this IServiceCollection services)
+        {
+            services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
+            return services;
+        }
+
+
+        public static IServiceCollection ConfigureIocDbDependencies(this IServiceCollection services)
         {
             services.AddDbContext<CinemaContext>(options =>
             {

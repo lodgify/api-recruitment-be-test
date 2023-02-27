@@ -1,16 +1,13 @@
 ﻿using ApiApplication.Auth;
-using ApiApplication.Database;
 using Microsoft.Extensions.DependencyInjection;
+using Lodgify.Cinema.Infrastructure.Ioc;
 
 namespace ApiApplication
 {
     public static class IocConfiguration
     {
-        public static IServiceCollection ConfigureBusinessDependencies(this IServiceCollection services)
-        {
-            services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
-            services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
-            return services;
-        }
+        public static IServiceCollection ConfigureBusinessDependencies(this IServiceCollection services) =>
+            services.ConfigureIocBusinessDependencies()
+                    .AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
     }
 }

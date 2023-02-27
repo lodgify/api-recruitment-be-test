@@ -6,11 +6,9 @@ namespace ApiApplication
 {
     public static class LogConfiguration
     {
-        public static IServiceCollection ConfigureNotificationAndLog(this IServiceCollection services)
-        {
-            services.AddScoped<ILogger, Logger<string>>()
-                    .AddScoped<IDomainNotification, DomainNotification>();
-            return services;
-        }
+        public static IServiceCollection ConfigureNotificationAndLog(this IServiceCollection services) =>
+             services.AddScoped<ILogger, Logger<string>>()
+                     .AddScoped<IDomainNotification, DomainNotification>();
+
     }
 }
