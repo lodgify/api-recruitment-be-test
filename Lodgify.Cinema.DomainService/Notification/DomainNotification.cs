@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Lodgify.Cinema.Domain.Notification;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace Lodgify.Cinema.Domain.Notification
+namespace Lodgify.Cinema.DomainService.Notification
 {
     public sealed class DomainNotification : IDomainNotification
     {

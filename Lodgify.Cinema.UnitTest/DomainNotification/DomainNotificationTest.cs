@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Lodgify.Cinema.Domain.Notification;
+using Lodgify.Cinema.DomainService.Notification;
 using System;
 using System.Linq;
 using Xunit;

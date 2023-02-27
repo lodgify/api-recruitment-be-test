@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Lodgify.Cinema.Domain.Pagination;
+using Lodgify.Cinema.DomainService.Pagination;
 using Xunit;
 
 namespace Lodgify.Cinema.UnitTest

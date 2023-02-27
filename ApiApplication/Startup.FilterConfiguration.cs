@@ -1,5 +1,6 @@
 ﻿using ApiApplication.Core.Filters;
 using Lodgify.Cinema.Domain.Pagination;
+using Lodgify.Cinema.DomainService.Pagination;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ApiApplication

@@ -1,4 +1,6 @@
-﻿namespace Lodgify.Cinema.Domain.Pagination
+﻿using Lodgify.Cinema.Domain.Pagination;
+
+namespace Lodgify.Cinema.DomainService.Pagination
 {
     public class PaginatedRequest : IPaginatedRequest
     {
