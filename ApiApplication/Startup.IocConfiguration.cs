@@ -12,6 +12,7 @@ namespace ApiApplication
             services.ConfigureIocBusinessDependencies()
                     .AddScoped<IAddShowTimeCommandHandler, AddShowTimeCommandHandler>()
                     .AddScoped<IGetShowTimeQueryHandler, GetShowTimeQueryHandler>()
+                    .AddScoped<IDeleteShowTimeCommandHandler, DeleteShowTimeCommandHandler>()
                     .AddScoped<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
     }
 }
