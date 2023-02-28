@@ -8,11 +8,9 @@ namespace Lodgify.Cinema.Infrastructure.Ioc
 {
     public static class IocConfiguration
     {
-        public static IServiceCollection ConfigureIocBusinessDependencies(this IServiceCollection services)
-        {
-            services.AddTransient<IShowtimesRepository, ShowtimesRepository>()
+        public static IServiceCollection ConfigureIocBusinessDependencies(this IServiceCollection services) =>
+            services.AddScoped<IShowtimesRepository, ShowtimesRepository>()
+                    .AddScoped<IImdbRepository, ImdbRepository>()
                     .AddScoped<IDomainNotification, DomainNotification>();
-            return services;
-        }
     }
 }
