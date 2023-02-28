@@ -5,9 +5,9 @@ using Xunit;
 
 namespace Lodgify.Cinema.UnitTest
 {
-    public class LogTest
+    public class PaginatedRequestTest
     {
-        [Trait("Data", "PaginatedRequestClass")]
+        [Trait("Data", "PaginatedRequest")]
         [Theory]
         [InlineData(1, 20)]
         [InlineData(10, 20)]
@@ -24,7 +24,7 @@ namespace Lodgify.Cinema.UnitTest
             paginatedRequest.LastSince.Should().Be(since + pageSize);
         }
 
-        [Trait("Data", "PaginatedRequestClass")]
+        [Trait("Data", "PaginatedRequest")]
         [Theory]
         [InlineData(1, 20, 20)]
         [InlineData(10, 20, 30)]
@@ -45,7 +45,7 @@ namespace Lodgify.Cinema.UnitTest
             paginatedRequest.LastSince.Should().Be(lastSince);
         }
 
-        [Trait("Data", "PaginatedRequestClass")]
+        [Trait("Data", "PaginatedRequest")]
         [Theory]
         [InlineData(0, 0)]
         [InlineData(-1, -1)]
@@ -62,7 +62,7 @@ namespace Lodgify.Cinema.UnitTest
         }
 
 
-        [Trait("Data", "PaginatedRequestClass")]
+        [Trait("Data", "PaginatedRequest")]
         [Theory]
         [InlineData(0, 0)]
         [InlineData(-1, -1)]
