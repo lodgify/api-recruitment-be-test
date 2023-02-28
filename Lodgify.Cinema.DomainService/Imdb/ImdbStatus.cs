@@ -5,7 +5,7 @@ namespace Lodgify.Cinema.DomainService.Imdb
 {
     public class ImdbStatus : IImdbStatus
     {
-        public ImdbStatus(bool isUp, DateTime? checkDate)
+           public ImdbStatus(bool isUp, DateTime? checkDate)
         {
             IsUp = isUp;
             LastStatusCheck = checkDate;
@@ -16,13 +16,13 @@ namespace Lodgify.Cinema.DomainService.Imdb
 
         public DateTime? LastStatusCheck { get; private set; }
 
-        public Exception LastException { get; private set; }
+        public string LastException { get; private set; }
 
         public DateTime? LastExceptionThrow { get; private set; }
 
         public void SetException(Exception ex, DateTime exceptionTime)
         {
-            LastException = ex;
+            LastException = ex.Message;
             LastExceptionThrow = exceptionTime;
         }
 

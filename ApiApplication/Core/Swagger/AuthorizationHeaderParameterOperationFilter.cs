@@ -11,7 +11,7 @@ namespace ApiApplication.Core.Swagger
     public class AuthorizationHeaderParameterOperationFilter : IOperationFilter
     {
         private const string READ_ONLY_TOKEN = "MTIzNHxSZWFk";
-        private const string WRITE_TOKEN = "MTIzNHxSZWFk";
+        private const string WRITE_TOKEN = "Nzg5NHxXcml0ZQ==";
 
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {

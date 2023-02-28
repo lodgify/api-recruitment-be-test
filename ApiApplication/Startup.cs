@@ -27,7 +27,7 @@ namespace ApiApplication
                     .ConfigureBusinessDependencies(Configuration)
                     .ConfigureAuthentication()
                     .AddResponseCaching()
-                    .AddHostedService<ImdbHealtCheckWebWorker>(s => new ImdbHealtCheckWebWorker(services));
+                    .AddHostedService(s => new ImdbHealtCheckWebWorker(services));
 
             services.AddResponseCaching();
 

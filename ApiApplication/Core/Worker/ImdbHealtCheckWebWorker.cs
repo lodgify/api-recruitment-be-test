@@ -31,7 +31,7 @@ namespace ApiApplication.Core.Worker
 
                     var status = await _imdbStatusService.IsUpAsync(cancellationToken);
                     _imdbStatus.SetCheck(status.IsUp, DateTime.Now);
-                    Console.WriteLine("ImdbHealtCheckWebWorker running - {time}", DateTimeOffset.Now);
+                    Console.WriteLine($"ImdbHealtCheckWebWorker running - {DateTime.Now}");
                 }
                 catch(Exception ex)
                 {

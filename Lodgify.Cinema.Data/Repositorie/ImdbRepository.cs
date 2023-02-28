@@ -24,6 +24,6 @@ namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
         }
 
         public async Task<MovieResponse> GetMovieByIdAsync(int id, CancellationToken cancellationToken) => await GetAsync<MovieResponse>(ACTION, new MovieRequest { id = _imdbIdTranslatorService.Get(id) }, cancellationToken);
-        public async Task<bool> HealtCheckStatusAsync(CancellationToken cancellationToken) => await IsSuccessStatusCodeAsync(ACTION, new MovieRequest { id = "tt0" }, cancellationToken);
+        public async Task<bool> HealtCheckStatusAsync(CancellationToken cancellationToken) => await IsSuccessStatusCodeAsync(ACTION, new MovieRequest { id = _imdbIdTranslatorService.Get(1375666) }, cancellationToken);
     }
 }

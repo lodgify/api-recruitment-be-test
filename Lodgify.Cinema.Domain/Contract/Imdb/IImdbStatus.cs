@@ -6,7 +6,7 @@ namespace Lodgify.Cinema.Domain.Contract
     {
         bool IsUp { get; }
         DateTime? LastStatusCheck { get; }
-        Exception LastException { get; }
+        string LastException { get; }
         DateTime? LastExceptionThrow { get; }
         void SetCheck(bool newStatus, DateTime checkTime);
         void SetException(Exception ex, DateTime exceptionTime);

@@ -1,5 +1,7 @@
-﻿using Lodgify.Cinema.Domain.Contract;
+﻿using ApiApplication.Auth;
+using Lodgify.Cinema.Domain.Contract;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiApplication.Controllers
@@ -15,7 +17,9 @@ namespace ApiApplication.Controllers
             _imdbStatus = imdbStatus;
         }
 
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
         public IActionResult Get()
         {

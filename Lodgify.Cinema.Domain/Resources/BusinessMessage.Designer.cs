@@ -61,6 +61,15 @@ namespace Lodgify.Cinema.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid Token.
+        /// </summary>
+        public static string InvalidToken {
+            get {
+                return ResourceManager.GetString("InvalidToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Movie not found by id {0}.
         /// </summary>
         public static string MovieNotFoundById {

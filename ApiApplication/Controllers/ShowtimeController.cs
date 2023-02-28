@@ -28,7 +28,7 @@ namespace ApiApplication.Controllers
             _deleteShowTimeCommandHandler = deleteShowTimeCommandHandler;
         }
 
-        [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme, Policy = CustomAuthenticationSchemeOptions.Policies.Write)]
+        [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost]
@@ -57,7 +57,7 @@ namespace ApiApplication.Controllers
             return await ExecuteAsync(async () => await _getShowTimeQueryHandler.ExecuteGetAsync(request, cancellationToken),NoContent());
         }
 
-        [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme, Policy = CustomAuthenticationSchemeOptions.Policies.Write)]
+        [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpDelete]
@@ -66,7 +66,7 @@ namespace ApiApplication.Controllers
             return await ExecuteAsync(async () => await _deleteShowTimeCommandHandler.ExecuteAsync(command, cancellationToken),NoContent());
         }
 
-        [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme, Policy = CustomAuthenticationSchemeOptions.Policies.Write)]
+        [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPut]

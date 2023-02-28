@@ -19,7 +19,7 @@ namespace Lodgify.Cinema.Infrastructure.Ioc
                     .AddScoped<IDomainNotification, DomainNotification>()
                     .AddScoped<IImdbIdTranslatorService, ImdbIdTranslatorService>()
                     .AddScoped<IImdbStatusService, ImdbStatusService>()
-                    .AddSingleton<IImdbStatus, ImdbStatus>(i => new ImdbStatus(false,null))
+                    .AddSingleton<IImdbStatus, ImdbStatus>(c => SingletonImdbStatus)
                     .AddHttpClient<IImdbRepository, ImdbRepository>()
                       .SetHandlerLifetime(TimeSpan.FromMinutes(5))
                      .ConfigureHttpClient(client => ConfigureHttpClienteForImdbAccess(client, configuration));
@@ -35,5 +35,7 @@ namespace Lodgify.Cinema.Infrastructure.Ioc
             client.DefaultRequestHeaders.Add("X-RapidAPI-Host", configuration.GetValue<string>("X-RapidAPI-Host"));
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
+
+        private static ImdbStatus SingletonImdbStatus { get; set; } = new ImdbStatus(false, null);
     }
 }
