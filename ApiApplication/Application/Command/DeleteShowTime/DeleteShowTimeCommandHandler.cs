@@ -2,6 +2,7 @@
 using ApiApplication.Core.Base;
 using Lodgify.Cinema.Domain.Contract.Repositorie;
 using Lodgify.Cinema.Domain.Notification;
+using Lodgify.Cinema.Domain.Resources;
 using Lodgify.Cinema.Infrastructure.Data.Context;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace ApiApplication.Application.Command
             {
                 if (command == null || command.Id <= 0)
                 {
-                    _domainNotification.Add("Please, inform an id major than zero");
+                    _domainNotification.Add(BusinessMessage.ShowTimeIdNeedsToBeGreaterThanZero);
                     return null;
                 }
 
