@@ -1,4 +1,6 @@
-## Lodgify Movie Api Coding Test - By Diogo Nunes
+﻿## Lodgify Movie Api Coding Test - By Diogo Nunes
+
+---
 
 ## About
 
@@ -21,6 +23,7 @@
   - IOC
   - DI
   - Singleton
+  - Circuit Braker (with Polly)
   - Some Test Patterns
   - Some Design Patterns
 
@@ -72,22 +75,6 @@
 
 ---
 
-# Notes
-
- - The Overengineering in architecture was purposeful, I wanted to show knowledge about some design patterns
-
----
-
-# External libraries
-
- - Specflow (use cucumber in dotnet)
- - MOQ (using moqs)
- - FluentAsserstions (test assertions)
- - NewtonSoft.Json (json manager)
- - Xunit (unit tests)
-
----
-
 #Logs
 
 - The entire system log is being managed by the LodgifyLogService class, if you want to change it, just change the behavior of the Log method of this class, the default is the console log
@@ -114,21 +101,38 @@ in response headers
 
 ---
 
-#talk about
+#Authorization
 
-Polly, Docker, Tests, Worker, Auth, Optimizatoion, Patterns, Log, CQRS, Cache,
+- I implemented the requested forms of authentication and added the parameter with a default value in the swagger, however, I know that I should have created a policy for each type of authorization and declared it explicitly in the controllers, unfortunately I didn't have time to do that, but , the way I did it solved
 
-All controllers hinerited from BaseController has ErrorHandling and MetricsLog (MetricsFilterAttribute)
-I could do it using filters or middlewares
+# HealthCheck
 
-ILodgifyLogService
- - Worker calls
- - Metrics
+- I put a basic healthchek in /healthz
 
- LaunchSetting EnvinronmentVariables
+---
 
- Basic HealthCheck in /healthz
+#HttpClient
 
- # Thank you so much
+ - HttpClient for accessing external services built on the microsoft standard to avoid socket exhaustion
+ - I put Circuit Breaker in a Base class that all repositories that call external APIs using the HTTP protocol must inherit, with this all calls already go with CircuitBraker activated, I know that it would also be possible to put it in the Dependency Injector
+
+---
+
+#Filters
+
+ - I used filters instead of middlewares because they are simpler, but I understand the usefulness and difference of both
+
+ ---
+
+# Notes
+
+- The Overengineering in architecture was purposeful, I wanted to show knowledge about some design patterns
+- I didn't write more tests because of time, I started doing TDD but the project got quite big, as it's only for testing I tested only the basics with unit testing and all endpoints with integration tests, in a real project scenario I would do the code coverage around 80% and would write more complete and cohesive tests
+- Didn't handle movie scheduling conflict and some rules for null fields due to time
+- The idea of ​​this project was to show my general knowledge about several disciplines, sorry for the size of the project =D
+
+---
+
+# Thank you so much
 
  - \o/
