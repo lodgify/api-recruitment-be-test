@@ -54,7 +54,7 @@ namespace Lodgify.Cinema.UnitTest.DomainService
             IImdbIdTranslatorService imdbIdTranslatorService = new ImdbIdTranslatorService();
 
             //Act
-            Action  act = () => imdbIdTranslatorService.Get(id);
+            Action act = () => imdbIdTranslatorService.Get(id);
 
             //Assert
             act.Should().Throw<Exception>();

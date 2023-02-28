@@ -1,5 +1,4 @@
 ﻿using Lodgify.Cinema.Domain.Contract.Log;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Polly;
 using Polly.CircuitBreaker;

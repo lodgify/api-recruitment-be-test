@@ -1,4 +1,3 @@
-using Xunit;
 
 
 using ApiApplication.Application.Querie;
@@ -15,7 +14,7 @@ namespace Lodgify.Cinema.AcceptanceTest.StepDefinitions
     [Binding]
     public sealed class ShowTimeGetStepDefinitions
     {
-        private  GetShowTimeRequest _getShowTimeRequest;
+        private GetShowTimeRequest _getShowTimeRequest;
         private HttpResponseMessage _apiCallResult = null;
 
         [Given("i will not send filters")]
@@ -29,7 +28,7 @@ namespace Lodgify.Cinema.AcceptanceTest.StepDefinitions
         {
             _getShowTimeRequest = new GetShowTimeRequest { MovieTitle = movieTitle };
         }
-        
+
 
         [When("i call the api with the readonly token")]
         public void i_call_the_api_with_the_readonly_token()

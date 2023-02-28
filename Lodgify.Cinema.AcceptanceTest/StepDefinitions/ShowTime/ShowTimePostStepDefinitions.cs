@@ -19,12 +19,12 @@ namespace Lodgify.Cinema.AcceptanceTest.StepDefinitions
         public void i_have_this_show_time(Table table)
         {
             _addShowTimeRequest = table.ToObject<AddShowTimeRequest>();
-            _addShowTimeRequest.Schedule = new string[] {"10:00","20:00" };
-            
+            _addShowTimeRequest.Schedule = new string[] { "10:00", "20:00" };
+
             _addShowTimeRequestErrorToken = table.ToObject<AddShowTimeRequest>();
             _addShowTimeRequestErrorToken.Schedule = new string[] { "10:00", "20:00" };
         }
-       
+
 
         [When("i send the post data for the api")]
         public void i_send_the_post_data_for_the_api()

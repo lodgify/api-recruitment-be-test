@@ -2,7 +2,6 @@
 using ApiApplication.Application.Querie;
 using ApiApplication.Auth;
 using Lodgify.Cinema.Infrastructure.Ioc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ApiApplication

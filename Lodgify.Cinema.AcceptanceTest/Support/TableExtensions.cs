@@ -24,7 +24,7 @@ namespace Lodgify.Cinema.AcceptanceTest.Core
                     var value = table.Rows[rowIndex][prop.Name];
                     SetProperty(returnObject, prop, value);
                 }
-                catch(System.IndexOutOfRangeException) 
+                catch (System.IndexOutOfRangeException)
                 {
                     SetProperty(returnObject, prop, default);
                 }
@@ -47,7 +47,7 @@ namespace Lodgify.Cinema.AcceptanceTest.Core
                 }
                 else if (string.Compare(stringValue, NULL_VALUE, true) == 0)
                     prop.SetValue(obj, null);
-                else if(stringValue.ToLower() == "yesterday")
+                else if (stringValue.ToLower() == "yesterday")
                     prop.SetValue(obj, DateTime.Now.AddDays(-1));
                 else if (stringValue.ToLower() == "today")
                     prop.SetValue(obj, DateTime.Now);

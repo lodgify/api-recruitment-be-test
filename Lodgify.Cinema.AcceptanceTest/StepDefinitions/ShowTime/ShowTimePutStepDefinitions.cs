@@ -19,7 +19,7 @@ namespace Lodgify.Cinema.AcceptanceTest.StepDefinitions
         {
             _updateShowTimeRequest = table.ToObject<UpdateShowTimeRequest>();
         }
-       
+
 
         [When("i send the put data for the api")]
         public void i_send_the_put_data_for_the_api()

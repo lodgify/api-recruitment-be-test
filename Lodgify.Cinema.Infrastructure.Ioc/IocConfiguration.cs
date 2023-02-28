@@ -4,7 +4,6 @@ using Lodgify.Cinema.Domain.Notification;
 using Lodgify.Cinema.DomainService.Imdb;
 using Lodgify.Cinema.DomainService.Notification;
 using Lodgify.Cinema.Infrastructure.Data.Repositorie;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;

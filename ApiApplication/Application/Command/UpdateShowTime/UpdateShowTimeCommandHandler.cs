@@ -53,8 +53,8 @@ namespace ApiApplication.Application.Command
 
                 bool isMovieChanged = command.Imdb_id.HasValue
                                    && (
-                                          showTime.Movie ==null 
-                                        ||command.Imdb_id.Value != _imdbIdTranslatorService.Get(showTime.Movie.ImdbId)
+                                          showTime.Movie == null
+                                        || command.Imdb_id.Value != _imdbIdTranslatorService.Get(showTime.Movie.ImdbId)
                                      );
                 if (isMovieChanged)
                 {
@@ -84,7 +84,7 @@ namespace ApiApplication.Application.Command
                 showTimeEntity.Movie = new MovieEntity
                 {
                     ImdbId = _imdbIdTranslatorService.Get(command.Imdb_id.Value),
-                    ReleaseDate = movie.release_year.HasValue ? new DateTime(movie.release_year.Value, 1, 1):DateTime.MinValue,
+                    ReleaseDate = movie.release_year.HasValue ? new DateTime(movie.release_year.Value, 1, 1) : DateTime.MinValue,
                     Stars = movie.rating.ToString(),
                     Title = movie.title,
                 };

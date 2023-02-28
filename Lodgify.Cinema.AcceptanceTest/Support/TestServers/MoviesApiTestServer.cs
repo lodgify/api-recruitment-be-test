@@ -37,11 +37,11 @@ namespace Lodgify.Cinema.AcceptanceTest.TestServers
             Environment.SetEnvironmentVariable("Auth_ReadOnlyToken", ReadOnlyToken);
             Environment.SetEnvironmentVariable("Auth_WriteToken", WriteToken);
 
-  
+
         }
 
         private static TestServer _server;
-        
+
         /// <summary>
         /// Singleton Server
         /// </summary>
