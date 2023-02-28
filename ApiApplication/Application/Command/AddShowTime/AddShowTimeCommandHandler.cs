@@ -41,7 +41,7 @@ namespace ApiApplication.Application.Command
         {
             return await ExecuteAsync(async () =>
             {
-                var movie = await _imdbRepository.GetMovieById(command.Imdb_id, cancellationToken);
+                var movie = await _imdbRepository.GetMovieByIdAsync(command.Imdb_id, cancellationToken);
 
                 if (movie == null)
                 {

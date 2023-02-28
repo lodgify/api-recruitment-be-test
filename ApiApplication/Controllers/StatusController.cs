@@ -1,4 +1,5 @@
 ﻿using Lodgify.Cinema.Domain.Contract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiApplication.Controllers
@@ -14,6 +15,7 @@ namespace ApiApplication.Controllers
             _imdbStatus = imdbStatus;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Get()
         {

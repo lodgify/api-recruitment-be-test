@@ -6,7 +6,7 @@ namespace Lodgify.Cinema.Domain.Contract.Repositorie
 {
     public interface IImdbRepository
     {
-        Task<MovieResponse> GetMovieById(int id, CancellationToken cancellationToken);
-        Task<bool> HealtCheckStatus();
+        Task<MovieResponse> GetMovieByIdAsync(int id, CancellationToken cancellationToken);
+        Task<bool> HealtCheckStatusAsync(CancellationToken cancellationToken);
     }
 }

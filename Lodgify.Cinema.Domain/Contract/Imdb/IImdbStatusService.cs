@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace Lodgify.Cinema.Domain.Contract
 {
     public interface IImdbStatusService
     {
-        Task<IImdbStatus> IsUp();
+        Task<IImdbStatus> IsUpAsync(CancellationToken cancellationToken);
     }
 }

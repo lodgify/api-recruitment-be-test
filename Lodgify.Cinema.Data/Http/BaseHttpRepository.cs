@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -141,6 +142,13 @@ namespace Lodgify.Cinema.Infrastructure.Data.Http
             var request = GetMessage(action, data);
             var response = await _httpClient.SendAsync(request, cancellationToken);
             return await GetResult<T>(response, cancellationToken);
+        }
+
+        public async Task<bool> IsSuccessStatusCodeAsync(string action, object data, CancellationToken cancellationToken)
+        {
+            var request = GetMessage(action, data);
+            var response = await _httpClient.SendAsync(request, cancellationToken);
+            return response.IsSuccessStatusCode;
         }
 
         #endregion [Methods]

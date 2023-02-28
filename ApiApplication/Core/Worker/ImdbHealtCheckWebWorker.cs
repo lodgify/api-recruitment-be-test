@@ -1,4 +1,5 @@
 ﻿using Lodgify.Cinema.Domain.Contract;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,35 +11,34 @@ namespace ApiApplication.Core.Worker
     public class ImdbHealtCheckWebWorker: BackgroundService
     {
         private const int ONE_MINUTE = 60000;
-        private readonly ILogger<BackgroundService> _logger;
-        private readonly IImdbStatusService _imdbStatusService;
         private readonly IImdbStatus _imdbStatus;
+        private readonly IServiceCollection _serviceCollection;
 
-        public ImdbHealtCheckWebWorker(ILogger<BackgroundService> logger,
-            IImdbStatusService imdbStatusService,
-            IImdbStatus imdbStatus)
+        public ImdbHealtCheckWebWorker(IServiceCollection serviceCollection)
         {
-            _logger = logger;
-            _imdbStatusService = imdbStatusService;
-            _imdbStatus = imdbStatus;
+            _serviceCollection = serviceCollection;
+            _imdbStatus = _serviceCollection.BuildServiceProvider().GetService<IImdbStatus>();
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 try
                 {
-                    var status = await _imdbStatusService.IsUp();
-                    _imdbStatus.SetStatus(status.IsUp, DateTime.Now);
-                    _logger.LogInformation("ImdbHealtCheckWebWorker running - {time}", DateTimeOffset.Now);
+                    var serviceProvider = _serviceCollection.BuildServiceProvider();
+                    var _imdbStatusService = serviceProvider.GetService<IImdbStatusService>();
+
+                    var status = await _imdbStatusService.IsUpAsync(cancellationToken);
+                    _imdbStatus.SetCheck(status.IsUp, DateTime.Now);
+                    Console.WriteLine("ImdbHealtCheckWebWorker running - {time}", DateTimeOffset.Now);
                 }
                 catch(Exception ex)
                 {
                     _imdbStatus.SetException(ex, DateTime.Now);
                 }
 
-                await Task.Delay(ONE_MINUTE, stoppingToken);
+                await Task.Delay(ONE_MINUTE, cancellationToken);
             }
         }
     }

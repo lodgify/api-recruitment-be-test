@@ -5,10 +5,11 @@ namespace Lodgify.Cinema.Domain.Contract
     public interface IImdbStatus
     {
         bool IsUp { get; }
-        DateTime LastStatusCheck { get; }
+        DateTime? LastStatusCheck { get; }
         Exception LastException { get; }
-        DateTime LastExceptionThrow { get; }
-        void SetStatus(bool newStatus, DateTime checkTime);
+        DateTime? LastExceptionThrow { get; }
+        void SetCheck(bool newStatus, DateTime checkTime);
         void SetException(Exception ex, DateTime exceptionTime);
+        bool FirstCheckDone { get; }
     }
 }
