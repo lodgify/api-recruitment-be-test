@@ -20,11 +20,12 @@ namespace ApiApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureBrotliAndGzipResponseCompression()
-                    .ConfigureFilters(Configuration)
+            services.ConfigureEnvironment()
+                    .ConfigureBrotliAndGzipResponseCompression()
+                    .ConfigureFilters()
                     .ConfigureNotificationAndLog()
                     .ConfigureIocDbDependencies()
-                    .ConfigureBusinessDependencies(Configuration)
+                    .ConfigureBusinessDependencies()
                     .ConfigureAuthentication()
                     .AddResponseCaching()
                     .AddHostedService(s => new ImdbHealtCheckWebWorker(services));

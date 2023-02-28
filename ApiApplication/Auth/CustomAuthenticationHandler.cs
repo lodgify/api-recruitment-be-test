@@ -1,4 +1,5 @@
-﻿using Lodgify.Cinema.Domain.Resources;
+﻿using Lodgify.Cinema.Domain.Contract;
+using Lodgify.Cinema.Domain.Resources;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -10,19 +11,21 @@ namespace ApiApplication.Auth
 {
     public class CustomAuthenticationHandler : AuthenticationHandler<CustomAuthenticationSchemeOptions>
     {
-        private const string READ_ONLY_TOKEN = "MTIzNHxSZWFk";
-        private const string WRITE_TOKEN = "Nzg5NHxXcml0ZQ==";
         private readonly ICustomAuthenticationTokenService _tokenService;
+        private readonly IProjectEnvinronmentConfiguration _projectEnvinronmentConfiguration;
 
         public CustomAuthenticationHandler(
             IOptionsMonitor<CustomAuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock,
-            ICustomAuthenticationTokenService tokenService) : base(options, logger, encoder, clock)
+            ICustomAuthenticationTokenService tokenService,
+            IProjectEnvinronmentConfiguration projectEnvinronmentConfiguration) : base(options, logger, encoder, clock)
         {
             _tokenService = tokenService;
+            _projectEnvinronmentConfiguration = projectEnvinronmentConfiguration;
         }
+
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             try
@@ -42,9 +45,9 @@ namespace ApiApplication.Auth
         {
             bool isGet = Context.Request.Method == HttpMethod.Get.Method;
 
-            if (isGet && string.Compare(apiKey, READ_ONLY_TOKEN) != 0)
+            if (isGet && string.Compare(apiKey, _projectEnvinronmentConfiguration.Auth_ReadOnlyToken) != 0)
                 throw new System.Exception(BusinessMessage.InvalidToken);
-            else if (!isGet && string.Compare(apiKey, WRITE_TOKEN) != 0)
+            else if (!isGet && string.Compare(apiKey, _projectEnvinronmentConfiguration.Auth_WriteToken) != 0)
                 throw new System.Exception(BusinessMessage.InvalidToken);
         }
     }

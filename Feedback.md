@@ -22,3 +22,5 @@ I could do it using filters or middlewares
 ILodgifyLogService
  - Worker calls
  - Metrics
+
+ LaunchSetting EnvinronmentVariables

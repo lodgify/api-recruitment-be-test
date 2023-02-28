@@ -26,11 +26,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Tests", "5 - Tests", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lodgify.Cinema.Domain", "..\Lodgify.Cinema.Domain\Lodgify.Cinema.Domain.csproj", "{1D95BF94-77FB-431A-87DF-A0146DE349D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lodgify.Cinema.Infrastructure.Data", "..\Lodgify.Cinema.Data\Lodgify.Cinema.Infrastructure.Data.csproj", "{775C9774-2F4E-4FDF-998B-6F3ACD28556C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lodgify.Cinema.Infrastructure.Data", "..\Lodgify.Cinema.Data\Lodgify.Cinema.Infrastructure.Data.csproj", "{775C9774-2F4E-4FDF-998B-6F3ACD28556C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lodgify.Cinema.Infrastructure.Ioc", "..\Lodgify.Cinema.Infrastructure.Ioc\Lodgify.Cinema.Infrastructure.Ioc.csproj", "{19F0A16B-3E45-4D7A-AB76-51852A77F020}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lodgify.Cinema.Infrastructure.Ioc", "..\Lodgify.Cinema.Infrastructure.Ioc\Lodgify.Cinema.Infrastructure.Ioc.csproj", "{19F0A16B-3E45-4D7A-AB76-51852A77F020}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lodgify.Cinema.DomainService", "..\Lodgify.Cinema.DomainService\Lodgify.Cinema.DomainService.csproj", "{8FE9DCAD-5614-4B56-820E-4F7FFF136B26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lodgify.Cinema.DomainService", "..\Lodgify.Cinema.DomainService\Lodgify.Cinema.DomainService.csproj", "{8FE9DCAD-5614-4B56-820E-4F7FFF136B26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lodgify.Cinema.AcceptanceTest", "..\Lodgify.Cinema.AcceptanceTest\Lodgify.Cinema.AcceptanceTest.csproj", "{DB29F91C-0811-4676-9C6B-471A2C7A7783}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +64,10 @@ Global
 		{8FE9DCAD-5614-4B56-820E-4F7FFF136B26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FE9DCAD-5614-4B56-820E-4F7FFF136B26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FE9DCAD-5614-4B56-820E-4F7FFF136B26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB29F91C-0811-4676-9C6B-471A2C7A7783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB29F91C-0811-4676-9C6B-471A2C7A7783}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB29F91C-0811-4676-9C6B-471A2C7A7783}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB29F91C-0811-4676-9C6B-471A2C7A7783}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{775C9774-2F4E-4FDF-998B-6F3ACD28556C} = {72390D34-8A83-4F31-9217-6CB82E4E6FC3}
 		{19F0A16B-3E45-4D7A-AB76-51852A77F020} = {72390D34-8A83-4F31-9217-6CB82E4E6FC3}
 		{8FE9DCAD-5614-4B56-820E-4F7FFF136B26} = {75667C0F-5DD2-4DD8-8B4D-460ED799DC6D}
+		{DB29F91C-0811-4676-9C6B-471A2C7A7783} = {92B250EA-1008-4BCF-BE56-A0BACCDD93F7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C52A7E7E-4F02-4B44-B7D4-995DE72CF0B3}

@@ -9,8 +9,8 @@ namespace ApiApplication
 {
     public static class IocBusinessConfiguration
     {
-        public static IServiceCollection ConfigureBusinessDependencies(this IServiceCollection services, IConfiguration configuration) =>
-            services.ConfigureIocBusinessDependencies(configuration)
+        public static IServiceCollection ConfigureBusinessDependencies(this IServiceCollection services) =>
+            services.ConfigureIocBusinessDependencies()
                       .AddScoped<IAddShowTimeCommandHandler, AddShowTimeCommandHandler>()
                       .AddScoped<IUpdateShowTimeCommandHandler, UpdateShowTimeCommandHandler>()
                       .AddScoped<IGetShowTimeQueryHandler, GetShowTimeQueryHandler>()
