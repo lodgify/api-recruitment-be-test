@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Lodgify.Cinema.UnitTest
 {
-    public class PaginatedRequestTest
+    public class LogTest
     {
         [Trait("Data", "PaginatedRequestClass")]
         [Theory]
