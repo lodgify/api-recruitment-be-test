@@ -28,7 +28,7 @@ namespace Lodgify.Cinema.Infrastructure.Data.Context
             modelBuilder.Entity<ShowtimeEntity>(build =>
             {
                 build.HasKey(entry => entry.Id);
-                build.Property(entry => entry.Id).ValueGeneratedOnAdd();                
+                build.Property(entry => entry.Id).ValueGeneratedOnAdd();
                 build.Property(entry => entry.Schedule).HasConversion(x => string.Join(",", x), y => y.Split(",", StringSplitOptions.RemoveEmptyEntries).ToList());
                 build.HasOne(entry => entry.Movie).WithOne().HasForeignKey<MovieEntity>(entry => entry.ShowtimeId);
             });
@@ -37,7 +37,7 @@ namespace Lodgify.Cinema.Infrastructure.Data.Context
             {
                 build.HasKey(entry => entry.Id);
                 build.Property(entry => entry.Id).ValueGeneratedOnAdd();
-            });            
+            });
         }
     }
 }

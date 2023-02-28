@@ -18,7 +18,7 @@ namespace Lodgify.Cinema.DomainService.Imdb
         public async Task<IImdbStatus> IsUpAsync(CancellationToken cancellationToken)
         {
             var isOk = await _imdbRepository.HealtCheckStatusAsync(cancellationToken);
-            return new ImdbStatus(isOk,DateTime.Now);
+            return new ImdbStatus(isOk, DateTime.Now);
         }
     }
 }

@@ -34,6 +34,11 @@ namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
             return entitie;
         }
 
+        public async Task<ShowtimeEntity> GetByIDAsync(int id, CancellationToken cancellationToken)
+        {
+            return await _context.Showtimes.FirstOrDefaultAsync(m => m.Id == id);
+        }
+
         public async Task<ShowtimeEntity> GetByMovieAsync(Func<MovieEntity, bool> filter, CancellationToken cancellationToken)
         {
             var movie = _context.Movies.FirstOrDefault(movie => filter(movie));
@@ -44,7 +49,7 @@ namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
 
         public IEnumerable<ShowtimeEntity> GetCollection()
         {
-            var response =  _context.Showtimes.Include(s => s.Movie).AsEnumerable();
+            var response = _context.Showtimes.Include(s => s.Movie).AsEnumerable();
 
             if (_paginatedRequest != null && _paginatedRequest.Since > 0)
                 response = response.Skip((int)_paginatedRequest.Since).Take(_paginatedRequest.PageSize);
@@ -54,7 +59,7 @@ namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
 
         public IEnumerable<ShowtimeEntity> GetCollection(Func<ShowtimeEntity, bool> filter)
         {
-            var response =  _context.Showtimes.Include(s => s.Movie).AsEnumerable().Where(showTime => filter(showTime));
+            var response = _context.Showtimes.Include(s => s.Movie).AsEnumerable().Where(showTime => filter(showTime));
             if (_paginatedRequest != null && _paginatedRequest.Since > 0)
                 response = response.Skip((int)_paginatedRequest.Since).Take(_paginatedRequest.PageSize);
 

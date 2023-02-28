@@ -49,7 +49,7 @@ namespace ApiApplication.Application.Command
                     return null;
                 }
 
-                var showTime = GetShowTimeEntitie(command,movie);
+                var showTime = GetShowTimeEntitie(command, movie);
                 await _showtimesRepository.AddAsync(showTime, cancellationToken);
                 return new AddShowTimeResponse();
             });

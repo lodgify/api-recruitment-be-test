@@ -50,11 +50,11 @@ namespace ApiApplication.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ServiceFilter(typeof(PaginationFilterAttribute))]
-        [ResponseCache(Duration = 120, VaryByQueryKeys = new string []{"MovieTitle", "StartDate", "EndDate", "Since", "PageSize"} )]
+        [ResponseCache(Duration = 120, VaryByQueryKeys = new string[] { "MovieTitle", "StartDate", "EndDate", "Since", "PageSize" })]
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] GetShowTimeRequest request, [FromQuery] long since, [FromQuery] string pageSize, CancellationToken cancellationToken)
         {
-            return await ExecuteAsync(async () => await _getShowTimeQueryHandler.ExecuteGetAsync(request, cancellationToken),NoContent());
+            return await ExecuteAsync(async () => await _getShowTimeQueryHandler.ExecuteGetAsync(request, cancellationToken), NoContent());
         }
 
         [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme)]
@@ -63,7 +63,7 @@ namespace ApiApplication.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(DeleteShowTimeRequest command, CancellationToken cancellationToken)
         {
-            return await ExecuteAsync(async () => await _deleteShowTimeCommandHandler.ExecuteAsync(command, cancellationToken),NoContent());
+            return await ExecuteAsync(async () => await _deleteShowTimeCommandHandler.ExecuteAsync(command, cancellationToken), NoContent());
         }
 
         [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme)]

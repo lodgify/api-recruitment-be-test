@@ -17,7 +17,7 @@ namespace Lodgify.Cinema.Infrastructure.Ioc
                     .EnableSensitiveDataLogging()
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
-       
+
             return services;
         }
 

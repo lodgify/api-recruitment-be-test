@@ -5,14 +5,14 @@ namespace Lodgify.Cinema.DomainService.Imdb
 {
     public class ImdbStatus : IImdbStatus
     {
-           public ImdbStatus(bool isUp, DateTime? checkDate)
+        public ImdbStatus(bool isUp, DateTime? checkDate)
         {
             IsUp = isUp;
             LastStatusCheck = checkDate;
         }
 
         public bool IsUp { get; private set; }
-        public bool  FirstCheckDone { get; private set; }
+        public bool FirstCheckDone { get; private set; }
 
         public DateTime? LastStatusCheck { get; private set; }
 

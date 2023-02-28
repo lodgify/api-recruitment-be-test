@@ -1,11 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using Lodgify.Cinema.Domain.Contract.Log;
+using Lodgify.Cinema.DomainService.Log;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ApiApplication
 {
     public static class LogConfiguration
     {
         public static IServiceCollection ConfigureNotificationAndLog(this IServiceCollection services) =>
-             services.AddScoped<ILogger, Logger<string>>();
+             services.AddSingleton<ILodgifyLogService, LodgifyLogService>();
     }
 }

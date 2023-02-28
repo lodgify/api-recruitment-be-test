@@ -4,7 +4,6 @@ using Polly;
 using Polly.CircuitBreaker;
 using System;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -31,9 +30,9 @@ namespace Lodgify.Cinema.Infrastructure.Data.Http
         }
 
         #endregion [ctor]
-        
+
         #region [CircuitBreakePolicies]
-        private AsyncCircuitBreakerPolicy<HttpResponseMessage> GetCircuitBreakePolicies()=>
+        private AsyncCircuitBreakerPolicy<HttpResponseMessage> GetCircuitBreakePolicies() =>
             Policy.HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode).CircuitBreakerAsync(2, TimeSpan.FromSeconds(30));
 
         #endregion [CircuitBreakePolicies]

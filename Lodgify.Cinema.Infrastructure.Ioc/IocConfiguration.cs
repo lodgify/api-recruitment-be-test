@@ -1,21 +1,20 @@
 ﻿using Lodgify.Cinema.Domain.Contract;
 using Lodgify.Cinema.Domain.Contract.Repositorie;
 using Lodgify.Cinema.Domain.Notification;
-using Lodgify.Cinema.DomainService.Notification;
 using Lodgify.Cinema.DomainService.Imdb;
+using Lodgify.Cinema.DomainService.Notification;
 using Lodgify.Cinema.Infrastructure.Data.Repositorie;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
-using Polly;
 
 namespace Lodgify.Cinema.Infrastructure.Ioc
 {
     public static class IocConfiguration
     {
         public static IServiceCollection ConfigureIocBusinessDependencies(this IServiceCollection services, IConfiguration configuration)
-      {
+        {
 
             services.AddScoped<IShowtimesRepository, ShowtimesRepository>()
                     .AddScoped<IDomainNotification, DomainNotification>()

@@ -34,7 +34,7 @@ namespace ApiApplication.Application.Command
                 }
 
                 bool existsShowTimeWithThisId = _showtimesRepository.GetCollection(s => s.Id == command.Id).Any();
-                if(!existsShowTimeWithThisId)
+                if (!existsShowTimeWithThisId)
                 {
                     _domainNotification.Add(BusinessMessage.NotFoundById);
                     return null;

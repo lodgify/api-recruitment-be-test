@@ -24,7 +24,7 @@ namespace ApiApplication.Auth
             _tokenService = tokenService;
         }
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
-        {            
+        {
             try
             {
                 var apiKey = Context.Request.Headers["ApiKey"];
@@ -44,7 +44,7 @@ namespace ApiApplication.Auth
 
             if (isGet && string.Compare(apiKey, READ_ONLY_TOKEN) != 0)
                 throw new System.Exception(BusinessMessage.InvalidToken);
-            else if(!isGet && string.Compare(apiKey, WRITE_TOKEN) != 0)
+            else if (!isGet && string.Compare(apiKey, WRITE_TOKEN) != 0)
                 throw new System.Exception(BusinessMessage.InvalidToken);
         }
     }

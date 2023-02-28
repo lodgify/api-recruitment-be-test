@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Lodgify.Cinema.Domain.Contract
+﻿namespace Lodgify.Cinema.Domain.Contract
 {
     public interface IImdbIdTranslatorService
     {

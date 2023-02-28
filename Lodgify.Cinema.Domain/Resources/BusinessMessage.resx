@@ -129,4 +129,7 @@
   <data name="ShowTimeIdNeedsToBeGreaterThanZero" xml:space="preserve">
     <value>Please, inform a ShowTime id greater than zero</value>
   </data>
+  <data name="ShowTimeNotFoundById" xml:space="preserve">
+    <value>ShowTime not found by id {0}</value>
+  </data>
 </root>

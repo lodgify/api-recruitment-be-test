@@ -9,6 +9,6 @@ namespace Lodgify.Cinema.DomainService.Imdb
 
         public string Get(int id) => $"{IMDB_ID_PREFIX}{id}";
 
-        public int Get(string id) => Convert.ToInt32(id.Replace(IMDB_ID_PREFIX,string.Empty));
+        public int Get(string id) => Convert.ToInt32(id.Replace(IMDB_ID_PREFIX, string.Empty));
     }
 }

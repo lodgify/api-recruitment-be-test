@@ -11,10 +11,9 @@ namespace ApiApplication.Application.Command
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public IEnumerable<string> Schedule { get; set; }
-        public int AuditoriumId { get; set; }
     }
 
-    public  class AddShowTimeDto 
+    public class AddShowTimeDto
     {
         public MovieDto Movie { get; set; }
         public DateTime StartDate { get; set; }

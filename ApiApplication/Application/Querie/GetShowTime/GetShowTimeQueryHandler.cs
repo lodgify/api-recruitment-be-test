@@ -30,10 +30,10 @@ namespace ApiApplication.Application.Querie
 
             if (request == null || (string.IsNullOrEmpty(request.MovieTitle) && !request.StartDate.HasValue && !request.StartDate.HasValue))
                 response = _showtimesRepository.GetCollection();
-            else 
+            else
                 response = _showtimesRepository.GetCollection(showTime =>
                        (string.IsNullOrEmpty(request.MovieTitle) || (showTime.Movie != null && showTime.Movie.Title == request.MovieTitle))
-                    && (!request.StartDate.HasValue || showTime.StartDate >= request.StartDate )
+                    && (!request.StartDate.HasValue || showTime.StartDate >= request.StartDate)
                     && (!request.EndDate.HasValue) || showTime.EndDate <= request.EndDate);
 
             if (response == null || !response.Any() || response == default(IEnumerable<GetShowTimeResponse>))
@@ -52,8 +52,8 @@ namespace ApiApplication.Application.Querie
                     EndDate = showTime.EndDate,
                     Schedule = showTime.Schedule,
                     StartDate = showTime.StartDate,
-                    Movie = showTime.Movie != null 
-                            ?  new MovieDto
+                    Movie = showTime.Movie != null
+                            ? new MovieDto
                             {
                                 ImdbId = showTime.Movie.ImdbId,
                                 ReleaseDate = showTime.Movie.ReleaseDate,
