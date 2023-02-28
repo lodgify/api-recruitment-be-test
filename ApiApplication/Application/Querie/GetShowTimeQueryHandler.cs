@@ -31,20 +31,16 @@ namespace ApiApplication.Application.Querie
             if (request == null || (string.IsNullOrEmpty(request.MovieTitle) && !request.StartDate.HasValue && !request.StartDate.HasValue))
                 response = _showtimesRepository.GetCollection();
             else 
-                response = _showtimesRepository.GetCollection(showTime => Filter(showTime, request));
+                response = _showtimesRepository.GetCollection(showTime =>
+                       (string.IsNullOrEmpty(request.MovieTitle) || (showTime.Movie != null && showTime.Movie.Title == request.MovieTitle))
+                    && (!request.StartDate.HasValue || showTime.StartDate >= request.StartDate )
+                    && (!request.EndDate.HasValue) || showTime.EndDate <= request.EndDate);
 
             if (response == null || !response.Any() || response == default(IEnumerable<GetShowTimeResponse>))
                 return null;
 
             _paginatedRequest.SetLastSince(response.Max(w => w.Id));
             return Convert(response);
-        }
-
-        private bool Filter(ShowtimeEntity showTime, GetShowTimeRequest request)
-        {
-            return (showTime.Movie.Title == request.MovieTitle || string.IsNullOrEmpty(request.MovieTitle))
-                    && (showTime.StartDate >= request.StartDate || !request.StartDate.HasValue)
-                    && (showTime.EndDate <= request.EndDate || !request.EndDate.HasValue);
         }
 
         private IEnumerable<GetShowTimeResponse> Convert(IEnumerable<ShowtimeEntity> showTimes)

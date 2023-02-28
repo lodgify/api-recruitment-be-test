@@ -30,7 +30,8 @@ namespace ApiApplication.Core.Filters
         public override void OnResultExecuting(ResultExecutingContext context)
         {
             _stopwatch.Stop();
-            context.HttpContext.Response.Headers.Add("x-response-time", new Microsoft.Extensions.Primitives.StringValues(_stopwatch.Elapsed.ToString()));
+            if (!context.HttpContext.Response.Headers.ContainsKey("Lodgify-Response-Time"))
+                context.HttpContext.Response.Headers.Add("Lodgify-Response-Time", new Microsoft.Extensions.Primitives.StringValues(_stopwatch.Elapsed.ToString()));
             Console.WriteLine(_stopwatch.Elapsed);
         }
 
@@ -38,7 +39,6 @@ namespace ApiApplication.Core.Filters
         {
             await base.OnResultExecutionAsync(context, next);
             OnResultExecuting(context);
-
         }
     }
 }
