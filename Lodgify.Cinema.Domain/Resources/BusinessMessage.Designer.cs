@@ -61,6 +61,15 @@ namespace Lodgify.Cinema.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not found by this id.
+        /// </summary>
+        public static string NotFoundById {
+            get {
+                return ResourceManager.GetString("NotFoundById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please, inform a ShowTime id greater than zero.
         /// </summary>
         public static string ShowTimeIdNeedsToBeGreaterThanZero {

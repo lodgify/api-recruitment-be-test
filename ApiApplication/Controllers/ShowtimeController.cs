@@ -55,7 +55,7 @@ namespace ApiApplication.Controllers
         [Microsoft.AspNetCore.Mvc.HttpDelete("")]
         public async Task<IActionResult> Delete(DeleteShowTimeRequest command, CancellationToken cancellationToken)
         {
-            return await ExecuteAsync(async () => await _deleteShowTimeCommandHandler.ExecuteAsync(command, cancellationToken));
+            return await ExecuteAsync(async () => await _deleteShowTimeCommandHandler.ExecuteAsync(command, cancellationToken),NoContent());
         }
 
         [AllowAnonymous]
@@ -65,6 +65,5 @@ namespace ApiApplication.Controllers
         {
             throw new NotImplementedException();
         }
-
     }
 }
