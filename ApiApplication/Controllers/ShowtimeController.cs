@@ -36,7 +36,14 @@ namespace ApiApplication.Controllers
             return await ExecuteAsync(async () => await _addShowTimeCommandHandler.ExecuteAsync(command, cancellationToken));
         }
 
-
+        /// <summary>
+        /// Test
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="since"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -58,6 +65,12 @@ namespace ApiApplication.Controllers
             return await ExecuteAsync(async () => await _deleteShowTimeCommandHandler.ExecuteAsync(command, cancellationToken),NoContent());
         }
 
+        /// <summary>
+        /// Done
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Microsoft.AspNetCore.Mvc.HttpPatch("")]

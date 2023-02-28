@@ -25,7 +25,11 @@ namespace Lodgify.Cinema.Infrastructure.Ioc
 
         private static void ConfigureHttpClienteForImdbAccess(HttpClient client, IConfiguration configuration)
         {
-            
+            client.BaseAddress = new Uri(configuration.GetValue<string>("ExternalApi:Imdb:BaseUri"));
+
+            client.DefaultRequestHeaders.Add("X-RapidAPI-Key", configuration.GetValue<string>("ExternalApi:Imdb:X-RapidAPI-Key"));
+            client.DefaultRequestHeaders.Add("X-RapidAPI-Host", configuration.GetValue<string>("X-RapidAPI-Host"));
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
     }

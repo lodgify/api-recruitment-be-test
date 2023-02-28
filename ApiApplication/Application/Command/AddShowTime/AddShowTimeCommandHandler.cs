@@ -12,21 +12,30 @@ namespace ApiApplication.Application.Command
     {
         private readonly IShowtimesRepository _showtimesRepository;
         private readonly IDomainNotification _domainNotification;
+        private readonly IImdbRepository _imdbRepository;
 
         public AddShowTimeCommandHandler(IShowtimesRepository showtimesRepository,
             CinemaContext dbContext,
+            IImdbRepository imdbRepository,
             IDomainNotification domainNotification) : base(dbContext, domainNotification)
         {
             _showtimesRepository = showtimesRepository;
             _domainNotification = domainNotification;
+            _imdbRepository = imdbRepository;
         }
 
+        /// <summary>
+        /// 1375666
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<AddShowTimeResponse> ExecuteAsync(AddShowTimeRequest command, CancellationToken cancellationToken)
         {
             return await ExecuteAsync(async () =>
             {
-                //ToDo - Call IMDB Api to fill movies
-                await _showtimesRepository.AddAsync(command, cancellationToken);
+                var movie = await _imdbRepository.GetMovieById(command.Imdb_id,cancellationToken);
+                await _showtimesRepository.AddAsync(new Lodgify.Cinema.Domain.Entitie.ShowtimeEntity(), cancellationToken);
                 return new AddShowTimeResponse();
             });
         }

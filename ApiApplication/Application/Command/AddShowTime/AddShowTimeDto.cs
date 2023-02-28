@@ -5,12 +5,17 @@ using System.Collections.Generic;
 
 namespace ApiApplication.Application.Command
 {
-    public sealed class AddShowTimeRequest : AddShowTimeDto,IRequest
+    public sealed class AddShowTimeRequest : IRequest
     {
-      
+        public int Imdb_id { get; set; }
+        public MovieDto Movie { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public IEnumerable<string> Schedule { get; set; }
+        public int AuditoriumId { get; set; }
     }
 
-    public  class AddShowTimeDto : IRequest
+    public  class AddShowTimeDto 
     {
         public MovieDto Movie { get; set; }
         public DateTime StartDate { get; set; }
