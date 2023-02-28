@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ApiApplication.Controllers
 {
-    [Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ShowtimeController : BaseController
     {
@@ -31,7 +31,7 @@ namespace ApiApplication.Controllers
         [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme, Policy = CustomAuthenticationSchemeOptions.Policies.Write)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Microsoft.AspNetCore.Mvc.HttpPost("")]
+        [HttpPost]
         public async Task<IActionResult> Post(AddShowTimeRequest command, CancellationToken cancellationToken)
         {
             return await ExecuteAsync(async () => await _addShowTimeCommandHandler.ExecuteAsync(command, cancellationToken));
@@ -60,7 +60,7 @@ namespace ApiApplication.Controllers
         [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme, Policy = CustomAuthenticationSchemeOptions.Policies.Write)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Microsoft.AspNetCore.Mvc.HttpDelete("")]
+        [HttpDelete]
         public async Task<IActionResult> Delete(DeleteShowTimeRequest command, CancellationToken cancellationToken)
         {
             return await ExecuteAsync(async () => await _deleteShowTimeCommandHandler.ExecuteAsync(command, cancellationToken),NoContent());
@@ -69,7 +69,7 @@ namespace ApiApplication.Controllers
         [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme, Policy = CustomAuthenticationSchemeOptions.Policies.Write)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Microsoft.AspNetCore.Mvc.HttpPut("")]
+        [HttpPut]
         public async Task<IActionResult> Put(DeleteShowTimeRequest command, CancellationToken cancellationToken)
         {
             return await ExecuteAsync(async () => await _deleteShowTimeCommandHandler.ExecuteAsync(command, cancellationToken), NoContent());

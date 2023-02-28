@@ -18,6 +18,8 @@ namespace Lodgify.Cinema.Infrastructure.Ioc
             services.AddScoped<IShowtimesRepository, ShowtimesRepository>()
                     .AddScoped<IDomainNotification, DomainNotification>()
                     .AddScoped<IImdbIdTranslatorService, ImdbIdTranslatorService>()
+                    .AddScoped<IImdbStatusService, ImdbStatusService>()
+                    .AddSingleton<IImdbStatus, ImdbStatus>()
                     .AddHttpClient<IImdbRepository, ImdbRepository>()
                       .SetHandlerLifetime(TimeSpan.FromMinutes(5))
                      .ConfigureHttpClient(client => ConfigureHttpClienteForImdbAccess(client, configuration));

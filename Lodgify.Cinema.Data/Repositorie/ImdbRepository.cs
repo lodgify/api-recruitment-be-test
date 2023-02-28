@@ -9,7 +9,7 @@ using static Lodgify.Cinema.Domain.Dto.ImdbRepository;
 
 namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
 {
-    public sealed partial class ImdbRepository : BaseHttpRepository, IImdbRepository
+    public sealed class ImdbRepository : BaseHttpRepository, IImdbRepository
     {
         private const string ACTION = "movie";
 
@@ -26,9 +26,9 @@ namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
             return response;
         }
 
-        public struct MovieRequest
+        public Task<bool> HealtCheckStatus()
         {
-            public string id { get; set; }
+            throw new System.NotImplementedException();
         }
     }
 }
