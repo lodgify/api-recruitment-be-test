@@ -28,10 +28,11 @@ namespace ApiApplication
                     .ConfigureBusinessDependencies()
                     .ConfigureAuthentication()
                     .AddResponseCaching()
-                    .AddHostedService(s => new ImdbHealtCheckWebWorker(services));
+                    .AddHostedService(s => new ImdbHealtCheckWebWorker(services))
+                    .AddHealthChecks();
 
             services.AddResponseCaching();
-
+            
             services.AddControllers();
 
             services.ConfigureSwagger();
@@ -59,6 +60,7 @@ namespace ApiApplication
                 endpoints.MapControllers();
             });
 
+            app.UseHealthChecks("/healthz");
             app.Initialize();
         }
     }

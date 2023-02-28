@@ -1,5 +1,7 @@
 ﻿Feature: ShowTimePost
 
+Testing ShowTime Post Endpoint
+
 @ShowTimePostFeature
 Scenario: Post New Show Times
 	Given i have this show time

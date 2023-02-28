@@ -1,5 +1,7 @@
 ﻿Feature: ShowTimeGet
 
+Testing ShowTime Get Endpoint
+
 @ShowTimeGetFeature
 Scenario: Get All Show Times
 	Given i will not send filters

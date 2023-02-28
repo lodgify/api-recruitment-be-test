@@ -24,3 +24,5 @@ ILodgifyLogService
  - Metrics
 
  LaunchSetting EnvinronmentVariables
+
+ Basic HealthCheck in /healthz

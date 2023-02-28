@@ -40,7 +40,7 @@ namespace Lodgify.Cinema.AcceptanceTest.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "ShowTimePost", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "ShowTimePost", "Testing ShowTime Post Endpoint", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -90,7 +90,7 @@ namespace Lodgify.Cinema.AcceptanceTest.Features
                     "ShowTimePostFeature"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Post New Show Times", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 4
+#line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -118,13 +118,13 @@ this.ScenarioInitialize(scenarioInfo);
                             "1375660",
                             "yesterday",
                             "tomorrow"});
-#line 5
+#line 7
  testRunner.Given("i have this show time", ((string)(null)), table1, "Given ");
 #line hidden
-#line 8
+#line 10
  testRunner.When("i send the post data for the api", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 9
+#line 11
  testRunner.Then("the data will be saved and returned a success status code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -139,7 +139,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Post New Show Times without token", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 11
+#line 13
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -167,13 +167,13 @@ this.ScenarioInitialize(scenarioInfo);
                             "1375655",
                             "yesterday",
                             "tomorrow"});
-#line 12
+#line 14
  testRunner.Given("i have this show time", ((string)(null)), table2, "Given ");
 #line hidden
-#line 15
+#line 17
  testRunner.When("i send the post data for the api without token", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 16
+#line 18
  testRunner.Then("the post result must be contains a 401 error", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -188,7 +188,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Post New Show Times with wrong token", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 18
+#line 20
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -216,13 +216,13 @@ this.ScenarioInitialize(scenarioInfo);
                             "1375650",
                             "yesterday",
                             "tomorrow"});
-#line 19
+#line 21
  testRunner.Given("i have this show time", ((string)(null)), table3, "Given ");
 #line hidden
-#line 22
+#line 24
  testRunner.When("i send the post data for the api with wrong token", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 23
+#line 25
  testRunner.Then("the post result must be contains a 401 error", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

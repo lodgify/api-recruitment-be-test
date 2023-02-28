@@ -1,4 +1,5 @@
 ﻿using ApiApplication.Auth;
+using ApiApplication.Core.Base;
 using Lodgify.Cinema.Domain.Contract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +9,7 @@ namespace ApiApplication.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StatusController : Controller
+    public class StatusController : BaseController
     {
         private readonly IImdbStatus _imdbStatus;
 
