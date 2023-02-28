@@ -20,6 +20,7 @@ namespace ApiApplication.Controllers
         private readonly IGetShowTimeQueryHandler _getShowTimeQueryHandler;
         private readonly IDeleteShowTimeCommandHandler _deleteShowTimeCommandHandler;
         private readonly IUpdateShowTimeCommandHandler _updateShowTimeCommandHandler;
+        private const int THIRTY_SECONDS = 30;
 
         public ShowtimeController(IAddShowTimeCommandHandler addShowTimeCommandHandler,
              IGetShowTimeQueryHandler getShowTimeQueryHandler,
@@ -37,7 +38,7 @@ namespace ApiApplication.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ServiceFilter(typeof(PaginationFilterAttribute))]
-        // [ResponseCache(Duration = 120, VaryByQueryKeys = new string[] { "MovieTitle", "StartDate", "EndDate", "Since", "PageSize" })]
+        [ResponseCache(Duration = THIRTY_SECONDS, VaryByQueryKeys = new string[] { "MovieTitle", "StartDate", "EndDate", "Since", "PageSize" })]
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] GetShowTimeRequest request, [FromQuery] long since, [FromQuery] string pageSize, CancellationToken cancellationToken)
         {
