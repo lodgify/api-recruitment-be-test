@@ -42,5 +42,22 @@ namespace Lodgify.Cinema.UnitTest.DomainService
             //Assert
             response.Should().StartWith(imdbIdTranslatorService.ImdbPrefixId);
         }
+
+        [Trait("DomainService", "ImdbIdTranslatorService")]
+        [Theory]
+        [InlineData("d123")]
+        [InlineData("asd2312")]
+        [InlineData("t258")]
+        public void TranslateIntToStringImdbError(string id)
+        {
+            //Arranje
+            IImdbIdTranslatorService imdbIdTranslatorService = new ImdbIdTranslatorService();
+
+            //Act
+            Action  act = () => imdbIdTranslatorService.Get(id);
+
+            //Assert
+            act.Should().Throw<Exception>();
+        }
     }
 }
