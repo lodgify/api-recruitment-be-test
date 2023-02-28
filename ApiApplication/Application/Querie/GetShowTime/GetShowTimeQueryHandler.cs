@@ -48,6 +48,7 @@ namespace ApiApplication.Application.Querie
             foreach (var showTime in showTimes)
                 yield return new GetShowTimeResponse()
                 {
+                    Id = showTime.Id,
                     AuditoriumId = showTime.AuditoriumId,
                     EndDate = showTime.EndDate,
                     Schedule = showTime.Schedule,

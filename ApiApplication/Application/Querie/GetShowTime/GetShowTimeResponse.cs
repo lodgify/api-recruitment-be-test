@@ -5,6 +5,6 @@ namespace ApiApplication.Application.Querie
 {
     public sealed class GetShowTimeResponse : AddShowTimeDto, IResponse
     {
-
+        public int Id { get; set; }
     }
 }
