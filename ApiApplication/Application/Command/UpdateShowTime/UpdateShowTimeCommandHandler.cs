@@ -52,7 +52,10 @@ namespace ApiApplication.Application.Command
                 }
 
                 bool isMovieChanged = command.Imdb_id.HasValue
-                                   && command.Imdb_id.Value != _imdbIdTranslatorService.Get(showTime.Movie.ImdbId);
+                                   && (
+                                          showTime.Movie ==null 
+                                        ||command.Imdb_id.Value != _imdbIdTranslatorService.Get(showTime.Movie.ImdbId)
+                                     );
                 if (isMovieChanged)
                 {
                     newMovie = await _imdbRepository.GetMovieByIdAsync(command.Imdb_id.Value, cancellationToken);

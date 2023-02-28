@@ -20,6 +20,7 @@ namespace Lodgify.Cinema.Infrastructure.Data.Database
                 if (context.Auditoriums.Any())
                     return;
 
+                context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
 
                 context.Auditoriums.Add(new AuditoriumEntity

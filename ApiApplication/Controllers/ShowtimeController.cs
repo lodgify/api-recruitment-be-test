@@ -19,13 +19,29 @@ namespace ApiApplication.Controllers
         private readonly IAddShowTimeCommandHandler _addShowTimeCommandHandler;
         private readonly IGetShowTimeQueryHandler _getShowTimeQueryHandler;
         private readonly IDeleteShowTimeCommandHandler _deleteShowTimeCommandHandler;
+        private readonly IUpdateShowTimeCommandHandler _updateShowTimeCommandHandler;
+
         public ShowtimeController(IAddShowTimeCommandHandler addShowTimeCommandHandler,
              IGetShowTimeQueryHandler getShowTimeQueryHandler,
-             IDeleteShowTimeCommandHandler deleteShowTimeCommandHandler)
+             IDeleteShowTimeCommandHandler deleteShowTimeCommandHandler,
+             IUpdateShowTimeCommandHandler updateShowTimeCommandHandler)
         {
             _addShowTimeCommandHandler = addShowTimeCommandHandler;
             _getShowTimeQueryHandler = getShowTimeQueryHandler;
             _deleteShowTimeCommandHandler = deleteShowTimeCommandHandler;
+            _updateShowTimeCommandHandler = updateShowTimeCommandHandler;
+        }
+
+        [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ServiceFilter(typeof(PaginationFilterAttribute))]
+       // [ResponseCache(Duration = 120, VaryByQueryKeys = new string[] { "MovieTitle", "StartDate", "EndDate", "Since", "PageSize" })]
+        [HttpGet]
+        public async Task<IActionResult> Get([FromQuery] GetShowTimeRequest request, [FromQuery] long since, [FromQuery] string pageSize, CancellationToken cancellationToken)
+        {
+            return await ExecuteAsync(async () => await _getShowTimeQueryHandler.ExecuteGetAsync(request, cancellationToken), NoContent());
         }
 
         [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme)]
@@ -37,24 +53,13 @@ namespace ApiApplication.Controllers
             return await ExecuteAsync(async () => await _addShowTimeCommandHandler.ExecuteAsync(command, cancellationToken));
         }
 
-        /// <summary>
-        /// Test
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="since"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
         [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ServiceFilter(typeof(PaginationFilterAttribute))]
-        [ResponseCache(Duration = 120, VaryByQueryKeys = new string[] { "MovieTitle", "StartDate", "EndDate", "Since", "PageSize" })]
-        [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] GetShowTimeRequest request, [FromQuery] long since, [FromQuery] string pageSize, CancellationToken cancellationToken)
+        [HttpPut]
+        public async Task<IActionResult> Put(UpdateShowTimeRequest command, CancellationToken cancellationToken)
         {
-            return await ExecuteAsync(async () => await _getShowTimeQueryHandler.ExecuteGetAsync(request, cancellationToken), NoContent());
+            return await ExecuteAsync(async () => await _updateShowTimeCommandHandler.ExecuteAsync(command, cancellationToken), NoContent());
         }
 
         [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme)]
@@ -66,21 +71,6 @@ namespace ApiApplication.Controllers
             return await ExecuteAsync(async () => await _deleteShowTimeCommandHandler.ExecuteAsync(command, cancellationToken), NoContent());
         }
 
-        [Authorize(AuthenticationSchemes = CustomAuthenticationSchemeOptions.AuthenticationScheme)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpPut]
-        public async Task<IActionResult> Put(DeleteShowTimeRequest command, CancellationToken cancellationToken)
-        {
-            return await ExecuteAsync(async () => await _deleteShowTimeCommandHandler.ExecuteAsync(command, cancellationToken), NoContent());
-        }
-
-        /// <summary>
-        /// Done
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Microsoft.AspNetCore.Mvc.HttpPatch("")]

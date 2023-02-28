@@ -36,7 +36,7 @@ namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
 
         public async Task<ShowtimeEntity> GetByIDAsync(int id, CancellationToken cancellationToken)
         {
-            return await _context.Showtimes.FirstOrDefaultAsync(m => m.Id == id);
+            return await _context.Showtimes.Include(s => s.Movie).FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task<ShowtimeEntity> GetByMovieAsync(Func<MovieEntity, bool> filter, CancellationToken cancellationToken)
