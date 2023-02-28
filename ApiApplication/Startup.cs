@@ -32,8 +32,9 @@ namespace ApiApplication
                     .AddHealthChecks();
 
             services.AddResponseCaching();
-            
-            services.AddControllers();
+
+            services.AddControllers()
+                    .ApplySnakeCasePolicie();
 
             services.ConfigureSwagger();
         }
