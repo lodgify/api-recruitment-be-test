@@ -67,7 +67,7 @@ namespace ApiApplication.Application.Command
                 Movie = new MovieEntity
                 {
                     ImdbId = _imdbIdTranslatorService.Get(command.Imdb_id),
-                    ReleaseDate = new DateTime(movie.release_year, 1, 1),
+                    ReleaseDate = movie.release_year.HasValue ? new DateTime(movie.release_year.Value, 1, 1) : DateTime.MinValue,
                     Stars = movie.rating.ToString(),
                     Title = movie.title,
                 }

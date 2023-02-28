@@ -19,7 +19,7 @@ namespace Lodgify.Cinema.AcceptanceTest.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class ShowTimeFeature : object, Xunit.IClassFixture<ShowTimeFeature.FixtureData>, System.IDisposable
+    public partial class ShowTimePostFeature : object, Xunit.IClassFixture<ShowTimePostFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,10 +28,10 @@ namespace Lodgify.Cinema.AcceptanceTest.Features
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "ShowTime.feature"
+#line 1 "ShowTime.Post.feature"
 #line hidden
         
-        public ShowTimeFeature(ShowTimeFeature.FixtureData fixtureData, Lodgify_Cinema_AcceptanceTest_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public ShowTimePostFeature(ShowTimePostFeature.FixtureData fixtureData, Lodgify_Cinema_AcceptanceTest_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,7 +40,7 @@ namespace Lodgify.Cinema.AcceptanceTest.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "ShowTime", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "ShowTimePost", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -80,16 +80,16 @@ namespace Lodgify.Cinema.AcceptanceTest.Features
             this.TestTearDown();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Get All Show Times")]
-        [Xunit.TraitAttribute("FeatureTitle", "ShowTime")]
-        [Xunit.TraitAttribute("Description", "Get All Show Times")]
-        [Xunit.TraitAttribute("Category", "ShowTimeFeature")]
-        public virtual void GetAllShowTimes()
+        [Xunit.SkippableFactAttribute(DisplayName="Post New Show Times")]
+        [Xunit.TraitAttribute("FeatureTitle", "ShowTimePost")]
+        [Xunit.TraitAttribute("Description", "Post New Show Times")]
+        [Xunit.TraitAttribute("Category", "ShowTimePostFeature")]
+        public virtual void PostNewShowTimes()
         {
             string[] tagsOfScenario = new string[] {
-                    "ShowTimeFeature"};
+                    "ShowTimePostFeature"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get All Show Times", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Post New Show Times", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 4
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -110,69 +110,36 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Imdb_id",
+                            "StardDate",
+                            "EndDate"});
+                table1.AddRow(new string[] {
+                            "1375660",
+                            "yesterday",
+                            "tomorrow"});
 #line 5
- testRunner.Given("i will not send filters", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("i have this show time", ((string)(null)), table1, "Given ");
 #line hidden
-#line 6
- testRunner.When("i call the api with the readonly token", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 8
+ testRunner.When("i send the post data for the api", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 7
- testRunner.Then("the result must be contains a list of show times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [Xunit.SkippableFactAttribute(DisplayName="Get All Show Times without Readonly Token")]
-        [Xunit.TraitAttribute("FeatureTitle", "ShowTime")]
-        [Xunit.TraitAttribute("Description", "Get All Show Times without Readonly Token")]
-        public virtual void GetAllShowTimesWithoutReadonlyToken()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get All Show Times without Readonly Token", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 9
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 10
- testRunner.Given("i will not send filters", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 11
- testRunner.When("i call the api without the readonly token", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 12
- testRunner.Then("the result must be contains a error 401", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the data will be saved and returned a success status code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Get a movie uisng tha title filter")]
-        [Xunit.TraitAttribute("FeatureTitle", "ShowTime")]
-        [Xunit.TraitAttribute("Description", "Get a movie uisng tha title filter")]
-        public virtual void GetAMovieUisngThaTitleFilter()
+        [Xunit.SkippableFactAttribute(DisplayName="Post New Show Times without token")]
+        [Xunit.TraitAttribute("FeatureTitle", "ShowTimePost")]
+        [Xunit.TraitAttribute("Description", "Post New Show Times without token")]
+        public virtual void PostNewShowTimesWithoutToken()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get a movie uisng tha title filter", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 14
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Post New Show Times without token", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 11
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -192,14 +159,71 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Imdb_id",
+                            "StardDate",
+                            "EndDate"});
+                table2.AddRow(new string[] {
+                            "1375655",
+                            "yesterday",
+                            "tomorrow"});
+#line 12
+ testRunner.Given("i have this show time", ((string)(null)), table2, "Given ");
+#line hidden
 #line 15
- testRunner.Given("i have the film Inception", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.When("i send the post data for the api without token", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 16
- testRunner.When("i call the api with the readonly token", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("the post result must be contains a 401 error", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 17
- testRunner.Then("the result will be returned with the movie title Inception", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Post New Show Times with wrong token")]
+        [Xunit.TraitAttribute("FeatureTitle", "ShowTimePost")]
+        [Xunit.TraitAttribute("Description", "Post New Show Times with wrong token")]
+        public virtual void PostNewShowTimesWithWrongToken()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Post New Show Times with wrong token", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 18
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Imdb_id",
+                            "StardDate",
+                            "EndDate"});
+                table3.AddRow(new string[] {
+                            "1375650",
+                            "yesterday",
+                            "tomorrow"});
+#line 19
+ testRunner.Given("i have this show time", ((string)(null)), table3, "Given ");
+#line hidden
+#line 22
+ testRunner.When("i send the post data for the api with wrong token", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 23
+ testRunner.Then("the post result must be contains a 401 error", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -212,12 +236,12 @@ this.ScenarioInitialize(scenarioInfo);
             
             public FixtureData()
             {
-                ShowTimeFeature.FeatureSetup();
+                ShowTimePostFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                ShowTimeFeature.FeatureTearDown();
+                ShowTimePostFeature.FeatureTearDown();
             }
         }
     }

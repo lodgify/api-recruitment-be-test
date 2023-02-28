@@ -36,6 +36,8 @@ namespace Lodgify.Cinema.AcceptanceTest.TestServers
             Environment.SetEnvironmentVariable("ExternalApi_Imdb_BaseUri", "https://movie-details1.p.rapidapi.com/imdb_api/");
             Environment.SetEnvironmentVariable("Auth_ReadOnlyToken", ReadOnlyToken);
             Environment.SetEnvironmentVariable("Auth_WriteToken", WriteToken);
+
+  
         }
 
         private static TestServer _server;
@@ -65,7 +67,7 @@ namespace Lodgify.Cinema.AcceptanceTest.TestServers
             get
             {
                 if (_client == null)
-                    _client = CreateServer();
+                    _client = CreateClient();
 
                 return _client;
             }
@@ -80,9 +82,10 @@ namespace Lodgify.Cinema.AcceptanceTest.TestServers
             return server;
         }
 
-        private static HttpClient CreateServer()
+        private static HttpClient CreateClient()
         {
-            return Server.CreateClient();
+            var server = CreateTestServer();
+            return server.CreateClient();
         }
     }
 }

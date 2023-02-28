@@ -2,6 +2,7 @@
 using Lodgify.Cinema.Infrastructure.Data.Context;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Lodgify.Cinema.Infrastructure.Data.Database
 {
@@ -9,6 +10,9 @@ namespace Lodgify.Cinema.Infrastructure.Data.Database
     {
         public static void Initialize(CinemaContext context)
         {
+            if (context.Auditoriums.Any())
+                return;
+
             context.Database.EnsureCreated();
 
             context.Auditoriums.Add(new AuditoriumEntity

@@ -55,6 +55,8 @@ namespace Lodgify.Cinema.AcceptanceTest.Core
                     prop.SetValue(obj, DateTime.Now.AddDays(+1));
                 else if (new Regex(@"^\d$").IsMatch(stringValue))
                     prop.SetValue(obj, Convert.ToInt32(stringValue));
+                else if (int.TryParse(stringValue, out int number))
+                    prop.SetValue(obj, Convert.ToInt32(stringValue));
                 else
                     prop.SetValue(obj, value);
             }

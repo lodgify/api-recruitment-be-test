@@ -1,3 +1,6 @@
+using Xunit;
+
+
 using ApiApplication.Application.Querie;
 using FluentAssertions;
 using Lodgify.Cinema.AcceptanceTest.Extensions;
@@ -10,7 +13,7 @@ using TechTalk.SpecFlow;
 namespace Lodgify.Cinema.AcceptanceTest.StepDefinitions
 {
     [Binding]
-    public sealed class ShowTimeStepDefinitions
+    public sealed class ShowTimeGetStepDefinitions
     {
         private  GetShowTimeRequest _getShowTimeRequest;
         private HttpResponseMessage _apiCallResult = null;
@@ -52,8 +55,10 @@ namespace Lodgify.Cinema.AcceptanceTest.StepDefinitions
             _apiCallResult = MoviesApiTestServer.Client.SendAsync(message).Result;
         }
 
-        [Then("the result must be contains a error (.*)")]
-        public void the_result_must_be_contains_a_error(string error)
+
+
+        [Then("the result must be contains a 401 error")]
+        public void the_result_must_be_contains_a_401_error()
         {
             _apiCallResult.StatusCode.Should().Be(System.Net.HttpStatusCode.Unauthorized);
         }
