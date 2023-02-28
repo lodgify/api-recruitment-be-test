@@ -1,8 +1,8 @@
 ﻿using Lodgify.Cinema.Domain.Contract;
+using Lodgify.Cinema.Domain.Contract.Log;
 using Lodgify.Cinema.Domain.Contract.Repositorie;
 using Lodgify.Cinema.Domain.Pagination;
 using Lodgify.Cinema.Infrastructure.Data.Http;
-using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,7 +18,7 @@ namespace Lodgify.Cinema.Infrastructure.Data.Repositorie
         public ImdbRepository(HttpClient httpClient,
             IImdbIdTranslatorService imdbIdTranslatorService,
             IPaginatedRequest paginatedRequest,
-            ILogger logger) : base(httpClient, logger)
+            ILodgifyLogService logger) : base(httpClient, logger)
         {
             _imdbIdTranslatorService = imdbIdTranslatorService;
         }

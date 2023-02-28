@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Lodgify.Cinema.Domain.Contract.Log;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Polly;
 using Polly.CircuitBreaker;
@@ -16,13 +17,13 @@ namespace Lodgify.Cinema.Infrastructure.Data.Http
         #region [prop]
 
         private readonly HttpClient _httpClient;
-        private readonly ILogger _logger;
+        private readonly ILodgifyLogService _logger;
         private readonly AsyncCircuitBreakerPolicy<HttpResponseMessage> _httpPolicy;
         #endregion [prop]
 
         #region [ctor]
 
-        protected BaseHttpRepository(HttpClient httpClient, ILogger logger)
+        protected BaseHttpRepository(HttpClient httpClient, ILodgifyLogService logger)
         {
             _httpClient = httpClient;
             _logger = logger;
@@ -115,7 +116,7 @@ namespace Lodgify.Cinema.Infrastructure.Data.Http
                 }
                 catch (Exception ex)
                 {
-                    _logger.Log(LogLevel.Error, $"It's not possible to desserialize returned JSON:{ex}");
+                    _logger.Log($"It's not possible to desserialize returned JSON:{ex}");
                     return default(T);
                 }
             }

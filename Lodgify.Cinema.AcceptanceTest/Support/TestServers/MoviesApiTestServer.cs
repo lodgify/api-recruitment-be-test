@@ -11,6 +11,8 @@ namespace Lodgify.Cinema.AcceptanceTest.TestServers
         #region [prop]
 
         private const string ENVIRONMENT_DEVELOP = "Development";
+        public static string ReadOnlyToken { get; private set; }
+        public static string WriteToken { get; private set; }
 
         #endregion [prop]
 
@@ -25,12 +27,15 @@ namespace Lodgify.Cinema.AcceptanceTest.TestServers
 
         private static void SetupEnvironment()
         {
+            ReadOnlyToken = "MTIzNHxSZWFk";
+            WriteToken = "Nzg5NHxXcml0ZQ==";
+
             Environment.SetEnvironmentVariable("Application_EnableOptionalPagination", "true");
             Environment.SetEnvironmentVariable("ExternalApi_Imdb_X-RapidAPI-Key", "ef737e6180msh0a2f786fc0fb2d6p100a0cjsn91350960a583");
             Environment.SetEnvironmentVariable("ExternalApi_Imdb_X-RapidAPI-Host", "movie-details1.p.rapidapi.com");
             Environment.SetEnvironmentVariable("ExternalApi_Imdb_BaseUri", "https://movie-details1.p.rapidapi.com/imdb_api/");
-            Environment.SetEnvironmentVariable("Auth_ReadOnlyToken", "MTIzNHxSZWFk");
-            Environment.SetEnvironmentVariable("Auth_WriteToken", "Nzg5NHxXcml0ZQ==");
+            Environment.SetEnvironmentVariable("Auth_ReadOnlyToken", ReadOnlyToken);
+            Environment.SetEnvironmentVariable("Auth_WriteToken", WriteToken);
         }
 
         private static TestServer _server;
@@ -77,8 +82,7 @@ namespace Lodgify.Cinema.AcceptanceTest.TestServers
 
         private static HttpClient CreateServer()
         {
-            var server = CreateTestServer();
-            return server.CreateClient();
+            return Server.CreateClient();
         }
     }
 }

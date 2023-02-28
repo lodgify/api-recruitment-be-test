@@ -11,7 +11,6 @@ namespace Lodgify.Cinema.Infrastructure.Data.Database
         {
             context.Database.EnsureCreated();
 
-
             context.Auditoriums.Add(new AuditoriumEntity
             {
                 Id = 1,

@@ -35,7 +35,7 @@ namespace ApiApplication.Core.Filters
             _stopwatch.Stop();
             string log = GetRequestInformation(context);
             if (!context.HttpContext.Response.Headers.ContainsKey("Lodgify-Response-Time"))
-                context.HttpContext.Response.Headers.Add("Lodgify-Response-Time", new Microsoft.Extensions.Primitives.StringValues(log));
+                context.HttpContext.Response.Headers.Add("Lodgify-Response-Time", new Microsoft.Extensions.Primitives.StringValues(_stopwatch.Elapsed.ToString()));
             _lodgifyLogService.Log(log);
         }
 

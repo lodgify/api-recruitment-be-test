@@ -5,20 +5,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lodgify.Cinema.AcceptanceTest.Core
+namespace Lodgify.Cinema.AcceptanceTest.Extensions
 {
     public static class HttpExtensions
     {
-        public static HttpRequestMessage Post(this HttpClient client, string url, object data, string apiPrefix = "api/") => GetMessage(HttpMethod.Post, url, data, apiPrefix);
-        public static HttpRequestMessage Get(this HttpClient client, string url, object data, string apiPrefix = "api/") => GetMessage(HttpMethod.Get, url, data, apiPrefix);
-        public static HttpRequestMessage Put(this HttpClient client, string url, object data, string apiPrefix = "api/") => GetMessage(HttpMethod.Put, url, data, apiPrefix);
-        public static HttpRequestMessage Delete(this HttpClient client, string url, object data, string apiPrefix = "api/") => GetMessage(HttpMethod.Delete, url, data, apiPrefix);
+        public static HttpRequestMessage Post(this HttpClient client, string url, object data, string apiPrefix = "api/", string token = "") => GetMessage(HttpMethod.Post, url, data, apiPrefix, token);
+        public static HttpRequestMessage Get(this HttpClient client, string url, object data, string apiPrefix = "api/", string token = "") => GetMessage(HttpMethod.Get, url, data, apiPrefix, token);
+        public static HttpRequestMessage Put(this HttpClient client, string url, object data, string apiPrefix = "api/", string token = "") => GetMessage(HttpMethod.Put, url, data, apiPrefix, token);
+        public static HttpRequestMessage Delete(this HttpClient client, string url, object data, string apiPrefix = "api/", string token = "") => GetMessage(HttpMethod.Delete, url, data, apiPrefix, token);
+        public static HttpRequestMessage Patch(this HttpClient client, string url, object data, string apiPrefix = "api/", string token = "") => GetMessage(HttpMethod.Patch, url, data, apiPrefix, token);
 
-        private static HttpRequestMessage GetMessage(HttpMethod method, string url, object data, string apiPrefix = "api/")
+        private static HttpRequestMessage GetMessage(HttpMethod method, string url, object data, string apiPrefix = "api/", string token = "")
         {
             HttpRequestMessage message = new HttpRequestMessage();
 
@@ -37,6 +37,10 @@ namespace Lodgify.Cinema.AcceptanceTest.Core
             message.Method = method;
             string address = $"{MoviesApiTestServer.Server.BaseAddress}{apiPrefix}{url}";
             message.RequestUri = new Uri(address);
+
+            if (!String.IsNullOrEmpty(token))
+                message.Headers.Add("ApiKey", token);
+
             return message;
         }
 
@@ -91,6 +95,5 @@ namespace Lodgify.Cinema.AcceptanceTest.Core
         {
             return (await GetResult<string[]>(message)).AsEnumerable();
         }
-
     }
 }
