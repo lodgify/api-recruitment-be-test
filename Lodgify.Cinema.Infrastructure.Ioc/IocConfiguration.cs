@@ -8,13 +8,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
+using Polly;
 
 namespace Lodgify.Cinema.Infrastructure.Ioc
 {
     public static class IocConfiguration
     {
         public static IServiceCollection ConfigureIocBusinessDependencies(this IServiceCollection services, IConfiguration configuration)
-        {
+      {
+
             services.AddScoped<IShowtimesRepository, ShowtimesRepository>()
                     .AddScoped<IDomainNotification, DomainNotification>()
                     .AddScoped<IImdbIdTranslatorService, ImdbIdTranslatorService>()
@@ -27,6 +29,7 @@ namespace Lodgify.Cinema.Infrastructure.Ioc
             return services;
         }
 
+
         private static void ConfigureHttpClienteForImdbAccess(HttpClient client, IConfiguration configuration)
         {
             client.BaseAddress = new Uri(configuration.GetValue<string>("ExternalApi:Imdb:BaseUri"));
@@ -36,6 +39,8 @@ namespace Lodgify.Cinema.Infrastructure.Ioc
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
+
         private static ImdbStatus SingletonImdbStatus { get; set; } = new ImdbStatus(false, null);
+
     }
 }

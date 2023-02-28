@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Polly;
+using Polly.CircuitBreaker;
 using System;
 using System.IO;
 using System.Net;
@@ -16,7 +18,7 @@ namespace Lodgify.Cinema.Infrastructure.Data.Http
 
         private readonly HttpClient _httpClient;
         private readonly ILogger _logger;
-
+        private readonly AsyncCircuitBreakerPolicy<HttpResponseMessage> _httpPolicy;
         #endregion [prop]
 
         #region [ctor]
@@ -25,9 +27,16 @@ namespace Lodgify.Cinema.Infrastructure.Data.Http
         {
             _httpClient = httpClient;
             _logger = logger;
+            _httpPolicy = GetCircuitBreakePolicies();
         }
 
         #endregion [ctor]
+        
+        #region [CircuitBreakePolicies]
+        private AsyncCircuitBreakerPolicy<HttpResponseMessage> GetCircuitBreakePolicies()=>
+            Policy.HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode).CircuitBreakerAsync(2, TimeSpan.FromSeconds(30));
+
+        #endregion [CircuitBreakePolicies]
 
         #region [HttpMessage]
 
@@ -140,14 +149,14 @@ namespace Lodgify.Cinema.Infrastructure.Data.Http
         protected async Task<T> GetAsync<T>(string action, object data, CancellationToken cancellationToken)
         {
             var request = GetMessage(action, data);
-            var response = await _httpClient.SendAsync(request, cancellationToken);
+            var response = await _httpPolicy.ExecuteAsync(() => _httpClient.SendAsync(request, cancellationToken));
             return await GetResult<T>(response, cancellationToken);
         }
 
         public async Task<bool> IsSuccessStatusCodeAsync(string action, object data, CancellationToken cancellationToken)
         {
             var request = GetMessage(action, data);
-            var response = await _httpClient.SendAsync(request, cancellationToken);
+            var response = await _httpPolicy.ExecuteAsync(() => _httpClient.SendAsync(request, cancellationToken));
             return response.IsSuccessStatusCode;
         }
 
