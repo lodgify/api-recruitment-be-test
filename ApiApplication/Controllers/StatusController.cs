@@ -17,7 +17,7 @@ namespace ApiApplication.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(new { IsUp = _imdbStatus.IsUp });
+            return Ok(_imdbStatus);
         }
     }
 }

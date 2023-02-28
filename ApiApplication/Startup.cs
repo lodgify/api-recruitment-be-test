@@ -1,3 +1,4 @@
+using ApiApplication.Core.Worker;
 using Lodgify.Cinema.Infrastructure.Ioc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,7 +26,8 @@ namespace ApiApplication
                     .ConfigureIocDbDependencies()
                     .ConfigureBusinessDependencies(Configuration)
                     .ConfigureAuthentication()
-                    .AddResponseCaching();
+                    .AddResponseCaching()
+                    .AddHostedService<ImdbHealtCheckWebWorker>(); ;
 
             services.AddResponseCaching();
 

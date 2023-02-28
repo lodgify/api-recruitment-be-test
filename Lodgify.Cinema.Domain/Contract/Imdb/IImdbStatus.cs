@@ -1,8 +1,14 @@
-﻿namespace Lodgify.Cinema.Domain.Contract
+﻿using System;
+
+namespace Lodgify.Cinema.Domain.Contract
 {
     public interface IImdbStatus
     {
         bool IsUp { get; }
-        void SetStatus(bool newStatus);
+        DateTime LastStatusCheck { get; }
+        Exception LastException { get; }
+        DateTime LastExceptionThrow { get; }
+        void SetStatus(bool newStatus, DateTime checkTime);
+        void SetException(Exception ex, DateTime exceptionTime);
     }
 }
