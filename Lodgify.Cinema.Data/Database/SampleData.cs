@@ -8,17 +8,24 @@ namespace Lodgify.Cinema.Infrastructure.Data.Database
 {
     public class SampleData
     {
+        /// <summary>
+        /// It's not that simple to disable parallel test execution in SpecFlow, I did it just at the discretion of tests, if it was parallel multithreaded access I would use aa ConcurrentLibraries
+        /// </summary>
+        private static Object lockingObj = new object();
+
         public static void Initialize(CinemaContext context)
         {
-            if (context.Auditoriums.Any())
-                return;
-
-            context.Database.EnsureCreated();
-
-            context.Auditoriums.Add(new AuditoriumEntity
+            lock (lockingObj)
             {
-                Id = 1,
-                Showtimes = new List<ShowtimeEntity>
+                if (context.Auditoriums.Any())
+                    return;
+
+                context.Database.EnsureCreated();
+
+                context.Auditoriums.Add(new AuditoriumEntity
+                {
+                    Id = 1,
+                    Showtimes = new List<ShowtimeEntity>
                 {
                     new ShowtimeEntity
                     {
@@ -37,22 +44,23 @@ namespace Lodgify.Cinema.Infrastructure.Data.Database
                         AuditoriumId = 1
                     }
                 },
-                Seats = 56
-            });
+                    Seats = 56
+                });
 
-            context.Auditoriums.Add(new AuditoriumEntity
-            {
-                Id = 2,
-                Seats = 78
-            });
+                context.Auditoriums.Add(new AuditoriumEntity
+                {
+                    Id = 2,
+                    Seats = 78
+                });
 
-            context.Auditoriums.Add(new AuditoriumEntity
-            {
-                Id = 3,
-                Seats = 48
-            });
+                context.Auditoriums.Add(new AuditoriumEntity
+                {
+                    Id = 3,
+                    Seats = 48
+                });
 
-            context.SaveChanges();
+                context.SaveChanges();
+            }
         }
     }
 }
