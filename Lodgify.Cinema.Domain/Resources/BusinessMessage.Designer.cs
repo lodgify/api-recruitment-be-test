@@ -61,6 +61,15 @@ namespace Lodgify.Cinema.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Movie not found by id {0}.
+        /// </summary>
+        public static string MovieNotFoundById {
+            get {
+                return ResourceManager.GetString("MovieNotFoundById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not found by this id.
         /// </summary>
         public static string NotFoundById {

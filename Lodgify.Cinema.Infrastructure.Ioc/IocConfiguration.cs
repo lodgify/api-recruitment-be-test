@@ -1,6 +1,8 @@
-﻿using Lodgify.Cinema.Domain.Contract.Repositorie;
+﻿using Lodgify.Cinema.Domain.Contract;
+using Lodgify.Cinema.Domain.Contract.Repositorie;
 using Lodgify.Cinema.Domain.Notification;
 using Lodgify.Cinema.DomainService.Notification;
+using Lodgify.Cinema.DomainService.Imdb;
 using Lodgify.Cinema.Infrastructure.Data.Repositorie;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,12 +17,12 @@ namespace Lodgify.Cinema.Infrastructure.Ioc
         {
             services.AddScoped<IShowtimesRepository, ShowtimesRepository>()
                     .AddScoped<IDomainNotification, DomainNotification>()
+                    .AddScoped<IImdbIdTranslatorService, ImdbIdTranslatorService>()
                     .AddHttpClient<IImdbRepository, ImdbRepository>()
                       .SetHandlerLifetime(TimeSpan.FromMinutes(5))
                      .ConfigureHttpClient(client => ConfigureHttpClienteForImdbAccess(client, configuration));
 
             return services;
-
         }
 
         private static void ConfigureHttpClienteForImdbAccess(HttpClient client, IConfiguration configuration)
@@ -31,6 +33,5 @@ namespace Lodgify.Cinema.Infrastructure.Ioc
             client.DefaultRequestHeaders.Add("X-RapidAPI-Host", configuration.GetValue<string>("X-RapidAPI-Host"));
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
-
     }
 }

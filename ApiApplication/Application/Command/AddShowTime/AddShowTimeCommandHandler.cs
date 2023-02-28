@@ -1,10 +1,15 @@
 ﻿using ApiApplication.Application.Commands;
 using ApiApplication.Core.Base;
+using Lodgify.Cinema.Domain.Contract;
 using Lodgify.Cinema.Domain.Contract.Repositorie;
+using Lodgify.Cinema.Domain.Entitie;
 using Lodgify.Cinema.Domain.Notification;
+using Lodgify.Cinema.Domain.Resources;
 using Lodgify.Cinema.Infrastructure.Data.Context;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+using static Lodgify.Cinema.Domain.Dto.ImdbRepository;
 
 namespace ApiApplication.Application.Command
 {
@@ -13,19 +18,21 @@ namespace ApiApplication.Application.Command
         private readonly IShowtimesRepository _showtimesRepository;
         private readonly IDomainNotification _domainNotification;
         private readonly IImdbRepository _imdbRepository;
-
+        private readonly IImdbIdTranslatorService _imdbIdTranslatorService;
         public AddShowTimeCommandHandler(IShowtimesRepository showtimesRepository,
             CinemaContext dbContext,
             IImdbRepository imdbRepository,
+            IImdbIdTranslatorService imdbIdTranslatorService,
             IDomainNotification domainNotification) : base(dbContext, domainNotification)
         {
             _showtimesRepository = showtimesRepository;
             _domainNotification = domainNotification;
+            _imdbIdTranslatorService = imdbIdTranslatorService;
             _imdbRepository = imdbRepository;
         }
 
         /// <summary>
-        /// 1375666
+        /// 1375666 - test imdb id
         /// </summary>
         /// <param name="command"></param>
         /// <param name="cancellationToken"></param>
@@ -34,10 +41,37 @@ namespace ApiApplication.Application.Command
         {
             return await ExecuteAsync(async () =>
             {
-                var movie = await _imdbRepository.GetMovieById(command.Imdb_id,cancellationToken);
-                await _showtimesRepository.AddAsync(new Lodgify.Cinema.Domain.Entitie.ShowtimeEntity(), cancellationToken);
+                var movie = await _imdbRepository.GetMovieById(command.Imdb_id, cancellationToken);
+
+                if (movie == null)
+                {
+                    _domainNotification.Add(string.Format(BusinessMessage.MovieNotFoundById, command.Imdb_id));
+                    return null;
+                }
+
+                var showTime = GetShowTimeEntitie(command,movie);
+                await _showtimesRepository.AddAsync(showTime, cancellationToken);
                 return new AddShowTimeResponse();
             });
+        }
+
+        public ShowtimeEntity GetShowTimeEntitie(AddShowTimeRequest command, MovieResponse movie)
+        {
+            var random = new Random();
+            return new ShowtimeEntity()
+            {
+                AuditoriumId = random.Next(1, 3),
+                EndDate = command.EndDate,
+                StartDate = command.StartDate,
+                Schedule = command.Schedule,
+                Movie = new MovieEntity
+                {
+                    ImdbId = _imdbIdTranslatorService.Get(command.Imdb_id),
+                    ReleaseDate = new DateTime(movie.release_year, 1, 1),
+                    Stars = movie.rating.ToString(),
+                    Title = movie.title,
+                }
+            };
         }
     }
 }

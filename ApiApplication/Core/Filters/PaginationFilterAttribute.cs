@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace ApiApplication.Core.Filters
 {
-
     public class PaginationFilterAttribute : ActionFilterAttribute, IActionFilter
     {
         #region [prop]
@@ -73,7 +72,6 @@ namespace ApiApplication.Core.Filters
                     var requestedUrl = UriHelper.GetDisplayUrl(context.HttpContext.Request);
                     var nextSince = _paginatedRequest.LastSince;
                     responseLinkResult.next_page_url = requestedUrl.ToLower().Replace($"since={_paginatedRequest.Since}", $"since={nextSince}");
-
                 }
             }
         }
@@ -83,6 +81,5 @@ namespace ApiApplication.Core.Filters
             OnResultExecuting(context);
             await base.OnResultExecutionAsync(context, next);
         }
-
     }
 }

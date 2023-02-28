@@ -8,7 +8,6 @@ namespace ApiApplication.Application.Command
     public sealed class AddShowTimeRequest : IRequest
     {
         public int Imdb_id { get; set; }
-        public MovieDto Movie { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public IEnumerable<string> Schedule { get; set; }
