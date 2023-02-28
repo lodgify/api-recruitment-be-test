@@ -23,7 +23,7 @@ namespace ApiApplication
                     .ConfigureFilters(Configuration)
                     .ConfigureNotificationAndLog()
                     .ConfigureIocDbDependencies()
-                    .ConfigureBusinessDependencies()
+                    .ConfigureBusinessDependencies(Configuration)
                     .ConfigureAuthentication()
                     .AddResponseCaching();
 

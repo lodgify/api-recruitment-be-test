@@ -24,6 +24,7 @@ namespace ApiApplication.Controllers
         {
             _addShowTimeCommandHandler = addShowTimeCommandHandler;
             _getShowTimeQueryHandler = getShowTimeQueryHandler;
+            _deleteShowTimeCommandHandler = deleteShowTimeCommandHandler;
         }
 
         [AllowAnonymous]
