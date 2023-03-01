@@ -1,0 +1,40 @@
+curl --location --request GET 'https://localhost:7629/Showtime' \
+--header 'ApiKey: MTIzNHxSZWFk'
+
+curl --location --request POST 'https://localhost:7629/Showtime' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ==' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "Start_date":"2021-09-27",
+    "End_date":"2022-09-21",
+    "Id":0,
+    "Movie":{
+            "Imdb_id":"tt11145118"
+    },
+    "schedule":["18:00","19:00"],
+    "Auditorium_id":1
+}'
+
+curl --location --request PUT 'https://localhost:7629/Showtime' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ==' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 2,
+    "movie": {
+        "imdb_id": "tt9660502"
+    },
+    "start_date": "2021-09-27T00:00:00",
+    "end_date": "2022-09-21T00:00:00",
+    "schedule": [
+        "18:00",
+        "20:00"
+    ],
+    "auditorium_id": 2
+}'
+
+curl --location --request DELETE 'https://localhost:7629/Showtime?id=1' \
+--header 'APIKey: Nzg5NHxXcml0ZQ==' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id":1
+}'
