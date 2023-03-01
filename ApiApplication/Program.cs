@@ -1,5 +1,7 @@
+using ApiApplication.Worker;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -24,7 +26,8 @@ namespace ApiApplication
                     {
                         options.AddConsole();
                     });
-                    webBuilder.UseStartup<Startup>();                    
-                });
+                    webBuilder.UseStartup<Startup>();
+                })
+            .ConfigureServices(services => services.AddHostedService<ImdbBackground>());
     }
 }

@@ -1,2 +1,91 @@
 Please add the cURLs of your tests here:
 
+ShowTime Controller
+
+
+GET 
+
+1 - https://localhost:7629/api/Showtime
+
+2 - https://localhost:7629/api/Showtime?MovieTitle=&ShowTime=02/02/2023
+
+
+
+=============
+
+POST
+
+https://localhost:7629/api/Showtime
+
+Payload:
+{
+"start_date":"2022-02-02"
+,"end_date":"2023-02-02"
+,"schedule":["10:00","13:00","15:00"]
+,"auditorium_Id":2
+,"movie":{
+   "title":"",
+   "imdb_id":"tt0795176",
+   "stars":""  		 		
+}
+}
+
+==========================
+
+PUT
+
+https://localhost:7629/api/Showtime
+
+Payload:
+
+{
+        "id": 2,
+        "movie": {
+            "title": "Planet Earth 2",
+            "imdb_id": "tt0047478",
+            "stars": "Alex,Ali",
+            "release_date": "2012-03-25"
+        },
+        "start_date": "2001-01-23",
+        "end_date": "2010-10-26",
+        "schedule": [            
+            "13:00"            
+        ],
+        "auditorium_id": 3
+    }
+
+
+
+DELETE
+
+https://localhost:7629/api/Showtime/1
+
+
+================================================
+
+PATCH
+
+https://localhost:7629/api/Showtime
+
+
+
+
+
+Status Controller 
+
+
+https://localhost:7629/api/status
+
+
+*********** Note ************
+
+
+
+I tested each and every end point using POST Man. 
+
+Since I am using windows I was checking out curl command but got error regarding curl does not resolve http. I have many interviews and assignments in pipeline . I dont have much time
+to spend on trouble shooting curl commands.
+
+I can demonstrate each and every end point test using post man if you want I can assist you how to use it. 
+
+Above all data and end point use can use above data and easily test api.
