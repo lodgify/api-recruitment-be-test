@@ -51,6 +51,12 @@ namespace ApiApplication.Application.Command
                     return null;
                 }
 
+                if (command.AuditoriumId.HasValue && (command.AuditoriumId <= 0 || command.AuditoriumId > 3))
+                {
+                    _domainNotification.Add(string.Format(BusinessMessage.InvalidAuditorium, command.AuditoriumId));
+                    return null;
+                }
+
                 bool isMovieChanged = command.Imdb_id.HasValue
                                    && (
                                           showTime.Movie == null
@@ -79,7 +85,6 @@ namespace ApiApplication.Application.Command
             showTimeEntity.StartDate = command.StartDate ?? showTimeEntity.StartDate;
             showTimeEntity.Schedule = command.Schedule ?? showTimeEntity.Schedule;
 
-            //ToDo - Take care to not duplicate Movies in dabatase
             if (movie != null)
                 showTimeEntity.Movie = new MovieEntity
                 {

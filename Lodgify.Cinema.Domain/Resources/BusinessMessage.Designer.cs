@@ -61,6 +61,15 @@ namespace Lodgify.Cinema.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Id {0} invalid for the auditorium, the id must be greater than 0 and less than 4.
+        /// </summary>
+        public static string InvalidAuditorium {
+            get {
+                return ResourceManager.GetString("InvalidAuditorium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Token.
         /// </summary>
         public static string InvalidToken {

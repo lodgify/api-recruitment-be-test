@@ -113,11 +113,13 @@ this.ScenarioInitialize(scenarioInfo);
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                             "Imdb_id",
                             "StardDate",
-                            "EndDate"});
+                            "EndDate",
+                            "Auditorium_Id"});
                 table1.AddRow(new string[] {
                             "1375660",
                             "yesterday",
-                            "tomorrow"});
+                            "tomorrow",
+                            "2"});
 #line 7
  testRunner.Given("i have this show time", ((string)(null)), table1, "Given ");
 #line hidden
@@ -140,7 +142,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Post New Show Times without token", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 13
- this.ScenarioInitialize(scenarioInfo);
+this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
             bool isFeatureIgnored = default(bool);
@@ -162,11 +164,13 @@ this.ScenarioInitialize(scenarioInfo);
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "Imdb_id",
                             "StardDate",
-                            "EndDate"});
+                            "EndDate",
+                            "Auditorium_Id"});
                 table2.AddRow(new string[] {
                             "1375655",
                             "yesterday",
-                            "tomorrow"});
+                            "tomorrow",
+                            "2"});
 #line 14
  testRunner.Given("i have this show time", ((string)(null)), table2, "Given ");
 #line hidden
@@ -189,7 +193,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Post New Show Times with wrong token", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 20
-  this.ScenarioInitialize(scenarioInfo);
+this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
             bool isFeatureIgnored = default(bool);
@@ -211,11 +215,13 @@ this.ScenarioInitialize(scenarioInfo);
                 TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                             "Imdb_id",
                             "StardDate",
-                            "EndDate"});
+                            "EndDate",
+                            "Auditorium_Id"});
                 table3.AddRow(new string[] {
                             "1375650",
                             "yesterday",
-                            "tomorrow"});
+                            "tomorrow",
+                            "2"});
 #line 21
  testRunner.Given("i have this show time", ((string)(null)), table3, "Given ");
 #line hidden

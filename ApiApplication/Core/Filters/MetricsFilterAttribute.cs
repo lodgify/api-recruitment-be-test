@@ -21,10 +21,6 @@ namespace ApiApplication.Core.Filters
             _lodgifyLogService = lodgifyLogService;
         }
 
-        /// <summary>
-        /// ToDo - test and give more information about the metrics
-        /// </summary>
-        /// <param name="context"></param>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             _stopwatch.Start();

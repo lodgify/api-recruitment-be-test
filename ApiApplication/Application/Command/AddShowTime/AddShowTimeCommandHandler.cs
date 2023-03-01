@@ -49,6 +49,12 @@ namespace ApiApplication.Application.Command
                     return null;
                 }
 
+                if(command.Auditorium_Id <=0 || command.Auditorium_Id > 3)
+                {
+                    _domainNotification.Add(string.Format(BusinessMessage.InvalidAuditorium, command.Auditorium_Id));
+                    return null;
+                }
+
                 var showTime = GetShowTimeEntitie(command, movie);
                 await _showtimesRepository.AddAsync(showTime, cancellationToken);
                 return new AddShowTimeResponse();
@@ -57,10 +63,9 @@ namespace ApiApplication.Application.Command
 
         public ShowtimeEntity GetShowTimeEntitie(AddShowTimeRequest command, MovieResponse movie)
         {
-            var random = new Random();
             return new ShowtimeEntity()
             {
-                AuditoriumId = random.Next(1, 3),
+                AuditoriumId = command.Auditorium_Id,
                 EndDate = command.EndDate,
                 StartDate = command.StartDate,
                 Schedule = command.Schedule,

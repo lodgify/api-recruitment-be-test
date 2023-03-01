@@ -45,11 +45,10 @@
   - Specflow for Acceptance Tests
   - FluentAsertions for assertions
   - MOQ for Mocks
-  - To run local tests go to Visual Studio 2022 > Test > Test Explores - Build the project and wait the Test Explorer show the tests > Click in the play button
+  - To run local tests go to Visual Studio 2022 > Test > Test Explorer - Build the project and wait the Test Explorer show the tests > Click in the play button
   - If the Acceptance Test dont run, please, go to Extensions > Manage Extensions > Search and install specflow, after this restart the visual studio
   - 9 Specflow + Gherkin Acceptance Test were written
   - 31 unit tests were written
-  - 
 
 ---
 
@@ -123,6 +122,18 @@ in response headers
  - I used filters instead of middlewares because they are simpler, but I understand the usefulness and difference of both
 
  ---
+
+#Startup 
+
+- BusinessMessages are managed by a Resource - BusinessMessage.resx (can be internacionalized)
+
+ ---
+
+#Startup 
+
+- I organized the entire Startup class regarding dependency injection settings and environment variables using the IOC layer and extension methods
+
+---
 
 # Notes
 

@@ -28,7 +28,7 @@ namespace ApiApplication.Application.Querie
         {
             IEnumerable<ShowtimeEntity> response = null;
 
-            if (request == null || (string.IsNullOrEmpty(request.MovieTitle) && !request.StartDate.HasValue && !request.StartDate.HasValue))
+            if (request == null || (string.IsNullOrEmpty(request.MovieTitle) && !request.StartDate.HasValue && !request.EndDate.HasValue))
                 response = _showtimesRepository.GetCollection();
             else
                 response = _showtimesRepository.GetCollection(showTime =>

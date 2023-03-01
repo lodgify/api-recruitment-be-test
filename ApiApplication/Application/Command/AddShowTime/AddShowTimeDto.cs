@@ -11,6 +11,7 @@ namespace ApiApplication.Application.Command
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public IEnumerable<string> Schedule { get; set; }
+        public int Auditorium_Id { get; set; }
     }
 
     public class AddShowTimeDto
@@ -30,28 +31,6 @@ namespace ApiApplication.Application.Command
                 Movie = request.Movie,
                 Schedule = request.Schedule,
                 StartDate = request.StartDate,
-            };
-        }
-    }
-
-    public sealed class MovieDto
-    {
-        public string Title { get; set; }
-        public string ImdbId { get; set; }
-        public string Stars { get; set; }
-        public DateTime ReleaseDate { get; set; }
-
-        public int ShowtimeId { get; set; }
-
-        public static implicit operator MovieEntity(MovieDto request)
-        {
-            return new MovieEntity
-            {
-                ImdbId = request.ImdbId,
-                ReleaseDate = request.ReleaseDate,
-                ShowtimeId = request.ShowtimeId,
-                Stars = request.Stars,
-                Title = request.Title,
             };
         }
     }
