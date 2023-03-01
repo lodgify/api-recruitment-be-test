@@ -123,11 +123,25 @@ in response headers
 
  ---
 
-#Startup 
+#StringErrorMessages 
 
 - BusinessMessages are managed by a Resource - BusinessMessage.resx (can be internacionalized)
 
  ---
+
+#ImMemoryDataBase 
+
+- Added a command to clear the database every time the system loads
+- Be careful when running the tests or executing the curls, as the same base is changed
+- I put a lock on this class, I left a comment there, I know that for concurrency we should use the ConcurrentClass, it was just to solve a bug in the acceptance tests with specflow
+
+ ---
+
+#Async
+
+- I used asynchronous methods where possible to optimize the use of threads/trheadpool
+
+---
 
 #Startup 
 
