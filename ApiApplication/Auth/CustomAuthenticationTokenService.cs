@@ -23,7 +23,7 @@ namespace ApiApplication.Auth
             catch (System.Exception ex)
             {
                 throw new ReadTokenException(value, ex);
-            }            
+            }
         }
     }
 }

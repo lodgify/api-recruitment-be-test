@@ -8,9 +8,15 @@
     "ApiApplication": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "showtime",
+      "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Application_EnableOptionalPagination": "true",
+        "ExternalApi_Imdb_X-RapidAPI-Key": "ef737e6180msh0a2f786fc0fb2d6p100a0cjsn91350960a583",
+        "ExternalApi_Imdb_X-RapidAPI-Host": "movie-details1.p.rapidapi.com",
+        "ExternalApi_Imdb_BaseUri": "https://movie-details1.p.rapidapi.com/imdb_api/",
+        "Auth_ReadOnlyToken": "MTIzNHxSZWFk",
+        "Auth_WriteToken": "Nzg5NHxXcml0ZQ=="
       },
       "applicationUrl": "https://localhost:7629;http://localhost:7628"
     },

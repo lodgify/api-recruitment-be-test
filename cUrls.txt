@@ -1,2 +1,31 @@
-Please add the cURLs of your tests here:
+--------------------------------------------- ShowTimeController ---------------------------------------------
 
+***** GET *****
+
+Get - With Data
+curl -XGET -H "ApiKey: MTIzNHxSZWFk" "https://localhost:7629/api/Showtime"
+curl -XGET -H "ApiKey: MTIzNHxSZWFk" "https://localhost:7629/api/Showtime/?MovieTitle=Inception"
+curl -XGET -H "ApiKey: MTIzNHxSZWFk" "https://localhost:7629/api/Showtime/?StartDate=2022/01/01"
+curl -XGET -H "ApiKey: MTIzNHxSZWFk" "https://localhost:7629/api/Showtime/?EndDate=2023/01/01"
+curl -XGET -H "ApiKey: MTIzNHxSZWFk" "https://localhost:7629/api/Showtime/?MovieTitle=Inception&StartDate=2022/01/01&EndDate=2023/01/01"
+
+Get - No Data
+curl -XGET -H "ApiKey: MTIzNHxSZWFk" "https://localhost:7629/api/Showtime/?MovieTitle=Imnception"
+curl -XGET -H "ApiKey: MTIzNHxSZWFk" "https://localhost:7629/api/Showtime/?StartDate=2024/01/01"
+curl -XGET -H "ApiKey: MTIzNHxSZWFk" "https://localhost:7629/api/Showtime/?EndDate=2020/01/01"
+
+Get - 401
+curl -XGET "https://localhost:7629/api/Showtime"
+
+***** POST *****
+curl -XPOST -H "ApiKey: Nzg5NHxXcml0ZQ==" -H "Content-type: application/json" -d "{  \"imdb_id\": 1375690, \"auditorium_id\":1,  \"start_date\": \"2023-02-20\",  \"end_date\": \"2023-02-28\",  \"schedule\": [ \"10:00\", \"15:00\", \"18:00\"   ]}" "https://localhost:7629/api/ShowTime"
+
+***** PUT  *****
+curl -XPUT -H "ApiKey: Nzg5NHxXcml0ZQ==" -H "Content-type: application/json" -d "{  \"id\": 1,  \"imdb_id\": 1375680,  \"auditorium_id\": 3}" "https://localhost:7629/api/ShowTime"
+
+***** DELETE *****
+curl -XDELETE -H "ApiKey: Nzg5NHxXcml0ZQ==" -H "Content-type: application/json" -d "{ \"id\": 1}" "https://localhost:7629/api/Showtime"
+
+--------------------------------------------- StatusController ---------------------------------------------
+
+curl -XGET -H "ApiKey: MTIzNHxSZWFk" "https://localhost:7629/api/Status"
