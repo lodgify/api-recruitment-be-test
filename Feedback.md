@@ -74,7 +74,7 @@
 
 ---
 
-#Logs
+# Logs
 
 - The entire system log is being managed by the LodgifyLogService class, if you want to change it, just change the behavior of the Log method of this class, the default is the console log
 
@@ -87,20 +87,20 @@ in response headers
 
 ---
 
-#Imdb Api status
+# Imdb Api status
 
 - I didn't find a healtcheck method in the imdb api, so I developed it from scratch
 
 ---
 
-#Environment
+# Environment
 
 - All the created environment variables are in launchSettings.json, for the creation of the TestServer with the specflow I declare the variables in Lodgify.Cinema.AcceptanceTest.MoviesApiTestServer.SetupEnvironment()
 - Using environment variables already prepares the application to use good practices for storing variables in containerized environments
 
 ---
 
-#Authorization
+# Authorization
 
 - I implemented the requested forms of authentication and added the parameter with a default value in the swagger, however, I know that I should have created a policy for each type of authorization and declared it explicitly in the controllers, unfortunately I didn't have time to do that, but , the way I did it solved
 
@@ -110,26 +110,26 @@ in response headers
 
 ---
 
-#HttpClient
+# HttpClient
 
  - HttpClient for accessing external services built on the microsoft standard to avoid socket exhaustion
  - I put Circuit Breaker in a Base class that all repositories that call external APIs using the HTTP protocol must inherit, with this all calls already go with CircuitBraker activated, I know that it would also be possible to put it in the Dependency Injector
 
 ---
 
-#Filters
+# Filters
 
  - I used filters instead of middlewares because they are simpler, but I understand the usefulness and difference of both
 
  ---
 
-#StringErrorMessages 
+# StringErrorMessages 
 
 - BusinessMessages are managed by a Resource - BusinessMessage.resx (can be internacionalized)
 
  ---
 
-#ImMemoryDataBase 
+# ImMemoryDataBase 
 
 - Added a command to clear the database every time the system loads
 - Be careful when running the tests or executing the curls, as the same base is changed
@@ -137,13 +137,13 @@ in response headers
 
  ---
 
-#Async
+# Async
 
 - I used asynchronous methods where possible to optimize the use of threads/trheadpool
 
 ---
 
-#Startup 
+# Startup 
 
 - I organized the entire Startup class regarding dependency injection settings and environment variables using the IOC layer and extension methods
 
