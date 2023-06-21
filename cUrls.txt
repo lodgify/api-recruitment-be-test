@@ -1,2 +1,72 @@
-Please add the cURLs of your tests here:
+curl -X GET \
+  https://localhost:32770/api/showtime \
+  -H 'ApiKey: MTIzNHxSZWFk' \
+  -H 'Postman-Token: 3874d81e-4a0f-4d25-a910-b4864ff35e7b' \
+  -H 'cache-control: no-cache'
 
+curl -X GET \
+  'https://localhost:32770/api/showtime?date=2022-01-01T00:00:00' \
+  -H 'ApiKey: MTIzNHxSZWFk' \
+  -H 'Postman-Token: 638c5e64-6a76-48aa-a6c2-9ab3775ffb19' \
+  -H 'cache-control: no-cache'
+
+curl -X GET \
+  'https://localhost:32770/api/showtime?movieTitle=Inception' \
+  -H 'ApiKey: MTIzNHxSZWFk' \
+  -H 'Postman-Token: ea0623fb-e381-4683-8e0a-cf0dbbd9d6e3' \
+  -H 'cache-control: no-cache'
+
+curl -X POST \
+  https://localhost:32770/api/showtime \
+  -H 'ApiKey: Nzg5NHxXcml0ZQ==' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: bca88af2-0909-41b5-9eb9-5e99659417c7' \
+  -H 'cache-control: no-cache' \
+  -d '    {
+        "start_date": "2022-01-01T00:00:00",
+        "end_date": "2022-04-01T00:00:00",
+        "schedule": "16:00,17:00,18:00,18:30,19:00,22:00",
+        "movie": {
+            "imdb_id": "tt1375666"
+        },
+        "auditorium_id": 1
+    }'
+
+curl -X PUT \
+  https://localhost:32770/api/showtime \
+  -H 'ApiKey: Nzg5NHxXcml0ZQ==' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: 082d4c99-628a-479f-b679-720128f1acaf' \
+  -H 'cache-control: no-cache' \
+  -d '    {
+    	"id": 2,
+        "start_date": "2023-01-01T00:00:00",
+        "end_date": "2023-04-01T00:00:00",
+        "schedule": "16:00,17:00,18:00,18:30,19:00,22:00",
+        "movie": {
+            "imdb_id": "tt1375666"
+        },
+        "auditorium_id": 1
+    }'
+
+curl -X PATCH \
+  https://localhost:32770/api/showtime \
+  -H 'ApiKey: Nzg5NHxXcml0ZQ==' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: ef0bcdbc-95ec-47a9-8efd-49378165ac57' \
+  -H 'cache-control: no-cache' \
+  -d '[
+  { "op": "replace", "path": "/start_date", "value": "2022-01-01T00:00:00" }
+]'
+
+curl -X DELETE \
+  'https://localhost:32770/api/showtime?id=2' \
+  -H 'ApiKey: Nzg5NHxXcml0ZQ==' \
+  -H 'Postman-Token: b081d551-05b3-409a-af00-c21e42f1bf56' \
+  -H 'cache-control: no-cache'
+
+curl -X GET \
+  https://localhost:32770/api/status \
+  -H 'ApiKey: MTIzNHxSZWFk' \
+  -H 'Postman-Token: 492826e3-591e-4504-8245-3526e46800a5' \
+  -H 'cache-control: no-cache'

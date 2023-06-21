@@ -1,20 +1,16 @@
 using ApiApplication.Auth;
 using ApiApplication.Database;
+using ApiApplication.ImdbApi;
+using ApiApplication.Workers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ApiApplication
 {
@@ -30,32 +26,52 @@ namespace ApiApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            ILoggerFactory loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+
+            services.Configure<ImdbSettings>(options => Configuration.GetSection("ImdbSettings").Bind(options));
+
             services.AddDbContext<CinemaContext>(options =>
             {
                 options.UseInMemoryDatabase("CinemaDb")
                     .EnableSensitiveDataLogging()
-                    .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));                
+                    .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
+
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
+            services.AddTransient<IImdbApiClient, ImdbApiClient>();
+
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
+            services.AddSingleton<IStatusInfo, StatusInfo>();
+
             services.AddAuthentication(options =>
             {
                 options.AddScheme<CustomAuthenticationHandler>(CustomAuthenticationSchemeOptions.AuthenticationScheme, CustomAuthenticationSchemeOptions.AuthenticationScheme);
-                options.RequireAuthenticatedSignIn = true;                
+                options.RequireAuthenticatedSignIn = true;
                 options.DefaultScheme = CustomAuthenticationSchemeOptions.AuthenticationScheme;
             });
-            services.AddControllers();
+
+            services
+                .AddControllers(config => config.Filters.Add(new TimeActionFilter(loggerFactory.CreateLogger(this.GetType().FullName))))
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver
+                    {
+                        NamingStrategy = new SnakeCaseNamingStrategy()
+                    };
+                });
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddHostedService<ImdbStatusChecker>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();                
-            }
-
             app.UseHttpsRedirection();
+
+            app.AddGlobalErrorHandler();
 
             app.UseRouting();
             app.UseAuthentication();
@@ -67,6 +83,6 @@ namespace ApiApplication
             });
 
             SampleData.Initialize(app);
-        }      
+        }
     }
 }
