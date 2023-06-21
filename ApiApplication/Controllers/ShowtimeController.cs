@@ -1,5 +1,7 @@
 ﻿using ApiApplication.Database;
 using ApiApplication.Database.Entities;
+using ApiApplication.ImdbApi;
+using ApiApplication.ImdbApi.Models;
 using ApiApplication.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -18,11 +20,13 @@ namespace ApiApplication.Controllers
     {
         private readonly IShowtimesRepository _showtimesRepository;
         private readonly IMapper _mapper;
+        private readonly IImdbApiClient _imdbApiClient;
 
-        public ShowtimeController(IShowtimesRepository showtimesRepository, IMapper mapper)
+        public ShowtimeController(IImdbApiClient imdbApiClient, IShowtimesRepository showtimesRepository, IMapper mapper)
         {
             _showtimesRepository = showtimesRepository;
             _mapper = mapper;
+            _imdbApiClient = imdbApiClient;
         }
 
         [Authorize(Roles = "Read")]
@@ -40,6 +44,7 @@ namespace ApiApplication.Controllers
         [HttpPost]
         public async Task<Showtime> Post([FromBody] Showtime showTime)
         {
+            AssignImdbData(showTime.Movie);
             ShowtimeEntity showtimeEntity = _mapper.Map<ShowtimeEntity>(showTime);
             showtimeEntity = await _showtimesRepository.AddAsync(showtimeEntity);
             return _mapper.Map<Showtime>(showtimeEntity);
@@ -55,6 +60,8 @@ namespace ApiApplication.Controllers
             {
                 throw new Exception("Not found showTimeEntity");
             }
+
+            AssignImdbData(showTime.Movie);
 
             _mapper.Map(showTime, showtimeEntity);
 
@@ -77,6 +84,15 @@ namespace ApiApplication.Controllers
         public void Patch()
         {
             throw new Exception("Simulated 500 error");
+        }
+
+        private async void AssignImdbData(Movie movie)
+        {
+            if (movie != null && !string.IsNullOrWhiteSpace(movie.ImdbId))
+            {
+                ImdbMovie imdbMovie = await _imdbApiClient.GetMovie(movie.ImdbId);
+                _mapper.Map(imdbMovie, movie);
+            }
         }
     }
 }

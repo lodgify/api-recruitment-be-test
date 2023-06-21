@@ -1,5 +1,7 @@
 using ApiApplication.Auth;
 using ApiApplication.Database;
+using ApiApplication.ImdbApi;
+using ApiApplication.Workers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -9,12 +11,11 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Runtime;
 using static System.Net.Mime.MediaTypeNames;
-using System.IO;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
 
 namespace ApiApplication
 {
@@ -33,6 +34,8 @@ namespace ApiApplication
             ServiceProvider serviceProvider = services.BuildServiceProvider();
             ILoggerFactory loggerFactory = serviceProvider.GetService<ILoggerFactory>();
 
+            services.Configure<ImdbSettings>(options => Configuration.GetSection("ImdbSettings").Bind(options));
+
             services.AddDbContext<CinemaContext>(options =>
             {
                 options.UseInMemoryDatabase("CinemaDb")
@@ -41,8 +44,10 @@ namespace ApiApplication
             });
 
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
+            services.AddTransient<IImdbApiClient, ImdbApiClient>();
 
             services.AddSingleton<ICustomAuthenticationTokenService, CustomAuthenticationTokenService>();
+            services.AddSingleton<IStatusInfo, StatusInfo>();
 
             services.AddAuthentication(options =>
             {
@@ -53,14 +58,17 @@ namespace ApiApplication
 
             services
                 .AddControllers(config => config.Filters.Add(new TimeActionFilter(loggerFactory.CreateLogger(this.GetType().FullName))))
-                .AddNewtonsoftJson(options => {
+                .AddNewtonsoftJson(options =>
+                {
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver
                     {
                         NamingStrategy = new SnakeCaseNamingStrategy()
                     };
-            });
+                });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddHostedService<ImdbStatusChecker>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

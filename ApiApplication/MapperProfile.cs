@@ -1,4 +1,5 @@
 ﻿using ApiApplication.Database.Entities;
+using ApiApplication.ImdbApi.Models;
 using ApiApplication.Models;
 using AutoMapper;
 using System.Linq;
@@ -18,6 +19,9 @@ namespace ApiApplication
             CreateMap<Movie, MovieEntity>()
                 .ForMember(des => des.Stars, opt => opt.MapFrom(src => src.Starts))
                 .ReverseMap();
+
+            CreateMap<ImdbMovie, Movie>()
+                .ForMember(des => des.ImdbId, opt => opt.Ignore());
         }
     }
 }
