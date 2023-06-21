@@ -5,6 +5,7 @@ using ApiApplication.ImdbApi.Models;
 using ApiApplication.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace ApiApplication.Controllers
         [HttpPost]
         public async Task<Showtime> Post([FromBody] Showtime showTime)
         {
-            AssignImdbData(showTime.Movie);
+            await AssignImdbDataAsync(showTime.Movie);
             ShowtimeEntity showtimeEntity = _mapper.Map<ShowtimeEntity>(showTime);
             showtimeEntity = await _showtimesRepository.AddAsync(showtimeEntity);
             return _mapper.Map<Showtime>(showtimeEntity);
@@ -52,16 +53,16 @@ namespace ApiApplication.Controllers
 
         [Authorize(Roles = "Write")]
         [HttpPut]
-        public async Task<Showtime> Put(int id, [FromBody] Showtime showTime)
+        public async Task<Showtime> Put([FromBody] Showtime showTime)
         {
-            var showtimeEntity = (await _showtimesRepository.GetCollectionAsync(showtime => showtime.Id == id)).FirstOrDefault();
+            var showtimeEntity = (await _showtimesRepository.GetCollectionAsync(s => s.Id == showTime.Id)).FirstOrDefault();
 
             if (showtimeEntity == null)
             {
                 throw new Exception("Not found showTimeEntity");
             }
 
-            AssignImdbData(showTime.Movie);
+            await AssignImdbDataAsync(showTime.Movie);
 
             _mapper.Map(showTime, showtimeEntity);
 
@@ -81,12 +82,12 @@ namespace ApiApplication.Controllers
 
         [Authorize(Roles = "Write")]
         [HttpPatch]
-        public void Patch()
+        public void Patch([FromRoute] int id, [FromBody] JsonPatchDocument showtimeDocument)
         {
             throw new Exception("Simulated 500 error");
         }
 
-        private async void AssignImdbData(Movie movie)
+        private async Task AssignImdbDataAsync(Movie movie)
         {
             if (movie != null && !string.IsNullOrWhiteSpace(movie.ImdbId))
             {

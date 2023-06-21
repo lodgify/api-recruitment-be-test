@@ -17,7 +17,6 @@ namespace ApiApplication
                 .ForMember(des => des.Schedule, opt => opt.MapFrom(src => string.Join(",", src.Schedule)));
 
             CreateMap<Movie, MovieEntity>()
-                .ForMember(des => des.Stars, opt => opt.MapFrom(src => src.Starts))
                 .ReverseMap();
 
             CreateMap<ImdbMovie, Movie>()

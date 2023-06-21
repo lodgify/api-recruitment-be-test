@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Net;
 using System.Runtime;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -74,12 +75,9 @@ namespace ApiApplication
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
             app.UseHttpsRedirection();
+
+            app.AddGlobalErrorHandler();
 
             app.UseRouting();
             app.UseAuthentication();
@@ -91,21 +89,6 @@ namespace ApiApplication
             });
 
             SampleData.Initialize(app);
-
-            app.UseExceptionHandler(exceptionHandlerApp =>
-            {
-                exceptionHandlerApp.Run(async context =>
-                {
-                    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                    context.Response.ContentType = Text.Plain;
-                    await context.Response.WriteAsync("An exception was thrown.");
-
-                    var exceptionHandlerPathFeature =
-                        context.Features.Get<IExceptionHandlerPathFeature>();
-
-                    //_logger.LogInformation(exceptionHandlerPathFeature?.Error.ToString());
-                });
-            });
         }
     }
 }
