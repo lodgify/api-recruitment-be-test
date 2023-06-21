@@ -3,20 +3,14 @@ using ApiApplication.Database;
 using ApiApplication.ImdbApi;
 using ApiApplication.Workers;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using System;
-using System.Net;
-using System.Runtime;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ApiApplication
 {

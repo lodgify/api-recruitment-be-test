@@ -32,18 +32,13 @@ namespace ApiApplication.ImdbApi
 
         public async Task<ImdbMovie> GetMovie(string imdbId)
         {
-            ImdbMovie imdbMovie;
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync($"https://imdb-api.com/en/API/Title/{_imdbSettings.ApiKey}/{imdbId}");
 
-            using (HttpClient client = new HttpClient())
-            {
-                HttpResponseMessage response = await client.GetAsync($"https://imdb-api.com/en/API/Title/{_imdbSettings.ApiKey}/{imdbId}");
+            response.EnsureSuccessStatusCode();
 
-                response.EnsureSuccessStatusCode();
-
-                string responseBody = await response.Content.ReadAsStringAsync();
-
-                imdbMovie = JsonConvert.DeserializeObject<ImdbMovie>(responseBody);
-            }
+            string responseBody = await response.Content.ReadAsStringAsync();
+            ImdbMovie imdbMovie = JsonConvert.DeserializeObject<ImdbMovie>(responseBody);
 
             return imdbMovie;
         }
