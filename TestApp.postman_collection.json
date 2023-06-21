@@ -1,0 +1,332 @@
+{
+	"info": {
+		"_postman_id": "de61c1ad-e12c-4d89-ab9a-f1a97033b41d",
+		"name": "TestApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "ApiKey",
+						"value": "MTIzNHxSZWFk",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:32770/api/showtime",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "32770",
+					"path": [
+						"api",
+						"showtime"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GET",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "ApiKey",
+								"value": "MTIzNHxSZWFk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:32770/api/showtime",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "32770",
+							"path": [
+								"api",
+								"showtime"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Wed, 21 Jun 2023 04:59:30 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Content-Length",
+							"value": "310"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"start_date\": \"2022-01-01T00:00:00\",\n        \"end_date\": \"2022-04-01T00:00:00\",\n        \"schedule\": \"16:00,17:00,18:00,18:30,19:00,22:00\",\n        \"movie\": {\n            \"title\": \"Inception\",\n            \"imdb_id\": \"tt1375666\",\n            \"stars\": \"Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page, Ken Watanabe\",\n            \"release_date\": \"2010-01-14T00:00:00\"\n        },\n        \"auditorium_id\": 1\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "ApiKey",
+						"type": "text",
+						"value": "Nzg5NHxXcml0ZQ=="
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:32770/api/showtime?id=2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "32770",
+					"path": [
+						"api",
+						"showtime"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET date",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "ApiKey",
+						"value": "MTIzNHxSZWFk",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:32770/api/showtime",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "32770",
+					"path": [
+						"api",
+						"showtime"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET title",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "ApiKey",
+						"type": "text",
+						"value": "MTIzNHxSZWFk"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:32770/api/showtime?movieTitle=Inception",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "32770",
+					"path": [
+						"api",
+						"showtime"
+					],
+					"query": [
+						{
+							"key": "movieTitle",
+							"value": "Inception"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Status Check",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "ApiKey",
+						"value": "MTIzNHxSZWFk",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:32770/api/showtime",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "32770",
+					"path": [
+						"api",
+						"showtime"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "ApiKey",
+						"value": "Nzg5NHxXcml0ZQ==",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"start_date\": \"2022-01-01T00:00:00\",\n        \"end_date\": \"2022-04-01T00:00:00\",\n        \"schedule\": \"16:00,17:00,18:00,18:30,19:00,22:00\",\n        \"movie\": {\n            \"imdb_id\": \"tt1375666\"\n        },\n        \"auditorium_id\": 1\n    }"
+				},
+				"url": {
+					"raw": "https://localhost:32770/api/showtime",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "32770",
+					"path": [
+						"api",
+						"showtime"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "ApiKey",
+						"type": "text",
+						"value": "Nzg5NHxXcml0ZQ=="
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n    \t\"id\": 2,\n        \"start_date\": \"2023-01-01T00:00:00\",\n        \"end_date\": \"2023-04-01T00:00:00\",\n        \"schedule\": \"16:00,17:00,18:00,18:30,19:00,22:00\",\n        \"movie\": {\n            \"imdb_id\": \"tt1375666\"\n        },\n        \"auditorium_id\": 1\n    }"
+				},
+				"url": {
+					"raw": "https://localhost:32770/api/showtime",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "32770",
+					"path": [
+						"api",
+						"showtime"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "ApiKey",
+						"type": "text",
+						"value": "Nzg5NHxXcml0ZQ=="
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  { \"op\": \"replace\", \"path\": \"/start_date\", \"value\": \"2022-01-01T00:00:00\" }\r\n]"
+				},
+				"url": {
+					"raw": "https://localhost:32770/api/showtime",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "32770",
+					"path": [
+						"api",
+						"showtime"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
