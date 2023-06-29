@@ -7,8 +7,8 @@
   "profiles": {
     "ApiApplication": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "showtime",
+      "launchBrowser": false,
+      "launchUrl": "api/showtime",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -17,9 +17,9 @@
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/showtime",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/showtime",
       "publishAllPorts": true,
-      "useSSL": true
+      "useSSL": false
     }
   }
 }
