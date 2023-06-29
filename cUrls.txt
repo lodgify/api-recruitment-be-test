@@ -1,2 +1,65 @@
 Please add the cURLs of your tests here:
 
+SHOWTIME end points
+
+GET:
+
+curl --location 'https://localhost:7629/api/showtime' \
+--header 'ApiKey: MTIzNHxSZWFk'
+
+
+
+POST:
+
+curl --location 'https://localhost:7629/api/showtime' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ==' \
+--header 'Content-Type: application/json' \
+--data '{  
+  "start_date": "2023-03-23",
+  "end_date": "2023-07-23",
+  "schedule": "16:00, 19:00",
+  "movie": {
+    "imdb_id": "tt0137523"
+  },
+  "auditorium_id": 1
+}'
+
+
+
+PUT:
+
+curl --location --request PUT 'https://localhost:7629/api/showtime/1' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ==' \
+--header 'Content-Type: application/json' \
+--data '{  
+  "start_date": "2023-01-23",
+  "end_date": "2023-08-23",
+  "schedule": "18:00, 22:00",
+  "movie":{
+      "imdb_id": "tt0109830"
+  },
+  "auditorium_id": 3
+}'
+
+
+DELETE:
+
+curl --location --request DELETE 'https://localhost:7629/api/showtime/1' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ=='
+
+
+
+PATCH:
+
+curl --location --request PATCH 'https://localhost:7629/api/showtime' \
+--header 'ApiKey: Nzg5NHxXcml0ZQ==' \
+--data ''
+
+
+
+Status end points
+
+GET:
+
+curl --location 'https://localhost:7629/api/status' \
+--header 'ApiKey: MTIzNHxSZWFk'
